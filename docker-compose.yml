@@ -33,10 +33,3 @@ services:
             - ./dbscripts:/docker-entrypoint-initdb.d
         ports:
             - "5432:5432"
-
-    adminer:
-        image: adminer
-        container_name: server-josmas-adminer
-        restart: always
-        ports:
-            - "8080:8080"
