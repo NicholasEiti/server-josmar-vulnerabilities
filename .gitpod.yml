@@ -3,6 +3,6 @@ ports:
     port: 8000
     onOpen: open-preview
 
-  - name: API
+  - name: DB
     port: 5432
     onOpen: notify
