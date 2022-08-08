@@ -1,8 +1,30 @@
+image:
+  file: ./docker/Dockerfile.python
+
+tasks:
+  - before: |
+      export FLASK_APP=app
+      export FLASK_DEBUG=True
+      export FLASK_RUN_PORT=8000
+      export DB_DATABASE=josmar_db
+      export DB_USERNAME=db_user
+      export DB_PASSWORD=db_password
+      export DB_HOSTNAME="0.0.0.0"
+      export DB_PORT=5432
+      cd ./code
+  - init: |
+      pip install --upgrade pip
+      pip install -r requirements.txt
+  - command: |
+      flask run
+
 ports:
   - name: API
     port: 8000
     onOpen: open-preview
+    description: Port of api flask
 
   - name: DB
     port: 5432
     onOpen: notify
+    description: Port of postgres
