@@ -11,14 +11,14 @@ services:
             FLASK_DEBUG: True
             FLASK_RUN_PORT: 8000
             DB_DATABASE: josmar_db
-            DB_USERNAME: flask_user
-            DB_PASSWORD: flask_db_password
+            DB_USERNAME: db_user
+            DB_PASSWORD: db_password
             DB_HOSTNAME: "0.0.0.0"
             DB_PORT: 5432
         volumes:
             - ./code:/code/
         ports:
-            - "8000:8000"
+            - "8000:80"
 
     postgres:
         image: postgres:latest
@@ -26,8 +26,8 @@ services:
         container_name: server-josmas-db
         environment:
             POSTGRES_DB: josmar_db
-            POSTGRES_USER: flask_user
-            POSTGRES_PASSWORD: flask_db_password
+            POSTGRES_USER: db_user
+            POSTGRES_PASSWORD: db_password
         volumes:
             # - /var/lib/postgres
             - ./dbscripts:/docker-entrypoint-initdb.d
