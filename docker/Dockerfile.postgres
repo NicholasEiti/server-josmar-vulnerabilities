@@ -1,0 +1,10 @@
+FROM postgres:latest
+
+ENV POSTGRES_DB josmar_db
+ENV POSTGRES_USER db_user
+ENV POSTGRES_PASSWORD db_password
+
+# VOLUME ? /var/lib/postgres
+VOLUME ./dbscripts /docker-entrypoint-initdb.d
+
+EXPOSE 5432
