@@ -8,7 +8,7 @@ services:
         restart: always
         environment:
             FLASK_APP: app
-            FLASK_ENV: development
+            FLASK_DEBUG: True
             FLASK_RUN_PORT: 8000
             DB_DATABASE: josmar_db
             DB_USERNAME: flask_user
