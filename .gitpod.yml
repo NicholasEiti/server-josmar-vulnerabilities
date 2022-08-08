@@ -2,3 +2,7 @@ ports:
   - name: API
     port: 8000
     onOpen: open-preview
+
+  - name: API
+    port: 5432
+    onOpen: notify
