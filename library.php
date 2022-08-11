@@ -15,7 +15,7 @@ set_error_handler(function ($err_no, $err_str, $err_file, $err_line) {
     exit;
 });
 
-require_once __ROOT__ . "/db.class.php";
+require_once __ROOT__ . "/database.class.php";
 
 $configs = (object) parse_ini_file(__ROOT__ . "/configurations.ini");
 
