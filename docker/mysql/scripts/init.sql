@@ -1,7 +1,3 @@
-CREATE USER flask_user;
-CREATE DATABASE josmar_db;
-GRANT ALL PRIVILEGES ON DATABASE josmar_db TO flask_user;
-
 SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
