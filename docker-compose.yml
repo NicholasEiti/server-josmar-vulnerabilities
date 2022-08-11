@@ -1,6 +1,6 @@
 version: '3.3'
 services:
-  api:
+  josmar_api:
     container_name: php8.1.9
     build:
       context: ./
