@@ -1,20 +1,19 @@
 <?php
-// inicialização do banco de dados usando a classe PDO do php
-function startPDO($name, $host, $charset, $login, $password) {
-    try {
-        $pdo = new PDO("mysql:dbname=$name;host=$host;chartset=utf8", $login, $password);
-    } catch (Exception $e) {
-        return False;
-    }
-
-    return $pdo;
-}
-
 /**
  * Classe para o banco de dados
  */
 class DBRequest
 {
+    static function startPDO($name, $host, $charset, $login, $password) {
+        try {
+            $pdo = new PDO("mysql:dbname=$name;host=$host;chartset=utf8", $login, $password);
+        } catch (Exception $e) {
+            return False;
+        }
+    
+        return $pdo;
+    }
+
     static function search(string $tablename, string $sql = null, array $params = null)
     {
         global $GLOBAL_PDO;
@@ -53,7 +52,3 @@ class DBRequest
         return $sth->execute($params);
     }
 }
-
-// o ideal é não deixar informações importantes dentro do código
-// tipo isso:
-$GLOBAL_PDO = startPDO('josmardb', 'josmar_db', 'utf8', 'root', 'root_password');
