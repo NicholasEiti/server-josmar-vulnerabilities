@@ -15,4 +15,12 @@ class API {
             'status' => 'error'
         ]);
     }
+
+    static function send_success($success_info): never
+    {
+        static::_send([
+            'success' => $success_info,
+            'status' => 'success'
+        ]);
+    }
 }
