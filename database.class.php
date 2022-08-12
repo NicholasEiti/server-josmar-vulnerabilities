@@ -72,5 +72,15 @@ class DBRequest
 
         return $index->execute($params);
     }
+
+    static function get_last_id(string $tablename): int
+    {
+        global $GLOBAL_PDO;
+
+        $index = $GLOBAL_PDO->query("SELECT id FROM $tablename ORDER BY id DESC LIMIT 1");
+        $rows = $index->fetch(PDO::FETCH_ASSOC);
+
+        return $rows['id'];
+    }
 }
 
