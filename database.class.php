@@ -4,17 +4,30 @@
  */
 class DBRequest
 {
-    static function startPDO($name, $host, $charset, $login, $password) {
+    static function startPDO($name, $host, $charset, $login, $password): PDO
+    {
         try {
             $pdo = new PDO("mysql:dbname=$name;host=$host;chartset=utf8", $login, $password);
         } catch (Exception $e) {
-            return False;
+            API::send_error([
+                'msg' => 'Database connection error.'
+            ]);
         }
     
         return $pdo;
     }
 
-    static function search(string $tablename, string $sql = null, array $params = null)
+    static function count(string $tablename, string $sql = null, array $params = null): int
+    {
+        global $GLOBAL_PDO;
+
+        $index = $GLOBAL_PDO->prepare("SELECT id FROM $tablename $sql");
+        $index->execute($params);
+
+        return $index->rowCount();
+    }
+
+    static function search(string $tablename, string $sql = null, array $params = null): mixed
     {
         global $GLOBAL_PDO;
 
@@ -24,7 +37,7 @@ class DBRequest
         return $index->fetch(PDO::FETCH_ASSOC);
     }
 
-    static function update(string $tablename, array|string $ids = null, array $params = [])
+    static function update(string $tablename, array|string $ids = null, array $params = []): bool
     {
         global $GLOBAL_PDO;
 
@@ -35,20 +48,29 @@ class DBRequest
         if (is_array($ids))
             $ids = implode(', ', $ids);
 
-        $sql_where = "WHERE id IN ($ids)";
-
-        $sth = $GLOBAL_PDO->prepare("UPDATE $tablename SET $values $sql_where");
-        return $sth->execute($params);
+        $index = $GLOBAL_PDO->prepare("UPDATE $tablename SET $values WHERE id IN ($ids)");
+        return $index->execute($params);
     }
 
-    static function insert(string $tablename, array $params = []) {
+    static function insert(string $tablename, array $params = []): bool
+    {
         global $GLOBAL_PDO;
 
         $columns = implode(",", array_keys($params));
         $values = ":" . implode(",:", array_keys($params));
 
-        $sth = $GLOBAL_PDO->prepare("INSERT INTO $tablename ($columns) VALUES ($values)");
+        $index = $GLOBAL_PDO->prepare("INSERT INTO $tablename ($columns) VALUES ($values)");
 
-        return $sth->execute($params);
+        return $index->execute($params);
+    }
+    
+    static function delete(string $tablename, string $sql = null, array $params = []): bool
+    {
+        global $GLOBAL_PDO;
+
+        $index = $GLOBAL_PDO->prepare("DELETE FROM $tablename $sql");
+
+        return $index->execute($params);
     }
 }
+
