@@ -2,19 +2,18 @@
 
 define('__ROOT__', dirname(__FILE__));
 
-set_error_handler(function ($err_no, $err_str, $err_file, $err_line) {
-    header('Content-Type: application/json');
-    echo json_encode([
-        'error' => [
-            'level' => $err_no,
-            'msg' => $err_str,
-            'filename' => $err_file,
-            'line' => $err_line
-        ]
+function errorHandler($err_no, $err_str, $err_file, $err_line) {
+    API::send_error([
+        'level' => $err_no,
+        'msg' => $err_str,
+        'filename' => $err_file,
+        'line' => $err_line
     ]);
-    exit;
-});
+}
 
+set_error_handler('errorHandler', E_ALL | E_STRICT);
+
+require_once __ROOT__ . "/api.class.php";
 require_once __ROOT__ . "/database.class.php";
 
 $configs = (object) parse_ini_file(__ROOT__ . "/configurations.ini");
