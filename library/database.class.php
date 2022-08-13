@@ -2,6 +2,7 @@
 /**
  * Classe para o banco de dados
  */
+
 class DBRequest
 {
     static function startPDO($name, $host, $charset, $login, $password): PDO
