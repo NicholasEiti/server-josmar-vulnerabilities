@@ -8,7 +8,7 @@ require_once "../library/library.php";
 
 API::requestMethodMustBe('POST');
 
-$drawer_id = Params::getIDParam('id', method: "_POST");
+$drawer_id = Params::getIntParam('id', method: "_POST");
 
 $drawer = DrawerDB::searchById($drawer_id);
 

@@ -9,7 +9,7 @@ require_once "../library/library.php";
 API::requestMethodMustBe('GET');
 
 $key_name = Params::getParam('name', min_length: 5, max_length: 10);
-$key_drawer = Params::getIDParam('drawer');
+$key_drawer = Params::getIntParam('drawer');
 
 if (KeyDB::count('WHERE name = ?', [$key_name]) !== 0)
     API::send_error('key_name_in_use');

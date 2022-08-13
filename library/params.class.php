@@ -24,7 +24,7 @@ class Params
         return $param;
     }
 
-    static function getIDParam($param_name, $method='_GET'): int
+    static function getIntParam($param_name, $method='_GET'): int
     {
         global $$method;
 

@@ -8,7 +8,7 @@ require_once "../library/library.php";
 
 API::requestMethodMustBe('POST');
 
-$key_id = Params::getIDParam('id', method: "_POST");
+$key_id = Params::getIntParam('id', method: "_POST");
 
 $key = KeyDB::searchById($key_id);
 
