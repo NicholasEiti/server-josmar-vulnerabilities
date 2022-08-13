@@ -20,4 +20,6 @@ if (DrawerDB::searchById($key_drawer) === False)
 if (!KeyDB::insert([ 'name' => $key_name, 'drawer' => $key_drawer ]))
     API::send_error('key_error_on_create');
 
-API::send_success('Key created.', [ 'id' => KeyDB::get_last_id() ]);
+$id = KeyDB::get_last_id();
+
+API::send_success('key_created', [ 'id' => $id ]);

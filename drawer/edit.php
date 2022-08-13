@@ -25,4 +25,4 @@ if (DrawerDB::count('WHERE name = ?', [$drawer_name]) !== 0)
 if (!DrawerDB::update($drawer_id, [ 'name' => $drawer_name ]))
     API::send_error('drawer_error_on_edit');
 
-API::send_success('Drawer edited.');
+API::send_success('drawer_edited');

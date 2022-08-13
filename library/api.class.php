@@ -37,9 +37,12 @@ class API {
         ]);
     }
 
-    static function send_success(string $msg, array $success_info = []): never
+    static function send_success(string $code, array $success_info = []): never
     {
-        $success_info['msg'] = $msg;
+        global $api_success_msgs;
+
+        $success_info['code'] = $code;
+        $success_info['msg'] = $api_success_msgs[$code];
 
         static::_send([
             'success' => $success_info,

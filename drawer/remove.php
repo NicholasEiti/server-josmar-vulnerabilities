@@ -27,6 +27,4 @@ if ($keys !== false) {
 if (!DrawerDB::deleteById($drawer_id))
     API::send_error('drawer_error_on_remove');
 
-API::send_success('Drawer removed.', [
-    'drawer' => $drawer
-]);
+API::send_success('drawer_removed', [ 'drawer' => $drawer ]);

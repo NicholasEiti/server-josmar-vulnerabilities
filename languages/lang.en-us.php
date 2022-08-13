@@ -5,7 +5,7 @@
 
 $api_error_msgs = [
     'database_connection_error' => 'Database connection error.',
-
+    'unexpected_server_error' => 'Unexpected server error',
     'unexpected_request_method' => 'Unexpected request method.',
 
     'error_404' => 'Page not found.',
@@ -31,4 +31,18 @@ $api_error_msgs = [
     'key_drawer_not_found' => 'Drawer not found.',
     'key_error_on_create' => 'Something wrong on create key, try again.',
     'key_error_on_remove' => 'Something wrong on remove key, try again.',
+];
+
+$api_success_msgs = [
+    'drawer_created' => 'Drawer created.',
+    'drawer_edited' => 'Drawer edited.',
+    'drawer_removed' => 'Drawer removed.',
+    'drawer_list' => 'Success to generate list.',
+
+    'key_created' => 'Key created.',
+    'key_list' => 'Success to generate list.',
+    'key_removed' => 'Key removed.',
+
+    'user_list' => 'Success to generate list.',
+    'user_created' => 'User created.',
 ];

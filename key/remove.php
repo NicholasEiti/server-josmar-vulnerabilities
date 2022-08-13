@@ -18,6 +18,4 @@ if ($key === false)
 if (!KeyDB::deleteById($key_id))
     API::send_error('key_error_on_remove');
 
-API::send_success('Key removed.', [
-    'key' => $key
-]);
+API::send_success('key_removed', [ 'key' => $key ]);
