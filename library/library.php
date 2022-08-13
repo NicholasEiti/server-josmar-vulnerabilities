@@ -3,7 +3,7 @@
  * File to config and import the josmar-API
  */
 
-define('__ROOT__', dirname(__FILE__));
+define('__ROOT__', dirname(dirname(__FILE__)));
 define('DEFAULT_LANG', 'en-us');
 
 $configs = (object) parse_ini_file(__ROOT__ . "/library/configurations.ini");

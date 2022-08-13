@@ -4,7 +4,7 @@
  * /key/create
 */
 
-require_once "../library.php";
+require_once "../library/library.php";
 
 API::requestMethodMustBe('GET');
 
