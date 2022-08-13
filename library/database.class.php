@@ -54,9 +54,7 @@ class DBRequest
     {
         global $GLOBAL_PDO;
 
-        $values = implode(", ", array_map(function ($column) {
-            return "$column = :$column";
-        }, array_keys($params)));
+        $values = implode(", ", array_map(fn ($column) => "$column = :$column", array_keys($params)));
 
         if (is_array($ids))
             $ids = implode(', ', $ids);
@@ -91,11 +89,18 @@ class DBRequest
         global $GLOBAL_PDO;
 
         if (is_array($ids)) {
+            $id_count = count($ids);
 
-        } else {
-            $index = $GLOBAL_PDO->prepare("DELETE FROM `$tablename` WHERE id = :id");
-            return $index->execute([ ':id' => $ids ]);
+            if ($id_count != 1) {
+                $index = $GLOBAL_PDO->prepare("DELETE FROM `$tablename` WHERE id IN (?" . str_repeat(', ?', $id_count - 1) . ")");
+                return $index->execute(array_values($ids));
+            }
+
+            $ids = $ids[0];
         }
+    
+        $index = $GLOBAL_PDO->prepare("DELETE FROM `$tablename` WHERE id = :id");
+        return $index->execute([ ':id' => $ids ]);
     }
 
     static function get_last_id(string $tablename): int
