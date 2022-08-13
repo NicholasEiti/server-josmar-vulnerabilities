@@ -1,4 +1,7 @@
 <?php
+/**
+ * File to include "en-us" language
+ */
 
 $api_error_msgs = [
     'database_connection_error' => 'Database connection error.',

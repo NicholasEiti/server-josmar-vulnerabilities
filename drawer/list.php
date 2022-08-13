@@ -2,7 +2,7 @@
 /**
  * Listagem dos armários
  * /drawer/list
-*/
+ */
 
 require_once "../library/library.php";
 

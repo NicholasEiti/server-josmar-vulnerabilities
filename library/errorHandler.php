@@ -1,4 +1,7 @@
 <?php
+/**
+ * File to handler errors
+ */
 
 function errorHandler($err_no, $err_str, $err_file, $err_line) {
     global $configs;

@@ -1,7 +1,7 @@
 <?php
 /**
  * Classe para leitura de parâmetros
-*/
+ */
 class Params
 {
     static function getParam($param_name, $min_length = 0, $max_length = 255, $method='_GET'): string

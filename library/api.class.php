@@ -2,6 +2,7 @@
 /**
  * API class - send responses
  */
+
 class API {
     static private function _send($data): never
     {
