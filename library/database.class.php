@@ -76,7 +76,7 @@ class DBRequest
 
         return $index->execute($params);
     }
-    
+
     static function delete(string $tablename, string $sql = null, array $params = []): bool
     {
         global $GLOBAL_PDO;
@@ -84,6 +84,18 @@ class DBRequest
         $index = $GLOBAL_PDO->prepare("DELETE FROM $tablename $sql");
 
         return $index->execute($params);
+    }
+
+    static function deleteById(string $tablename, array|int $ids): bool
+    {
+        global $GLOBAL_PDO;
+
+        if (is_array($ids)) {
+
+        } else {
+            $index = $GLOBAL_PDO->prepare("DELETE FROM $tablename WHERE id = :id");
+            return $index->execute([ ':id' => $ids ]);
+        }
     }
 
     static function get_last_id(string $tablename): int
