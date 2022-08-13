@@ -25,17 +25,32 @@ class DBRequest
         return $index->rowCount();
     }
 
-    static function search(string $tablename, string $sql = null, array $params = null): mixed
+    static function search(string $tablename, string $sql = null, array $params = null): array|false
     {
         global $GLOBAL_PDO;
 
         $index = $GLOBAL_PDO->prepare("SELECT * FROM $tablename $sql");
         $index->execute($params);
 
-        return $index->fetchAll(PDO::FETCH_ASSOC);
+        $rows = $index->fetchAll(PDO::FETCH_ASSOC);
+
+        if (count($rows) === 0)
+            return False;
+        
+        return $rows;
     }
 
-    static function update(string $tablename, array|string $ids = null, array $params = []): bool
+    static function searchById(string $tablename, string $id): array|false
+    {
+        global $GLOBAL_PDO;
+
+        $index = $GLOBAL_PDO->prepare("SELECT * FROM $tablename WHERE id = :id");
+        $index->execute([':id' => $id]);
+
+        return $index->fetch(PDO::FETCH_ASSOC);
+    }
+
+    static function update(string $tablename, array|string $ids, array $params = []): bool
     {
         global $GLOBAL_PDO;
 
