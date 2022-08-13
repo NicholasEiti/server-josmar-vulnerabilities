@@ -1,0 +1,17 @@
+#### Drawers Routes
+### Get list of drawers
+GET http://localhost/drawer/list
+
+### Create new drawer
+GET http://localhost/drawer/create?name=drawer5
+
+### Edit some drawer
+POST http://localhost/drawer/edit HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+id=1&name=drawer1
+
+### Remove drawer
+POST http://localhost/drawer/remove HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+id=5
+
