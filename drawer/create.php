@@ -6,7 +6,9 @@
 
 require_once "../library.php";
 
-$drawer_name = Params::getParams('name', min_length: 5, max_length: 10);
+API::requestMethodMustBe('GET');
+
+$drawer_name = Params::getParam('name', min_length: 5, max_length: 10);
 
 if (DBRequest::search('drawers', 'WHERE name = ?', [$drawer_name]) !== False)
     API::send_error('Name is already in use.');

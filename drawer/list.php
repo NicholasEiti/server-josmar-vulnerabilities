@@ -6,8 +6,8 @@
 
 require_once "../library.php";
 
-$list = DBRequest::search('drawers', 'ORDER BY id');
+API::requestMethodMustBe('GET');
 
 API::send_success('Success to generate list.', [
-    'list' => $list
+    'list' => DBRequest::search('drawers', 'ORDER BY id')
 ]);

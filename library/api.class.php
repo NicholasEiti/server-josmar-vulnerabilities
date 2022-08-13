@@ -27,4 +27,14 @@ class API {
             'status' => 'success'
         ]);
     }
+
+    static function requestMethodMustBe(string|array $methods) {
+        if (is_array($methods)) {
+            if (!in_array($_SERVER['REQUEST_METHOD'], $methods))
+                static::send_error("Unexpected request method, expected in \"" . implode('", "', $methods) . "\"");
+        } else {
+            if ($_SERVER['REQUEST_METHOD'] !== $methods)
+                static::send_error("Unexpected request method, expected \"$methods\"");
+        }
+    }
 }
