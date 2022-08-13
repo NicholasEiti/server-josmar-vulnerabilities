@@ -32,7 +32,7 @@ class DBRequest
         $index = $GLOBAL_PDO->prepare("SELECT * FROM $tablename $sql");
         $index->execute($params);
 
-        return $index->fetch(PDO::FETCH_ASSOC);
+        return $index->fetchAll(PDO::FETCH_ASSOC);
     }
 
     static function update(string $tablename, array|string $ids = null, array $params = []): bool
