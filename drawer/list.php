@@ -9,5 +9,5 @@ require_once "../library/library.php";
 API::requestMethodMustBe('GET');
 
 API::send_success('Success to generate list.', [
-    'list' => DBRequest::search('drawers', 'ORDER BY id')
+    'list' => DrawerDB::search('ORDER BY id')
 ]);

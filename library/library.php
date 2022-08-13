@@ -15,7 +15,7 @@ require_once __ROOT__ . "/library/api.class.php";
 require_once __ROOT__ . "/library/database.class.php";
 require_once __ROOT__ . "/library/params.class.php";
 
-$GLOBAL_PDO = DBRequest::startPDO(
+$GLOBAL_PDO = startPDO(
     $configs->db_name,
     $configs->db_host,
     $configs->db_charset,
