@@ -5,6 +5,4 @@
 
 require_once "./library.php";
 
-API::send_error([
-    'msg' => 'Page not found'
-]);
+API::send_error('Page not found');
