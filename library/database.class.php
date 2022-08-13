@@ -19,7 +19,7 @@ class DBRequest
     {
         global $GLOBAL_PDO;
 
-        $index = $GLOBAL_PDO->prepare("SELECT id FROM $tablename $sql");
+        $index = $GLOBAL_PDO->prepare("SELECT id FROM `$tablename` $sql");
         $index->execute($params);
 
         return $index->rowCount();
@@ -29,7 +29,7 @@ class DBRequest
     {
         global $GLOBAL_PDO;
 
-        $index = $GLOBAL_PDO->prepare("SELECT * FROM $tablename $sql");
+        $index = $GLOBAL_PDO->prepare("SELECT * FROM `$tablename` $sql");
         $index->execute($params);
 
         $rows = $index->fetchAll(PDO::FETCH_ASSOC);
@@ -44,7 +44,7 @@ class DBRequest
     {
         global $GLOBAL_PDO;
 
-        $index = $GLOBAL_PDO->prepare("SELECT * FROM $tablename WHERE id = :id");
+        $index = $GLOBAL_PDO->prepare("SELECT * FROM `$tablename` WHERE id = :id");
         $index->execute([':id' => $id]);
 
         return $index->fetch(PDO::FETCH_ASSOC);
@@ -61,7 +61,7 @@ class DBRequest
         if (is_array($ids))
             $ids = implode(', ', $ids);
 
-        $index = $GLOBAL_PDO->prepare("UPDATE $tablename SET $values WHERE id IN ($ids)");
+        $index = $GLOBAL_PDO->prepare("UPDATE `$tablename` SET $values WHERE id IN ($ids)");
         return $index->execute($params);
     }
 
@@ -72,7 +72,7 @@ class DBRequest
         $columns = implode(",", array_keys($params));
         $values = ":" . implode(",:", array_keys($params));
 
-        $index = $GLOBAL_PDO->prepare("INSERT INTO $tablename ($columns) VALUES ($values)");
+        $index = $GLOBAL_PDO->prepare("INSERT INTO `$tablename` ($columns) VALUES ($values)");
 
         return $index->execute($params);
     }
@@ -81,7 +81,7 @@ class DBRequest
     {
         global $GLOBAL_PDO;
 
-        $index = $GLOBAL_PDO->prepare("DELETE FROM $tablename $sql");
+        $index = $GLOBAL_PDO->prepare("DELETE FROM `$tablename` $sql");
 
         return $index->execute($params);
     }
@@ -93,7 +93,7 @@ class DBRequest
         if (is_array($ids)) {
 
         } else {
-            $index = $GLOBAL_PDO->prepare("DELETE FROM $tablename WHERE id = :id");
+            $index = $GLOBAL_PDO->prepare("DELETE FROM `$tablename` WHERE id = :id");
             return $index->execute([ ':id' => $ids ]);
         }
     }
@@ -102,7 +102,7 @@ class DBRequest
     {
         global $GLOBAL_PDO;
 
-        $index = $GLOBAL_PDO->query("SELECT id FROM $tablename ORDER BY id DESC LIMIT 1");
+        $index = $GLOBAL_PDO->query("SELECT id FROM `$tablename` ORDER BY id DESC LIMIT 1");
         $rows = $index->fetch(PDO::FETCH_ASSOC);
 
         return $rows['id'];
