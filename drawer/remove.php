@@ -16,7 +16,7 @@ if ($drawer === false)
     API::send_error('Drawer not found.');
 
 if (!DBRequest::deleteById('drawers', $drawer_id))
-    API::send_error('Something wrong on edit drawer, try again.');
+    API::send_error('Something wrong on remove drawer, try again.');
 
 API::send_success('Drawer removed.', [
     'drawer' => $drawer

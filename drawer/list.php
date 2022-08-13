@@ -1,6 +1,6 @@
 <?php
 /**
- * Listagem do armário
+ * Listagem dos armários
  * /drawer/list
 */
 
