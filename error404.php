@@ -5,4 +5,4 @@
 
 require_once "./library.php";
 
-API::send_error('Page not found');
+API::send_error('error_404');

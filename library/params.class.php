@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Classe para leitura de parâmetros
 */
@@ -10,17 +9,17 @@ class Params
         global $$method;
 
         if (!isset($$method[$param_name])) 
-            API::send_error("Expected \"$param_name\" param.");
+            API::send_error('param_not_found', params: [$param_name]);
 
         $param = trim(($$method)[$param_name]);
 
         $name_len = strlen($param);
 
         if ($name_len > $max_length)
-            API::send_error("\"$param_name\" parameter must be less than $max_length in length.");
+            API::send_error('param_less_than', params: [$param_name, $max_length]);
 
         if ($name_len < $min_length)
-            API::send_error("\"$param_name\" parameter must be more than $min_length in length.");
+            API::send_error('param_more_than', params: [$param_name, $min_length]);
 
         return $param;
     }
@@ -30,12 +29,12 @@ class Params
         global $$method;
 
         if (!isset($$method[$param_name])) 
-            API::send_error("Expected \"$param_name\" param.");
+            API::send_error('param_not_found', params: [$param_name]);
 
         $param = trim(($$method)[$param_name]);
 
         if (!preg_match('/^[0-9]*$/', $param))
-            API::send_error("Expected \"$param_name\" param an int.");
+            API::send_error('param_as_int', params: [$param_name]);
 
         return (int) $param;
     }

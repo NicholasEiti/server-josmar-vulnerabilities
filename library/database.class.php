@@ -9,7 +9,7 @@ class DBRequest
         try {
             $pdo = new PDO("mysql:dbname=$name;host=$host;chartset=utf8", $login, $password);
         } catch (Exception $e) {
-            API::send_error('Database connection error.');
+            API::send_error('database_connection_error');
         }
     
         return $pdo;

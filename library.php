@@ -1,22 +1,19 @@
 <?php
+/**
+ * File to config and import the josmar-API
+ */
 
 define('__ROOT__', dirname(__FILE__));
+define('DEFAULT_LANG', 'en-us');
 
-function errorHandler($err_no, $err_str, $err_file, $err_line) {
-    API::send_error($err_str, [
-        'level' => $err_no,
-        'filename' => $err_file,
-        'line' => $err_line
-    ]);
-}
+$configs = (object) parse_ini_file(__ROOT__ . "/library/configurations.ini");
 
-set_error_handler('errorHandler', E_ALL | E_STRICT);
-
+require_once __ROOT__ . "/library/errorHandler.php";
+require_once __ROOT__ . "/library/langConfiguration.php";
+require_once __ROOT__ . "/languages/lang.$lang.php";
 require_once __ROOT__ . "/library/api.class.php";
 require_once __ROOT__ . "/library/database.class.php";
 require_once __ROOT__ . "/library/params.class.php";
-
-$configs = (object) parse_ini_file(__ROOT__ . "/library/configurations.ini");
 
 $GLOBAL_PDO = DBRequest::startPDO(
     $configs->db_name,
