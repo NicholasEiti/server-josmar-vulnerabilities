@@ -10,7 +10,7 @@ API::requestMethodMustBe('GET');
 
 $request_user               = Params::getIntParam('user');
 $request_key                = Params::getIntParam('key');
-$request_date_expected_start         = Params::getDateParam('date_start', '!Y-m-d H:i:s');
+$request_date_expected_start = Params::getDateParam('date_start', '!Y-m-d H:i:s');
 $request_date_expected_end  = Params::getDateParam('date_end', '!Y-m-d H:i:s');
 
 if (!UserDB::hasId($request_user))
