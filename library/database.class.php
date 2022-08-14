@@ -4,6 +4,13 @@
  */
 
 define('EMAIL_PATTERN', "/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/");
+define('DATETIME_PATTERN', '/^([0-9]{4})-([0-1][0-9])-([0-3][0-9])\s([0-1][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9])$/');
+$ENUM_REQUEST_STATUS = [
+    'not_started'   => 1, // antes do date_start
+    'started'       => 3, // user pegou a chave
+    'ended'         => 4, // depois do date_end => usuario devolveu a chave
+    'canceled'      => 5, // pedido cancelado
+];
 $ENUM_USER_LEVELS    = [ 'collaborator' => 5, 'admin' => 15 ];
 
 function startPDO($name, $host, $charset, $login, $password): PDO
@@ -59,7 +66,7 @@ abstract class ColumnDB {
     {
         global $GLOBAL_PDO;
 
-        $values = implode(", ", array_map(fn ($column) => "$column = :$column", array_keys($params)));
+        $values = implode(", ", array_map(fn ($column) => "`$column` = :$column", array_keys($params)));
 
         if (is_array($ids))
             $ids = implode(', ', $ids);
@@ -72,7 +79,7 @@ abstract class ColumnDB {
     {
         global $GLOBAL_PDO;
 
-        $columns = implode(",", array_keys($params));
+        $columns = '`' . implode("`, `", array_keys($params)) . '`';
         $values = ":" . implode(",:", array_keys($params));
 
         $index = $GLOBAL_PDO->prepare("INSERT INTO `" . static::$tablename . "` ($columns) VALUES ($values)");
@@ -106,6 +113,11 @@ abstract class ColumnDB {
     
         $index = $GLOBAL_PDO->prepare("DELETE FROM `" . static::$tablename . "` WHERE id = :id");
         return $index->execute([ ':id' => $ids ]);
+    }
+
+    static function hasId(int $id): bool
+    {
+        return static::searchById($id) !== False;
     }
 
     static function get_last_id(): int

@@ -14,7 +14,7 @@ $key_drawer = Params::getIntParam('drawer');
 if (KeyDB::count('WHERE name = ?', [$key_name]) !== 0)
     API::send_error('key_name_in_use');
 
-if (DrawerDB::searchById($key_drawer) === False)
+if (!DrawerDB::hasId($key_drawer))
     API::send_error('key_drawer_not_found');
 
 if (!KeyDB::insert([ 'name' => $key_name, 'drawer' => $key_drawer ]))
