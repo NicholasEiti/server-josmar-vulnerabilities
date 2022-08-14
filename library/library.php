@@ -5,6 +5,7 @@
 
 define('__ROOT__', dirname(dirname(__FILE__)));
 define('DEFAULT_LANG', 'en-us');
+define('DEFAULT_TIMEZONE', 'America/Sao_Paulo');
 
 $configs = (object) parse_ini_file(__ROOT__ . "/library/configurations.ini");
 
