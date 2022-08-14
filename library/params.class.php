@@ -66,7 +66,7 @@ class Params
         return $enum_values[$param];
     }
 
-    static function getRegexParam(string $param_name, string $filter=null, bool $optional = false, string $method='_GET'): string|null
+    static function getRegexParam(string $param_name, string $filter, bool $optional = false, string $method='_GET'): string|null
     {
         global $$method;
 
@@ -79,8 +79,29 @@ class Params
 
         $param = trim(($$method)[$param_name]);
 
-        if ($filter !== null and !preg_match($filter, $param))
+        if (!preg_match($filter, $param))
             API::send_error('param_filter_not_match', params: [$param_name]);
+
+        return $param;
+    }
+
+    static function getDateParam(string $param_name, string $format, string $timezone=DEFAULT_TIMEZONE, bool $optional = false, string $method='_GET'): DateTime|null
+    {
+        global $$method;
+
+        if (!isset($$method[$param_name])) {
+            if ($optional)
+                return null;
+            else
+                API::send_error('param_not_found', params: [$param_name]);
+        }
+
+        $param = trim(($$method)[$param_name]);
+
+        $param = DateTime::createFromFormat($format, $param, new DateTimeZone($timezone));
+
+        if ($param === False)
+            API::send_error('param_wrong_format', params: [$param_name, $format]);
 
         return $param;
     }
