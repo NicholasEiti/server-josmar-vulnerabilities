@@ -1,7 +1,10 @@
 <?php
 /**
- * Classe para o banco de dados
+ * Classes para o banco de dados
  */
+
+define('EMAIL_PATTERN', "/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/");
+$ENUM_USER_LEVELS    = [ 'collaborator' => 5, 'admin' => 15 ];
 
 function startPDO($name, $host, $charset, $login, $password): PDO
 {

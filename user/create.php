@@ -6,9 +6,6 @@
 
 require_once "../library/library.php";
 
-define('EMAIL_PATTERN', "/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/");
-$ENUM_USER_LEVELS    = [ 'collaborator' => 5, 'admin' => 15 ];
-
 API::requestMethodMustBe('GET');
 
 $user_name      = Params::getParam('name', min_length: 5, max_length: 20);

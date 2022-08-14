@@ -13,6 +13,8 @@ $api_error_msgs = [
     'lang_unexpected' => 'Unexpected language.',
 
     'param_not_found' => fn($param_name) => "Expected \"$param_name\" param.",
+    'param_filter_not_match' => fn($param_name) => "Unexpected input from \"$param_name\" param.",
+    'param_enum_not_match' => fn($param_name) => "Unexpected input from \"$param_name\" param.",
     'param_less_than' => fn($param_name, $max_length) => "\"$param_name\" parameter must be less than $max_length in length.",
     'param_more_than' => fn($param_name, $min_length) => "\"$param_name\" parameter must be more than $min_length in length.",
     'param_as_int' => fn($param_name) => "Expected \"$param_name\" as an int.",
@@ -30,7 +32,13 @@ $api_error_msgs = [
     'key_name_in_use' => 'Name is already in use.',
     'key_drawer_not_found' => 'Drawer not found.',
     'key_error_on_create' => 'Something wrong on create key, try again.',
-    'key_error_on_remove' => 'Something wrong on remove key, try again.',
+
+    'user_name_in_use' => 'Name is already in use.',
+    'user_email_in_use' => 'Email is already in use.',
+    'user_error_on_create' => 'Something wrong on create user, try again.',
+
+    'user_nothing_edited' => 'Nothing edited',
+    'user_error_on_edit' => 'Something wrong on edit user, try again.',
 ];
 
 $api_success_msgs = [
@@ -45,4 +53,5 @@ $api_success_msgs = [
 
     'user_list' => 'Success to generate list.',
     'user_created' => 'User created.',
+    'user_edited' => 'User edited.',
 ];
