@@ -9,6 +9,7 @@ $api_error_msgs = [
     'unexpected_request_method' => 'Unexpected request method.',
 
     'error_404' => 'Page not found.',
+    'error_403' => 'Forbidden page.',
     
     'lang_unexpected' => 'Unexpected language.',
 
@@ -18,6 +19,7 @@ $api_error_msgs = [
     'param_less_than' => fn($param_name, $max_length) => "\"$param_name\" parameter must be less than $max_length in length.",
     'param_more_than' => fn($param_name, $min_length) => "\"$param_name\" parameter must be more than $min_length in length.",
     'param_as_int' => fn($param_name) => "Expected \"$param_name\" as an int.",
+    'param_wrong_format' => fn ($param_name, $format) => "\"$param_name\" does not follow expected date format, format: \"$format\"",
 
     'drawer_not_found' => 'Drawer not found.',
     'drawer_name_in_use' => 'Name is already in use.',
@@ -37,8 +39,16 @@ $api_error_msgs = [
     'user_email_in_use' => 'Email is already in use.',
     'user_error_on_create' => 'Something wrong on create user, try again.',
 
-    'user_nothing_edited' => 'Nothing edited',
+    'user_nothing_edited' => 'Nothing edited.',
     'user_error_on_edit' => 'Something wrong on edit user, try again.',
+
+    'request_user_not_found' => 'User not found.',
+    'request_key_not_found' => 'Key not found.',
+    'request_date_end_before_start' => 'Start date must be before the end date.',
+    'request_date_end_before_now' => 'Start date must be before now.',
+    'request_key_already_in_use' => 'This key is already in use.',
+    'request_error_on_create' => 'Something wrong on create request, try again.',
+
 ];
 
 $api_success_msgs = [
@@ -50,8 +60,12 @@ $api_success_msgs = [
     'key_created' => 'Key created.',
     'key_list' => 'Success to generate list.',
     'key_removed' => 'Key removed.',
-
+    
     'user_list' => 'Success to generate list.',
     'user_created' => 'User created.',
     'user_edited' => 'User edited.',
+
+    'request_list' => 'Success to generate list.',
+    'request_created' => 'Request created.',
+    'request_canceled' => 'Request canceled.',
 ];

@@ -7,9 +7,9 @@ define('EMAIL_PATTERN', "/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA
 define('DATETIME_PATTERN', '/^([0-9]{4})-([0-1][0-9])-([0-3][0-9])\s([0-1][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9])$/');
 $ENUM_REQUEST_STATUS = [
     'not_started'   => 1, // antes do date_start
-    'started'       => 3, // user pegou a chave
-    'ended'         => 4, // depois do date_end => usuario devolveu a chave
-    'canceled'      => 5, // pedido cancelado
+    'started'       => 2, // user pegou a chave
+    'ended'         => 3, // depois do date_end => usuario devolveu a chave
+    'canceled'      => 4  // pedido cancelado
 ];
 $ENUM_USER_LEVELS    = [ 'collaborator' => 5, 'admin' => 15 ];
 

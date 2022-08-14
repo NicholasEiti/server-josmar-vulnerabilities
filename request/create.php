@@ -1,0 +1,50 @@
+<?php
+/**
+ * Criar pedido de chave
+ * /request/create
+ */
+
+require_once "../library/library.php";
+
+API::requestMethodMustBe('GET');
+
+$request_user               = Params::getIntParam('user');
+$request_key                = Params::getIntParam('key');
+$request_date_expected_start         = Params::getDateParam('date_start', '!Y-m-d H:i:s');
+$request_date_expected_end  = Params::getDateParam('date_end', '!Y-m-d H:i:s');
+
+if (!UserDB::hasId($request_user))
+    API::send_error('request_user_not_found');
+
+if (!KeyDB::hasId($request_key))
+    API::send_error('request_key_not_found');
+
+if ($request_date_expected_end <= $request_date_expected_start)
+    API::send_error('request_date_end_before_start');
+
+if ($request_date_expected_end <= new DateTime())
+    API::send_error('request_date_end_before_now');
+
+
+if (RequestDB::count('WHERE `key` = :key_id and `status` not in (2, 3) and (
+    :date_start < `date_expected_start` and `date_expected_start` < :date_end           and :date_end < `date_expected_end` or
+    `date_expected_start` < :date_start and :date_start < :date_end                     and :date_end < `date_expected_end` or
+    :date_start < `date_expected_start` and `date_expected_start` < `date_expected_end` and `date_expected_end` < :date_end or
+    `date_expected_start` < :date_start and :date_start < `date_expected_end`           and `date_expected_end` < :date_end
+)', [
+    ':key_id'       => $request_key,
+    ':date_start'       => $request_date_expected_start->format('Y-m-d H:i:s'),
+    ':date_end'     => $request_date_expected_end->format('Y-m-d H:i:s')
+]) !== 0)
+    API::send_error('request_key_already_in_use');
+
+if (!RequestDB::insert([
+    'user'                  => $request_user,
+    'key'                   => $request_key,
+    'status'                => $ENUM_REQUEST_STATUS['not_started'],
+    'date_expected_start'   => $request_date_expected_start->format('Y-m-d H:i:s'),
+    'date_expected_end'     => $request_date_expected_end->format('Y-m-d H:i:s')
+]))
+    API::send_error('request_error_on_create');
+
+API::send_success('request_created', [ 'id' => RequestDB::get_last_id() ]);
