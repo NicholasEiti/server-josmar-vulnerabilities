@@ -28,7 +28,8 @@ CREATE TABLE `requests` (
   `user` int NOT NULL,
   `key` int NOT NULL,
   `status` int NOT NULL,
-  `date_start` datetime NOT NULL,
+  `date_start` datetime DEFAULT NULL,
+  `date_expected_start` datetime NOT NULL,
   `date_end` datetime DEFAULT NULL,
   `date_expected_end` datetime NOT NULL,
   PRIMARY KEY (`id`)
