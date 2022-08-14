@@ -49,6 +49,13 @@ $api_error_msgs = [
     'request_key_already_in_use' => 'This key is already in use.',
     'request_error_on_create' => 'Something wrong on create request, try again.',
 
+    'request_not_found'  => 'Request not found.',
+    'request_already_this_status' => 'Request already has this status.',
+    'request_status_already_ended' => 'Request already ended, you can\'t change it.',
+    'request_status_already_canceled' => 'Request already canceled, you can\'t change it.',
+    'request_status_can_not_ended' => 'Request can\'t end like this, you need started.',
+    'request_status_must_ended' => 'Request must end, not anything else.',
+    'request_error_on_update_status' => 'Something wrong on update start of request, try again.',
 ];
 
 $api_success_msgs = [
@@ -67,5 +74,5 @@ $api_success_msgs = [
 
     'request_list' => 'Success to generate list.',
     'request_created' => 'Request created.',
-    'request_canceled' => 'Request canceled.',
+    'request_updated_status' => 'Request edited.',
 ];
