@@ -3,29 +3,56 @@
 GET http://localhost/drawer/list
 
 ### Create new drawer
-GET http://localhost/drawer/create?name=drawer5
+GET http://localhost/drawer/create
+    ?name=drawer6
 
 ### Edit some drawer
 POST http://localhost/drawer/edit HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-id=1&name=drawer1
+id=6&name=drawer7
 
 ### Remove drawer
 POST http://localhost/drawer/remove HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-id=5
+id=6
 
 #### Key Routes
 ### Get list of keys
 GET http://localhost/key/list
 
 ### Create new key
-GET http://localhost/key/create?name=key-3&drawer=3
+GET http://localhost/key/create
+    ?name=key-32
+    &drawer=3
 
 ### Remove key
 POST http://localhost/key/remove HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
 id=2
+
+
+#### User Routes
+### Auth users
+POST http://localhost/user/auth HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+
+### Get a list of users
+GET http://localhost/user/list
+
+### Create an user
+GET http://localhost/user/create
+    ?name=User4
+    &password=senha
+    &email=test4@etec.sp.gov.br
+    &level=admin
+
+### Edit user
+POST http://localhost/user/edit HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+id=1
+&name=user12
