@@ -14,6 +14,8 @@ function errorHandler($err_no, $err_str, $err_file, $err_line) {
         ]);
     else
         API::send_error('unexpected_server_error');
+    
+    return true;
 }
 
-set_error_handler('errorHandler', E_ALL | E_STRICT);
+set_error_handler('errorHandler');
