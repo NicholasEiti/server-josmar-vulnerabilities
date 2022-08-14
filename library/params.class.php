@@ -47,6 +47,28 @@ class Params
         return (int) $param;
     }
 
+    static function getListOfIntsParam(string $param_name, bool $optional = false, string $method='_GET'): array|null
+    {
+        global $$method;
+
+        if (!isset($$method[$param_name])) {
+            if ($optional)
+                return null;
+            else
+                API::send_error('param_not_found', params: [$param_name]);
+        }
+
+        $param = trim(($$method)[$param_name]);
+
+        return array_filter(
+            array_map(
+                fn($number) => (int) trim($number),
+                explode('|', $param)
+            ),
+            fn($number) => $number != 0
+        );
+    }
+
     static function getEnumParam(string $param_name, array $enum_values, bool $optional = false, string $method='_GET'): mixed
     {
         global $$method;
