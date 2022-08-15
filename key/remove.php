@@ -1,7 +1,6 @@
 <?php
 /**
  * Remover chave
- * /key/remove
  */
 
 require_once "../library/library.php";

@@ -1,7 +1,6 @@
 <?php
 /**
  * Listagem dos pedidos
- * /request/list
  */
 
 require_once "../library/library.php";

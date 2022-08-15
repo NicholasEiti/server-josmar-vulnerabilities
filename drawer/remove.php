@@ -1,7 +1,6 @@
 <?php
 /**
  * Remover armário
- * /drawer/remove
  */
 
 require_once "../library/library.php";

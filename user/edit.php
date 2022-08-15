@@ -1,7 +1,6 @@
 <?php
 /**
  * Alterar Usuário
- * /user/edit
  */
 
 require_once "../library/library.php";

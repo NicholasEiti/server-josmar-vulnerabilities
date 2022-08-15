@@ -1,7 +1,6 @@
 <?php
 /**
  * Criar chave
- * /key/create
  */
 
 require_once "../library/library.php";

@@ -1,7 +1,6 @@
 <?php
 /**
  * Criar Usuário
- * /user/create
  */
 
 require_once "../library/library.php";

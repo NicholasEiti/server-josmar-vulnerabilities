@@ -1,7 +1,6 @@
 <?php
 /**
  * Listagem dos usuários
- * /user/list
  */
 
 require_once "../library/library.php";
