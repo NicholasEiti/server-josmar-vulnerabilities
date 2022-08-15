@@ -8,4 +8,4 @@ ports:
 
 tasks:
   - command: |
-      sudo docker-upe
+      sudo docker-compose up
