@@ -135,3 +135,4 @@ class DrawerDB  extends ColumnDB { static public $tablename = 'drawers';    }
 class KeyDB     extends ColumnDB { static public $tablename = 'keys';       }
 class UserDB    extends ColumnDB { static public $tablename = 'users';      }
 class RequestDB extends ColumnDB { static public $tablename = 'requests';   }
+class SessionDB extends ColumnDB { static public $tablename = 'sessions';   }
