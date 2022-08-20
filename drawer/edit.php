@@ -5,7 +5,7 @@
 
 require_once "../library/library.php";
 
-API::requestMethodMustBe('POST');
+Params::requestMethodMustBe('POST');
 
 $drawer_id = Params::getIntParam('id', method: "_POST");
 $drawer_name = Params::getParam('name', min_length: 5, max_length: 10, method: "_POST");

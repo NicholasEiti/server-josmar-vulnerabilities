@@ -127,4 +127,13 @@ class Params
 
         return $param;
     }
+
+    static function requestMethodMustBe(string|array $methods) {
+        if (
+            is_array($methods) ?
+            !in_array($_SERVER['REQUEST_METHOD'], $methods) :
+            $_SERVER['REQUEST_METHOD'] !== $methods
+        )
+            API::send_error("unexpected_request_method");
+    }
 }

@@ -5,7 +5,7 @@
 
 require_once "../library/library.php";
 
-API::requestMethodMustBe('POST');
+Params::requestMethodMustBe('POST');
 
 $key_id = Params::getIntParam('id', method: "_POST");
 

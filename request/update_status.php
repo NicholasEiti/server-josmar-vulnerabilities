@@ -5,7 +5,7 @@
 
 require_once "../library/library.php";
 
-API::requestMethodMustBe('POST');
+Params::requestMethodMustBe('POST');
 
 $request_id        = Params::getIntParam('id', method: '_POST');
 $request_status    = Params::getEnumParam('status', $ENUM_REQUEST_STATUS, method: '_POST');

@@ -4,6 +4,9 @@
  */
 
 class API {
+    const STATUS_ERROR = 1;
+    const STATUS_SUCCESS = 0;
+
     static private function _send($data): never
     {
         header('Content-Type: application/json');
@@ -13,49 +16,41 @@ class API {
 
     static function send_error_without_code(string $msg, array $error_info = []): never
     {
-        $error_info['msg'] = $msg;
-
         static::_send([
-            'error' => $error_info,
-            'status' => 'error'
+            'error'    => $error_info,
+            'code_msg' => $msg,
+            'code'     => 'without_error',
+            'status'   => self::STATUS_ERROR
         ]);
     }
 
     static function send_error(string $code, array $error_info = [], array $params = null) {
         global $api_error_msgs;
 
-        $error_info['code'] = $code;
+        $data = [
+            'code'      => $code,
+            'code_msg'  => $api_error_msgs[$code],
+            'status'    => self::STATUS_ERROR
+        ];
 
-        if ($params !== null)
-            $error_info['msg'] = $api_error_msgs[$code](...$params);
-        else
-            $error_info['msg'] = $api_error_msgs[$code];
+        if ($params !== null) $data['code_msg'] = $data['code_msg'](...$params);
 
-        static::_send([
-            'error' => $error_info,
-            'status' => 'error'
-        ]);
+        static::_send(array_merge($data, $error_info));
     }
 
-    static function send_success(string $code, array $success_info = []): never
+    static function send_success(string $code, array $success_info = [], array $params = null): never
     {
         global $api_success_msgs;
 
-        $success_info['code'] = $code;
-        $success_info['msg'] = $api_success_msgs[$code];
+        $data = [
+            'code'      => $code,
+            'code_msg'  => $api_success_msgs[$code],
+            'status'    => self::STATUS_SUCCESS
+        ];
 
-        static::_send([
-            'success' => $success_info,
-            'status' => 'success'
-        ]);
-    }
+        if ($params !== null)
+            $data['code_msg'] = $data['code_msg'](...$params);
 
-    static function requestMethodMustBe(string|array $methods) {
-        if (
-            is_array($methods) ?
-            !in_array($_SERVER['REQUEST_METHOD'], $methods) :
-            $_SERVER['REQUEST_METHOD'] !== $methods
-        )
-            static::send_error("unexpected_request_method");
+        static::_send(array_merge($data, $success_info));
     }
 }

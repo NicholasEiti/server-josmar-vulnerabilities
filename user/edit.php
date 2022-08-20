@@ -5,7 +5,7 @@
 
 require_once "../library/library.php";
 
-API::requestMethodMustBe('POST');
+Params::requestMethodMustBe('POST');
 
 $user_id        = Params::getIntParam('id', false, '_POST');
 $user_name      = Params::getParam('name', 5, 20, true, '_POST');

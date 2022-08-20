@@ -5,7 +5,7 @@
 
 require_once "../library/library.php";
 
-API::requestMethodMustBe('GET');
+Params::requestMethodMustBe('GET');
 
 $request_user = Params::getListOfIntsParam('user', true);
 $request_key = Params::getListOfIntsParam('key', true);

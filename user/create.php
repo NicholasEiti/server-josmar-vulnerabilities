@@ -5,7 +5,7 @@
 
 require_once "../library/library.php";
 
-API::requestMethodMustBe('GET');
+Params::requestMethodMustBe('GET');
 
 $user_name      = Params::getParam('name', min_length: 5, max_length: 20);
 $user_password  = Params::getParam('password', min_length: 5, max_length: 20);

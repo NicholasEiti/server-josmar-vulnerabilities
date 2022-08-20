@@ -5,7 +5,7 @@
 
 require_once "../library/library.php";
 
-API::requestMethodMustBe('GET');
+Params::requestMethodMustBe('GET');
 
 $list = UserDB::search('ORDER BY id');
 

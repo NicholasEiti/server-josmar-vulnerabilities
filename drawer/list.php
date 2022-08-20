@@ -5,7 +5,7 @@
 
 require_once "../library/library.php";
 
-API::requestMethodMustBe('GET');
+Params::requestMethodMustBe('GET');
 
 $list = DrawerDB::search('ORDER BY id');
 
