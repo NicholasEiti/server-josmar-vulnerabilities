@@ -1,3 +1,18 @@
+<p align="center">
+    <a href="https://jwt.io">
+        <img
+            src="https://jwt.io/img/logo-asset.svg"
+            alt="Open JWT.io page for more information"
+            style="max-width: 65px">
+    </a>
+    <a href="https://gitpod.io/#https://github.com/mocno/server-josmar">
+        <img
+            src="https://gitpod.io/button/open-in-gitpod.svg"
+            alt="Open in Gitpod"
+            style="max-width: 120px">
+    </a>
+</p>
+
 # Server-Josmar
 Esse repositório é uma API par controlar o armário "e-josmar"
 
