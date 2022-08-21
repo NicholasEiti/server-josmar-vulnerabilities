@@ -56,6 +56,9 @@ $api_error_msgs = [
     'request_status_can_not_ended' => 'Request can\'t end like this, you need started.',
     'request_status_must_ended' => 'Request must end, not anything else.',
     'request_error_on_update_status' => 'Something wrong on update start of request, try again.',
+
+    'api_login_not_found' => 'Unable to find account.',
+    'api_wrong_password' => 'Incorrect password, try again.',
 ];
 
 $api_success_msgs = [
@@ -75,4 +78,6 @@ $api_success_msgs = [
     'request_list' => 'Success to generate list.',
     'request_created' => 'Request created.',
     'request_updated_status' => 'Request edited.',
+
+    'api_auth' => 'Success in authentication.'
 ];

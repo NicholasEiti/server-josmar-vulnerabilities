@@ -135,6 +135,7 @@ class DrawerDB  extends ColumnDB { static public $tablename = 'drawers';    }
 class KeyDB     extends ColumnDB { static public $tablename = 'keys';       }
 class UserDB    extends ColumnDB {
     static public $tablename = 'users';
+    static const PASSWORD_HASH_COST = 12;
 
     static function formatEmail(string $email) {
         $matches = null;
@@ -146,7 +147,7 @@ class UserDB    extends ColumnDB {
 
     static function formatPassword($password) {
         return password_hash($password, PASSWORD_DEFAULT, [
-            'cost' => 12
+            'cost' => static::PASSWORD_HASH_COST
         ]);
     }
 }
