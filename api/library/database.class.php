@@ -5,6 +5,8 @@
 
 define('EMAIL_PATTERN', "/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/");
 define('DATETIME_PATTERN', '/^([0-9]{4})-([0-1][0-9])-([0-3][0-9])\s([0-1][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9])$/');
+define('ADMIN_MIN_LEVEL', 10);
+
 $ENUM_REQUEST_STATUS = [
     'not_started'   => 1, // antes do date_start
     'started'       => 2, // user pegou a chave
@@ -135,7 +137,7 @@ class DrawerDB  extends ColumnDB { static public $tablename = 'drawers';    }
 class KeyDB     extends ColumnDB { static public $tablename = 'keys';       }
 class UserDB    extends ColumnDB {
     static public $tablename = 'users';
-    static const PASSWORD_HASH_COST = 12;
+    const PASSWORD_HASH_COST = 12;
 
     static function formatEmail(string $email) {
         $matches = null;

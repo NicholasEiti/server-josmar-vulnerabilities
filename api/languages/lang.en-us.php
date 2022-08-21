@@ -59,6 +59,9 @@ $api_error_msgs = [
 
     'api_login_not_found' => 'Unable to find account.',
     'api_wrong_password' => 'Incorrect password, try again.',
+
+    'api_invalid_token' => 'Invalid Token.',
+    'api_do_not_have_access' => 'You don\'t have access to this page.',
 ];
 
 $api_success_msgs = [

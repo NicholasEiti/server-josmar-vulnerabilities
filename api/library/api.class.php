@@ -53,4 +53,21 @@ class API {
 
         static::_send(array_merge($data, $success_info));
     }
+
+    static function verifyToken(int $minLevel = null, string $method="_GET"): JosmarWT
+    {
+        $token = Params::getParam('token', method: $method);
+
+        $token = str_replace(['\\\\', '\/', ' '], ['\\', '/', '+'], $token);
+
+        $jwtInstance = JosmarWT::fromToken($token);        
+
+        if ($jwtInstance === false or !$jwtInstance->verify())
+            API::send_error('api_invalid_token');
+
+        if ($minLevel !== null and $jwtInstance->payload['level'] <= $minLevel)
+            API::send_error('api_do_not_have_access');
+
+        return $jwtInstance;
+    }
 }

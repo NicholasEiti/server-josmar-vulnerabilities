@@ -7,7 +7,13 @@ require_once "../library/library.php";
 
 Params::requestMethodMustBe('POST');
 
-$user_id        = Params::getIntParam('id', false, '_POST');
+$jwtInstance = API::verifyToken(method: '_POST');
+
+$user_id = Params::getIntParam('id', false, '_POST');
+
+if ($jwtInstance->payload['id'] != $user_id and $jwtInstance->payload['level'] <= ADMIN_MIN_LEVEL)
+    API::send_error('api_do_not_have_access');
+
 $user_name      = Params::getParam('name', 5, 20, true, '_POST');
 $user_password  = Params::getParam('password', 5, 20, true, '_POST');
 $user_email     = Params::getRegexParam('email', EMAIL_PATTERN, true, '_POST');

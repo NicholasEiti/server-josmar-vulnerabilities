@@ -7,6 +7,8 @@ require_once "../library/library.php";
 
 Params::requestMethodMustBe('POST');
 
+API::verifyToken(ADMIN_MIN_LEVEL, method: '_POST');
+
 $drawer_id = Params::getIntParam('id', method: "_POST");
 
 $drawer = DrawerDB::searchById($drawer_id);

@@ -7,6 +7,8 @@ require_once "../library/library.php";
 
 Params::requestMethodMustBe('GET');
 
+API::verifyToken(ADMIN_MIN_LEVEL);
+
 $drawer_name = Params::getParam('name', min_length: 5, max_length: 50);
 
 if (DrawerDB::count('WHERE name = ?', [$drawer_name]) !== 0)

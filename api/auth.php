@@ -5,12 +5,9 @@
 
 require_once "./library/library.php";
 
-require_once __ROOT__ . "/library/josmarWT.class.php";
-
-// $jwtInstance = JosmarWT::fromToken($token);
-// $jwtInstance->verify()
-
 Params::requestMethodMustBe('GET');
+
+API::verifyToken(ADMIN_MIN_LEVEL);
 
 $user_login      = Params::getParam('login');
 $user_password  = Params::getParam('password');

@@ -7,6 +7,8 @@ require_once "../library/library.php";
 
 Params::requestMethodMustBe('POST');
 
+API::verifyToken(ADMIN_MIN_LEVEL, method: '_POST');
+
 $key_id = Params::getIntParam('id', method: "_POST");
 
 $key = KeyDB::searchById($key_id);

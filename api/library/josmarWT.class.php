@@ -15,7 +15,6 @@ class JosmarWT {
     public ?array $header = null;
     public ?string $expire_after = null;
     public ?string $signature = null;
-    public ?int $session_id = null;
 
     static function fromToken($token): JosmarWT|false
     {
@@ -47,7 +46,6 @@ class JosmarWT {
     {
         $this->payload = $payload;
         $this->expire_after = $expire_after;
-        $this->session_id = 10;
         $this->header = static::$default_header;
     }
 

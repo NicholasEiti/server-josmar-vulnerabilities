@@ -7,6 +7,8 @@ require_once "../library/library.php";
 
 Params::requestMethodMustBe('GET');
 
+API::verifyToken(ADMIN_MIN_LEVEL);
+
 $list = UserDB::search('ORDER BY id');
 
 if ($list === False)

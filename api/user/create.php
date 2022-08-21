@@ -7,6 +7,8 @@ require_once "../library/library.php";
 
 Params::requestMethodMustBe('GET');
 
+API::verifyToken(ADMIN_MIN_LEVEL);
+
 $user_name      = Params::getParam('name', min_length: 5, max_length: 20);
 $user_password  = Params::getParam('password', min_length: 5, max_length: 20);
 $user_email     = Params::getRegexParam('email', EMAIL_PATTERN);

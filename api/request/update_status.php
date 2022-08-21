@@ -7,12 +7,17 @@ require_once "../library/library.php";
 
 Params::requestMethodMustBe('POST');
 
+$jwtInstance = API::verifyToken(method: '_POST');
+
 $request_id        = Params::getIntParam('id', method: '_POST');
 $request_status    = Params::getEnumParam('status', $ENUM_REQUEST_STATUS, method: '_POST');
 
 $params = [];
 
 $request = RequestDB::searchById($request_id);
+
+if ($jwtInstance->payload['id'] != $request['user'] and $jwtInstance->payload['level'] <= ADMIN_MIN_LEVEL)
+    API::send_error('api_do_not_have_access');
 
 if ($request === false)
     API::send_error('request_not_found');

@@ -7,6 +7,8 @@ require_once "../library/library.php";
 
 Params::requestMethodMustBe('GET');
 
+API::verifyToken(ADMIN_MIN_LEVEL);
+
 $request_user = Params::getListOfIntsParam('user', true);
 $request_key = Params::getListOfIntsParam('key', true);
 $request_status = Params::getListOfIntsParam('status', true);
