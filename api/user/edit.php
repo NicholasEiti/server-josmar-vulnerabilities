@@ -31,11 +31,11 @@ if ($user_email !== null and $user['email'] !== $user_email) {
     if (UserDB::count('WHERE email = ?', [$user_email]) !== 0)
         API::send_error('user_email_in_use');
 
-    $params['email'] = $user_email;
+    $params['email'] = UserDB::formatEmail($user_email);
 }
 
 if ($user_password !== null)
-    $params['password'] = $user_password;
+    $params['password'] = UserDB::formatPassword($user_password);
 
 if ($user_level !== null)
     $params['level'] = $user_level;

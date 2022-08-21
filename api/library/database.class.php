@@ -133,6 +133,22 @@ abstract class ColumnDB {
 
 class DrawerDB  extends ColumnDB { static public $tablename = 'drawers';    }
 class KeyDB     extends ColumnDB { static public $tablename = 'keys';       }
-class UserDB    extends ColumnDB { static public $tablename = 'users';      }
+class UserDB    extends ColumnDB {
+    static public $tablename = 'users';
+
+    static function formatEmail(string $email) {
+        $matches = null;
+        
+        preg_match_all("/^(?P<a>.*)(?P<o>@.*$)/m", $email, $matches, PREG_PATTERN_ORDER);
+        
+        return str_replace('.', '', $matches['a'][0]) . $matches['o'][0];
+    }
+
+    static function formatPassword($password) {
+        return password_hash($password, PASSWORD_DEFAULT, [
+            'cost' => 12
+        ]);
+    }
+}
 class RequestDB extends ColumnDB { static public $tablename = 'requests';   }
 class SessionDB extends ColumnDB { static public $tablename = 'sessions';   }
