@@ -33,7 +33,10 @@ class API {
             'status'    => self::STATUS_ERROR
         ];
 
-        if ($params !== null) $data['code_msg'] = $data['code_msg'](...$params);
+        if ($params !== null) {
+            $data['code_msg'] = $data['code_msg'](...$params);
+            $data['code_params'] = $params;
+        }
 
         static::_send(array_merge($data, $error_info));
     }
