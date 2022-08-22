@@ -134,6 +134,6 @@ class Params
             !in_array($_SERVER['REQUEST_METHOD'], $methods) :
             $_SERVER['REQUEST_METHOD'] !== $methods
         )
-            API::send_error("unexpected_request_method");
+            API::send_error("param_wrong_request_method");
     }
 }

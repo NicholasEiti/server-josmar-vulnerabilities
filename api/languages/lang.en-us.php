@@ -6,13 +6,13 @@
 $api_error_msgs = [
     'database_connection_error' => 'Database connection error.',
     'unexpected_server_error' => 'Unexpected server error',
-    'unexpected_request_method' => 'Unexpected request method.',
-
+    
     'error_404' => 'Page not found.',
     'error_403' => 'Forbidden page.',
     
     'lang_unexpected' => 'Unexpected language.',
-
+    
+    'param_wrong_request_method' => 'Unexpected request method.',
     'param_not_found' => fn($param_name) => "Expected \"$param_name\" param.",
     'param_filter_not_match' => fn($param_name) => "Unexpected input from \"$param_name\" param.",
     'param_enum_not_match' => fn($param_name) => "Unexpected input from \"$param_name\" param.",
