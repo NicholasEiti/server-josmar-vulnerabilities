@@ -1,0 +1,6 @@
+
+RewriteEngine On
+DirectoryIndex login.php
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
