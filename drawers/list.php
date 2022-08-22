@@ -1,12 +1,12 @@
 <?php
-/** Página principal - logado*/
 
-require_once "./library/library.php";
+require_once "../library/library.php";
 
 Access::mustBeLoggedIn();
 
-
-Fabric::generateHead("Página principal", styleFiles: [
+Fabric::generateHead("Drawe list", [
+    "/static/main-logged-in.js"
+], [
     "/static/main-logeed-in.css"
 ]);
 

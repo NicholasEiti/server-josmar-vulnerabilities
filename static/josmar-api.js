@@ -7,6 +7,10 @@ const MSG_ERRORS = {
     api_wrong_password: 'Senha incorreta, tente novamente.'
 };
 
+const API_URLS = {
+    auth: '/api/auth'
+};
+
 function requestAPI(method, url, data, callback) {
     let xmlHttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
 
@@ -24,4 +28,15 @@ function requestAPI(method, url, data, callback) {
         xmlHttp.open(method, url, true);
         xmlHttp.send(data);
     }
+}
+
+function logout() {
+    document.cookie = "api_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+    window.location.href = "/";
+}
+
+function login(token) {
+    document.cookie = "api_token=" + token + ";path=/";
+    window.location.href = "/home";
 }

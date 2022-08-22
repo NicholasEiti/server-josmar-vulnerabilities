@@ -141,10 +141,10 @@ class UserDB    extends ColumnDB {
 
     static function formatEmail(string $email) {
         $matches = null;
-        
+
         preg_match_all("/^(?P<a>.*)(?P<o>@.*$)/m", $email, $matches, PREG_PATTERN_ORDER);
         
-        return str_replace('.', '', $matches['a'][0]) . $matches['o'][0];
+        return strtolower(str_replace('.', '', $matches['a'][0]) . $matches['o'][0]);
     }
 
     static function formatPassword($password) {

@@ -1,0 +1,40 @@
+html, body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    margin: 200px auto 0;
+    width: 50%;
+    min-width: 500px;
+}
+
+.navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.navbar-item {
+    float: left;
+}
+
+.navbar-item-right {
+    float:right
+}
+
+.navbar-item-right a,
+.navbar-item a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar-item-right a:hover,
+.navbar-item a:hover {
+    background-color: #111111;
+}

@@ -2,5 +2,7 @@
 RewriteEngine On
 DirectoryIndex login.php
 
+RewriteRule ^drawers/$ /drawers/list.php [QSA]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
