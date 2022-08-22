@@ -7,13 +7,11 @@ require_once "./library/library.php";
 
 Params::requestMethodMustBe('GET');
 
-API::verifyToken(ADMIN_MIN_LEVEL);
-
 $user_login      = Params::getParam('login');
 $user_password  = Params::getParam('password');
 
 if (str_contains($user_login, '@'))
-    $user = UserDB::search('WHERE email = ? LIMIT 1', [ $user_login ]);
+    $user = UserDB::search('WHERE email = ? LIMIT 1', [ UserDB::formatEmail($user_login) ]);
 else
     $user = UserDB::search('WHERE name = ? LIMIT 1', [ $user_login ]);
 
