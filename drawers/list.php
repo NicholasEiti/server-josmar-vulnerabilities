@@ -2,14 +2,67 @@
 
 require_once "../library/library.php";
 
-Access::mustBeLoggedIn();
+$access = new Access;
 
-Fabric::generateHead("Drawe list", [
+$access->loggedPage();
+
+Fabric::generateHead("Listagem dos armários", [
     "/static/main-logged-in.js"
 ], [
-    "/static/main-logeed-in.css"
+    "/static/main-logged-in.css"
 ]);
 
-Fabric::generateLoggedInStart(10);
+Fabric::generateLoggedInStart($access);
+
+?>
+<div class='list-block' id='list-block'></div>
+<script>
+"use script";
+
+const listBlock = document.getElementById('list-block');
+const token = getToken();
+
+document.addEventListener('DOMContentLoaded', function () {
+    requestAPI('drawer_list', { token }, function(response) {
+        if (response.list == false) {
+            drawNoResult();
+        } else {
+            for (const drawer of response.list) {
+                drawDrawerItem(drawer);
+            }
+        }
+    });
+});
+
+function drawNoResult() {
+    let item = document.createElement('div');
+
+    item.classList.add('item-list');
+
+    let itemText = document.createElement('p');
+    itemText.classList.add('item-list-text');
+    itemText.textContent = `Não há armários cadastrados`;
+    item.appendChild(itemText);
+
+    listBlock.appendChild(item);
+}
+
+function drawDrawerItem(drawer) {
+    let item = document.createElement('div');
+
+    item.classList.add('item-list');
+
+    let itemText = document.createElement('p');
+    itemText.classList.add('item-list-text');
+    itemText.textContent = drawer.name;
+    item.appendChild(itemText);
+
+    listBlock.appendChild(item);
+}
+</script>
+<?php
+
+// quant = 10
+// page = 1
 
 Fabric::generateFooter();

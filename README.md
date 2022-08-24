@@ -23,6 +23,8 @@ Esse repositório é uma API par controlar o armário "e-josmar"
 - `/api/request/create` - Criar pedido de chave
 - `/api/request/update_status` - Atualizar situação do pedido de chave
 - `/api/user/edit` - Editar o próprio usuário
+- `/api/drawer/list` - Listagem do armário
+
 ### Rotas dos "admin"
 #### Rotas dos usuários
 - `/api/user/create` - Criar usuário
@@ -42,5 +44,4 @@ Esse repositório é uma API par controlar o armário "e-josmar"
 #### Rotas dos armários
 - `/api/drawer/create` - Criar armário
 - `/api/drawer/edit` - Alterar armário
-- `/api/drawer/list` - Listagem do armário
 - `/api/drawer/remove` - Remover armário
