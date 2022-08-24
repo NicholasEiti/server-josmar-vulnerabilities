@@ -38,3 +38,29 @@ html, body {
 .navbar-item a:hover {
     background-color: #111111;
 }
+
+.item-list {
+    border: 1px solid #b1b1b1;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.list-block {
+    gap: 10px;
+    display: grid;
+}
+
+.item-list-text {
+    margin: 0;
+}
+
+.msg-error {
+    display: none;
+    padding: 10px;
+    background: #f44336;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    color: #ffffff;
+    font-weight: bold;
+    border: 1px solid red;
+}

@@ -3,13 +3,14 @@
 
 require_once "./library/library.php";
 
-Access::mustBeLoggedIn();
+$access = new Access;
 
+$access->loggedPage();
 
 Fabric::generateHead("Página principal", styleFiles: [
-    "/static/main-logeed-in.css"
+    "/static/main-logged-in.css"
 ]);
 
-Fabric::generateLoggedInStart(10);
+Fabric::generateLoggedInStart($access);
 
 Fabric::generateFooter();
