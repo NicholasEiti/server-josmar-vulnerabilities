@@ -9,7 +9,8 @@ $access->loggedPage();
 Fabric::generateHead("Listagem dos armários", [
     "/static/main-logged-in.js"
 ], [
-    "/static/main-logged-in.css"
+    "/static/main-logged-in.css",
+    "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,-25"
 ]);
 
 Fabric::generateLoggedInStart($access);
@@ -57,7 +58,24 @@ function drawDrawerItem(drawer) {
     itemText.textContent = drawer.name;
     item.appendChild(itemText);
 
+    let editIcon = generateIcon('edit');
+    editIcon.classList.add('item-list-icon')
+    item.appendChild(editIcon);
+
+    let deleteIcon = generateIcon('delete');
+    deleteIcon.classList.add('item-list-icon')
+    item.appendChild(deleteIcon);
+
     listBlock.appendChild(item);
+}
+
+function generateIcon(icon_name) {
+    let icon = document.createElement('span');
+    icon.classList.add('material-symbols-rounded');
+
+    icon.textContent = icon_name;
+
+    return icon;
 }
 </script>
 <?php

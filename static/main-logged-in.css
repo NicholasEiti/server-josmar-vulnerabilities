@@ -54,6 +54,10 @@ html, body {
     margin: 0;
 }
 
+.item-list-icon {
+    float: right;
+}
+
 .msg-error {
     display: none;
     padding: 10px;
