@@ -5,11 +5,18 @@
 
 class Fabric
 {
+    static $defaultStyleFiles = [
+        "https://fonts.googleapis.com/css2?family=Roboto&display=swap",
+        "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,-25"
+    ];
+    static $defaultScriptFiles = [
+        "/static/josmar-api.js"
+    ];
+
     static function generateHead(string $title, array $scriptFiles = [], array $styleFiles = [], string $lang = DEFAULT_LANGUAGE)
     {
-        $styleFiles[] = "https://fonts.googleapis.com/css2?family=Roboto&display=swap";
-        $styleFiles[] = "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,-25";
-        $scriptFiles[] = "/static/josmar-api.js";
+        $styleFiles += static::$defaultStyleFiles;
+        $scriptFiles += static::$defaultScriptFiles;
 
         ?><!DOCTYPE html>
 <html lang="<?= $lang ?>">
