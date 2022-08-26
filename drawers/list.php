@@ -9,8 +9,7 @@ $access->loggedPage();
 Fabric::generateHead("Listagem dos armários", [
     "/static/main-logged-in.js"
 ], [
-    "/static/main-logged-in.css",
-    "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,-25"
+    "/static/main-logged-in.css"
 ]);
 
 Fabric::generateLoggedInStart($access);
@@ -58,13 +57,19 @@ function drawDrawerItem(drawer) {
     itemText.textContent = drawer.name;
     item.appendChild(itemText);
 
+    let itemIcons = document.createElement('div');
+
+    itemIcons.classList.add('item-icons')
+
     let editIcon = generateIcon('edit');
     editIcon.classList.add('item-list-icon')
-    item.appendChild(editIcon);
+    itemIcons.appendChild(editIcon);
 
     let deleteIcon = generateIcon('delete');
     deleteIcon.classList.add('item-list-icon')
-    item.appendChild(deleteIcon);
+    itemIcons.appendChild(deleteIcon);
+
+    item.appendChild(itemIcons);
 
     listBlock.appendChild(item);
 }
