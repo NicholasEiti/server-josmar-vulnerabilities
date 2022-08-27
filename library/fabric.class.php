@@ -15,8 +15,8 @@ class Fabric
 
     static function generateHead(string $title, array $scriptFiles = [], array $styleFiles = [], string $lang = DEFAULT_LANGUAGE)
     {
-        $styleFiles += static::$defaultStyleFiles;
-        $scriptFiles += static::$defaultScriptFiles;
+        $styleFiles = array_merge(static::$defaultStyleFiles, $styleFiles);
+        $scriptFiles = array_merge(static::$defaultScriptFiles, $scriptFiles);
 
         ?><!DOCTYPE html>
 <html lang="<?= $lang ?>">
