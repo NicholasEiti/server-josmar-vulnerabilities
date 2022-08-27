@@ -62,7 +62,7 @@ function doLogin(token) {
 }
 
 function getToken() {
-    const parts = `; ${document.cookie}`.split(`; api_token=`);
+    const parts = `; ${document.cookie}`.split('; api_token=');
 
     if (parts.length === 2)
         return parts.pop().split(';').shift();
@@ -80,4 +80,17 @@ function clearError() {
     var errorElement = document.getElementById('msg-error');
     errorElement.innerText = "";
     errorElement.style.display = null;
+}
+
+function generateIcon(icon_name, tokens, onclick) {
+    let icon = document.createElement('span');
+    icon.classList.add('material-symbols-rounded');
+
+    if (tokens != undefined) {
+        icon.classList.add(tokens)
+    }
+
+    icon.textContent = icon_name;
+
+    return icon;
 }
