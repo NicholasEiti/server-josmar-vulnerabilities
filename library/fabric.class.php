@@ -8,6 +8,7 @@ class Fabric
     static function generateHead(string $title, array $scriptFiles = [], array $styleFiles = [], string $lang = DEFAULT_LANGUAGE)
     {
         $styleFiles[] = "https://fonts.googleapis.com/css2?family=Roboto&display=swap";
+        $styleFiles[] = "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,-25";
         $scriptFiles[] = "/static/josmar-api.js";
 
         ?><!DOCTYPE html>
@@ -29,9 +30,9 @@ class Fabric
         ?><body>
 <ul class="navbar">
     <li class="navbar-item"><a href="/drawers/">Drawers</a></li>
-    <li class="navbar-item"><a href="#keys">Keys</a></li>
-    <li class="navbar-item"><a href="#requests">Requests</a></li>
-    <li class="navbar-item"><a href="#users">Users</a></li>
+    <li class="navbar-item"><a href="/keys/">Keys</a></li>
+    <li class="navbar-item"><a href="/requests/">Requests</a></li>
+    <li class="navbar-item"><a href="/users/">Users</a></li>
     <li class="navbar-item-right"><a href="#logout" onclick="return doLogout(this);">Logout</a></li>
 </ul>
 <div class="container">
