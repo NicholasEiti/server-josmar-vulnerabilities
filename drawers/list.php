@@ -9,8 +9,7 @@ $access->loggedPage();
 Fabric::generateHead("Listagem dos armários", [
     "/static/main-logged-in.js"
 ], [
-    "/static/main-logged-in.css",
-    "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,-25"
+    "/static/main-logged-in.css"
 ]);
 
 Fabric::generateLoggedInStart($access);
@@ -21,32 +20,10 @@ Fabric::generateLoggedInStart($access);
 "use script";
 
 const listBlock = document.getElementById('list-block');
-const token = getToken();
 
 document.addEventListener('DOMContentLoaded', function () {
-    requestAPI('drawer_list', { token }, function(response) {
-        if (response.list == false) {
-            drawNoResult();
-        } else {
-            for (const drawer of response.list) {
-                drawDrawerItem(drawer);
-            }
-        }
-    });
+    generateList(listBlock, 'drawer_list', drawDrawerItem)
 });
-
-function drawNoResult() {
-    let item = document.createElement('div');
-
-    item.classList.add('item-list');
-
-    let itemText = document.createElement('p');
-    itemText.classList.add('item-list-text');
-    itemText.textContent = `Não há armários cadastrados`;
-    item.appendChild(itemText);
-
-    listBlock.appendChild(item);
-}
 
 function drawDrawerItem(drawer) {
     let item = document.createElement('div');
@@ -58,24 +35,30 @@ function drawDrawerItem(drawer) {
     itemText.textContent = drawer.name;
     item.appendChild(itemText);
 
-    let editIcon = generateIcon('edit');
-    editIcon.classList.add('item-list-icon')
-    item.appendChild(editIcon);
+    let itemIcons = document.createElement('div')
 
-    let deleteIcon = generateIcon('delete');
-    deleteIcon.classList.add('item-list-icon')
-    item.appendChild(deleteIcon);
+    itemIcons.classList.add('item-list-icons')
+
+    let editIcon = generateIcon('edit', 'item-list-icon');
+
+    let editLink = document.createElement('a');
+    editLink.setAttribute("href", "/drawers/" + drawer.id + "/edit");
+    editLink.appendChild(editIcon)
+
+    itemIcons.appendChild(editLink);
+
+    let deleteIcon = generateIcon('delete', 'item-list-icon');
+
+    let deleteLink = document.createElement('a');
+    deleteLink.setAttribute("href", "/drawers/" + drawer.id + "/delete");
+
+    deleteLink.appendChild(deleteIcon);
+
+    itemIcons.appendChild(deleteLink);
+
+    item.appendChild(itemIcons);
 
     listBlock.appendChild(item);
-}
-
-function generateIcon(icon_name) {
-    let icon = document.createElement('span');
-    icon.classList.add('material-symbols-rounded');
-
-    icon.textContent = icon_name;
-
-    return icon;
 }
 </script>
 <?php

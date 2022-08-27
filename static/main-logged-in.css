@@ -43,6 +43,13 @@ html, body {
     border: 1px solid #b1b1b1;
     padding: 15px;
     border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.item-list-icons {
+    gap: 10px;
+    display: flex;
 }
 
 .list-block {
@@ -55,7 +62,7 @@ html, body {
 }
 
 .item-list-icon {
-    float: right;
+    color: black;
 }
 
 .msg-error {
