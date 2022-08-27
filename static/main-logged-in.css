@@ -27,11 +27,13 @@ html, body {
 
 .navbar-item-right a,
 .navbar-item a {
-    display: block;
+    display: flex;
     color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    align-items: center;
+    gap: 10px;
 }
 
 .navbar-item-right a:hover,
@@ -40,6 +42,8 @@ html, body {
 }
 
 .item-list {
+    display: flex;
+    justify-content: space-between;
     border: 1px solid #b1b1b1;
     padding: 15px;
     border-radius: 10px;
