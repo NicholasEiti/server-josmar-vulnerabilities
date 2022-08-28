@@ -15,6 +15,7 @@ const API_URLS_CONFIGS = {
 function requestAPI(url_tag, data, callback) {
     let xmlHttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
 
+    
     xmlHttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             try {
@@ -22,7 +23,7 @@ function requestAPI(url_tag, data, callback) {
             } catch (e) {
                 return showError('api_system_unexpected_error');
             }
-
+            
             if (response.status === ERROR_STATUS) {
                 return showError(response.code);
             } else if (response.status == SUCCESS_STATUS) {

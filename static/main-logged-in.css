@@ -14,7 +14,7 @@ html, body {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #333;
+    background-color: #333333;
 }
 
 .navbar-item {
@@ -28,7 +28,7 @@ html, body {
 .navbar-item-right a,
 .navbar-item a {
     display: flex;
-    color: white;
+    color: #ffffff;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -41,14 +41,24 @@ html, body {
     background-color: #111111;
 }
 
+.list-block {
+    gap: 10px;
+    display: grid;
+}
+
 .item-list {
     display: flex;
     justify-content: space-between;
     border: 1px solid #b1b1b1;
     padding: 15px;
     border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.item-list:hover {
+    transition: .1s;
+    transform: scale(1.01);
 }
 
 .item-list-icons {
@@ -56,17 +66,16 @@ html, body {
     display: flex;
 }
 
-.list-block {
-    gap: 10px;
-    display: grid;
-}
-
 .item-list-text {
     margin: 0;
 }
 
 .item-list-icon {
-    color: black;
+    color: #000000;
+}
+
+.item-list-icon:hover {
+    color: #3c3c3c;
 }
 
 .msg-error {
