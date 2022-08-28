@@ -110,6 +110,10 @@ function generateDrawerItem(drawer) {
 
     item.appendChild(itemIcons);
 
+    item.addEventListener('click', function () {
+        window.location.href = "/drawers/" + drawer.id;
+    })
+
     return item;
 }
 
