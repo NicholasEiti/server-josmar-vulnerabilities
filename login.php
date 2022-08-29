@@ -12,7 +12,6 @@ Fabric::generateHead("Login", styleFiles: [
 Fabric::generateLogoutStart();
 
 ?>
-<div id="msg-error" class="msg-error"></div>
 <form class="login-block" onsubmit="return tryLogin()" action="/home">
     <div class="input-brick">
         <label class='input-brick-label' for="login">Email ou Login:</label>
