@@ -2,9 +2,9 @@
 RewriteEngine On
 DirectoryIndex login.php
 
-RewriteRule ^drawers/$ /drawers/list.php [QSA]
-RewriteRule ^drawers/([0-9]+)/edit$ /drawers/edit.php?id=$1 [QSA]
-RewriteRule ^drawers/([0-9]+)/delete$ /drawers/delete.php?id=$1 [QSA]
+RewriteRule ^drawers/$                  /drawers/list.php [QSA]
+RewriteRule ^drawers/([0-9]+)/edit$     /drawers/edit.php?id=$1 [QSA]
+RewriteRule ^drawers/([0-9]+)/delete$   /drawers/delete.php?id=$1 [QSA]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^([^\.]+)$ $1.php [NC,L]
