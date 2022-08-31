@@ -4,20 +4,24 @@ const SUCCESS_STATUS = 0;
 const MSG_ERRORS = {
     api_system_unexpected_error: 'Erro interno do sistema, tente novamente mais tarde.',
     api_login_not_found: 'Não foi possível encontrar sua conta, tente novamente.',
-    api_wrong_password: 'Senha incorreta, tente novamente.'
+    api_wrong_password: 'Senha incorreta, tente novamente.',
+    api_do_not_have_access: 'Você não tem acesso a está página'
 };
 
 const API_URLS_CONFIGS = {
     auth: {url: '/api/auth', method: 'GET'},
-    drawer_list: {url: '/api/drawer/list', method: 'GET'}
+    drawer_list: {url: '/api/drawer/list', method: 'GET'},
+    key_list: {url: '/api/key/list', method: 'GET'},
+    request_list: {url: '/api/request/list', method: 'GET'}
 };
 
 function requestAPI(url_tag, data, callback) {
     let xmlHttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
 
-    
     xmlHttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
+            console.log(this.responseText);
+
             try {
                 response = JSON.parse(this.responseText);
             } catch (e) {

@@ -2,15 +2,21 @@ class ListBlockElement extends HTMLElement {
     LOADING_MSG = 'Carregando...'
 
     GENERATE_ITEM_FUNCS = {
-        drawer: generateDrawerItem
+        drawer: generateDrawerItem,
+        key: generateKeyItem,
+        request: generateRequestItem
     }
 
     URL_TAGS = {
-        drawer: 'drawer_list'
+        drawer: 'drawer_list',
+        key: 'key_list',
+        request: 'request_list'
     }
 
     NO_RESULT_MSG = {
-        drawer: 'Não há armários cadastrados'
+        drawer: 'Não há armários cadastrados',
+        key: 'Não há chaves cadastrados',
+        request: 'Não há pedidos cadastrados'
     }
 
     DEFAULT_QUANT = 10
@@ -60,11 +66,11 @@ class ListBlockElement extends HTMLElement {
     
         item.classList.add('item-list');
 
-        let NoResultMsg = NO_RESULT_MSG[tag];
-    
+        let noResultMsg = NO_RESULT_MSG[tag];
+
         let itemText = document.createElement('p');
         itemText.classList.add('item-list-text');
-        itemText.textContent = NoResultMsg
+        itemText.textContent = noResultMsg;
         item.appendChild(itemText);
     
         return item;
@@ -112,5 +118,61 @@ function generateDrawerItem(drawer) {
 
     return item;
 }
+
+
+function generateKeyItem(key) {
+    let item = document.createElement('div');
+    item.classList.add('item-list');
+
+    let itemText = document.createElement('p');
+    itemText.classList.add('item-list-text');
+    itemText.textContent = key.name;
+    item.appendChild(itemText);
+
+    let itemIcons = document.createElement('div');
+    itemIcons.classList.add('item-list-icons');
+
+    let editLink = document.createElement('a');
+    editLink.setAttribute("href", "/keys/" + key.id + "/edit");
+    editLink.appendChild(generateIcon('edit', 'item-list-icon'));
+    itemIcons.appendChild(editLink);
+
+    let deleteLink = document.createElement('a');
+    deleteLink.setAttribute("href", "/keys/" + key.id + "/delete");
+    deleteLink.appendChild(generateIcon('delete', 'item-list-icon'));
+    itemIcons.appendChild(deleteLink);
+
+    item.appendChild(itemIcons);
+
+    return item;
+}
+
+function generateRequestItem(request) {
+    let item = document.createElement('div');
+    item.classList.add('item-list');
+
+    let itemText = document.createElement('p');
+    itemText.classList.add('item-list-text');
+    itemText.textContent = `User id: ${request.user}, Key id: ${request.key}, Status: ${request.status}, Date expected start: ${request.date_expected_start}, Date expected end: ${request.date_expected_end} `;
+    item.appendChild(itemText);
+
+    let itemIcons = document.createElement('div')
+    itemIcons.classList.add('item-list-icons')
+
+    let editLink = document.createElement('a');
+    editLink.setAttribute("href", "/requests/" + request.id + "/edit");
+    editLink.appendChild(generateIcon('edit', 'item-list-icon'))
+    itemIcons.appendChild(editLink);
+
+    let deleteLink = document.createElement('a');
+    deleteLink.setAttribute("href", "/requests/" + request.id + "/delete");
+    deleteLink.appendChild(generateIcon('delete', 'item-list-icon'));
+    itemIcons.appendChild(deleteLink);
+
+    item.appendChild(itemIcons);
+
+    return item;
+}
+
 
 window.customElements.define('list-block', ListBlockElement)
