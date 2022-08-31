@@ -7,7 +7,7 @@ require_once "../library/library.php";
 
 Params::requestMethodMustBe('GET');
 
-API::verifyToken(ADMIN_MIN_LEVEL);
+API::verifyToken();
 
 $list = KeyDB::search('ORDER BY id');
 
