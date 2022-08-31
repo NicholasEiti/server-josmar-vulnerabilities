@@ -7,9 +7,18 @@ require_once "../library/library.php";
 
 Params::requestMethodMustBe('GET');
 
-API::verifyToken();
+$jwtInstance = API::verifyToken();
 
 $request_user = Params::getListOfIntsParam('user', true);
+
+if ($jwtInstance->payload['level'] <= ADMIN_MIN_LEVEL) {
+    if ($request_user != null and (count($request_user) != 1 || $jwtInstance->payload['id'] != $request_user[0]))
+        API::send_error('api_do_not_have_access');
+
+    $request_user = (int) $jwtInstance->payload['id'];
+}
+
+
 $request_key = Params::getListOfIntsParam('key', true);
 $request_status = Params::getListOfIntsParam('status', true);
 
