@@ -67,7 +67,12 @@ class Fabric
         </html><?php
     }
 
-    static function generateListBlock(string $tag, int $quant = null, int $page = null) {
+    static function generateListBlock(string $tag) {
+        $quant = isset($_GET['quant']) ? (int) $_GET['quant'] : null;
+        $quant = 0 < $quant ? $quant : null;
+
+        $page = null;
+
         ?><list-block tag="<?= $tag ?>"<?=$quant !== null ? " quant=\"$quant\"" : "" ?><?=$page !== null ? " page=\"$page\"" : "" ?>></list-block><?php
     }
 }
