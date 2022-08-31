@@ -10,13 +10,15 @@ html, body {
 }
 
 .login-block {
-    border: 2px solid #bdbdbd;
+    border: 1px solid #bdbdbd;
     border-radius: 10px;
     padding: 70px 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 30px;
+    width: 400px;
+    margin: auto;
 }
 
 .input-brick {
