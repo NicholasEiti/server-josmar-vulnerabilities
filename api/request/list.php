@@ -63,8 +63,14 @@ if ($request_date_start !== null and $request_date_end !== null) {
 }
 
 if (count($queries) != 0)
-    $list = RequestDB::search('WHERE ' . implode(' and ', $queries) . ' ORDER BY id', $params);
+    $list = RequestDB::search('WHERE ' . implode(' and ', $queries) . ' ORDER BY id', $params, [
+        'user' => [ 'name' => 'user_name' ],
+        'key' => [ 'name' => 'key_name' ]
+    ]);
 else
-    $list = RequestDB::search('ORDER BY id', $params);
+    $list = RequestDB::search('ORDER BY id', [], [
+        'user' => [ 'name' => 'user_name' ],
+        'key' => [ 'name' => 'key_name' ]
+    ]);
 
-API::send_success('request_list', [ 'list' => $list ]);
+API::send_success('request_list', [ 'list' => $list, 'count' => count($list) ]);
