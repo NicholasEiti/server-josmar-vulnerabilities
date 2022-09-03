@@ -41,6 +41,12 @@ html, body {
     background-color: #111111;
 }
 
+.block-title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
 .list-block {
     gap: 10px;
     display: grid;
@@ -67,7 +73,13 @@ html, body {
 }
 
 .item-list-text {
+    display: grid;
     margin: 0;
+    gap: 10px;
+}
+
+.item-list-text-title {
+    font-weight: bold;
 }
 
 .item-list-icon {
