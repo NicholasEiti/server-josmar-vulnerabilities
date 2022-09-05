@@ -41,6 +41,12 @@ html, body {
     background-color: #111111;
 }
 
+.navbar-item-right .material-symbols-rounded,
+.navbar-item .material-symbols-rounded {
+    font-size: 18px;
+}
+
+
 .block-title {
     font-size: 30px;
     font-weight: bold;
