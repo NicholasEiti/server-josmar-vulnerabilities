@@ -92,7 +92,8 @@ const API_URLS_CONFIGS = {
     auth: {url: '/api/auth', method: 'GET'},
     drawer_list: {url: '/api/drawer/list', method: 'GET'},
     key_list: {url: '/api/key/list', method: 'GET'},
-    request_list: {url: '/api/request/list', method: 'GET'}
+    request_list: {url: '/api/request/list', method: 'GET'},
+    user_list: {url: '/api/user/list', method: 'GET'}
 };
 
 const API_REQUEST_STATUS = {

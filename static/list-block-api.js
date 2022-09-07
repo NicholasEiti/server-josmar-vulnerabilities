@@ -4,25 +4,29 @@ class ListBlockElement extends HTMLElement {
     GENERATE_ITEM_FUNCS = {
         drawer: generateDrawerItem,
         key: generateKeyItem,
-        request: generateRequestItem
+        request: generateRequestItem,
+        user: generateUserItem
     }
 
     URL_TAGS = {
         drawer: 'drawer_list',
         key: 'key_list',
-        request: 'request_list'
+        request: 'request_list',
+        user: 'user_list'
     }
 
     NO_RESULT_MSG = {
         drawer: 'Não há armários cadastrados',
         key: 'Não há chaves cadastrados',
-        request: 'Não há pedidos cadastrados'
+        request: 'Não há pedidos cadastrados',
+        user:  'Não há usuários cadastrados'
     }
 
     getTitle = {
         drawer: (count) => `Foram encontrados ${count} armário` + (count != 1 ? 's' : ''),
         key: (count) => `Foram encontrados ${count} chave` + (count != 1 ? 's' : ''),
-        request: (count) => `Foram encontrados ${count} pedido` + (count != 1 ? 's' : '')
+        request: (count) => `Foram encontrados ${count} pedido` + (count != 1 ? 's' : ''),
+        user: (count) => `Foram encontrados ${count} usuários` + (count != 1 ? 's' : '')
     }
 
     DEFAULT_QUANT = 10
@@ -192,7 +196,7 @@ function generateRequestItem(request) {
     itemText3.textContent = `Situação: ${API_REQUEST_STATUS[request.status]}`;
 
     itemText.append(itemText1, itemText2, itemText3);
-    item.appendChild(itemText);
+    item.appendChild(itemText); 
 
     let itemIcons = document.createElement('div')
     itemIcons.classList.add('item-list-icons')
@@ -212,5 +216,33 @@ function generateRequestItem(request) {
     return item;
 }
 
+function generateUserItem(user) {
+    console.log(user);
+    let item = document.createElement('div');
+    item.classList.add('item-list');
+
+    let itemText = document.createElement('p');
+    itemText.classList.add('item-list-text');
+    itemText.textContent = user.name;
+
+    item.appendChild(itemText);
+
+    let itemIcons = document.createElement('div');
+    itemIcons.classList.add('item-list-icons');
+
+    let editLink = document.createElement('a');
+    editLink.setAttribute("href", "/users/" + user.id + "/edit");
+    editLink.appendChild(generateIcon('edit', 'item-list-icon'));
+    itemIcons.appendChild(editLink);
+
+    let deleteLink = document.createElement('a');
+    deleteLink.setAttribute("href", "/users/" + user.id + "/delete");
+    deleteLink.appendChild(generateIcon('delete', 'item-list-icon'));
+    itemIcons.appendChild(deleteLink);
+
+    item.appendChild(itemIcons);
+
+    return item;
+}
 
 window.customElements.define('list-block', ListBlockElement)
