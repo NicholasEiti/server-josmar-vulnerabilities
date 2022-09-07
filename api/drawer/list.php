@@ -11,4 +11,4 @@ API::verifyToken();
 
 $list = DrawerDB::search('ORDER BY id');
 
-API::send_success('drawer_list', [ 'list' => $list ]);
+API::send_success('drawer_list', [ 'list' => $list, 'count' => count($list) ]);
