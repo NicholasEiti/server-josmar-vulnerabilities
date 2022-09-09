@@ -76,4 +76,11 @@ class Fabric
 
         ?><list-block tag="<?= $tag ?>"<?=$quant !== null ? " quant=\"$quant\"" : "" ?><?=$page !== null ? " page=\"$page\"" : "" ?>></list-block><?php
     }
+
+    static function generateShowBlock(string $tag) {
+        $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
+        $id = 0 < $id ? $id : null;
+
+        ?><show-block tag="<?= $tag ?>" id="<?= $id ?>"></show-block><?php
+    }
 }

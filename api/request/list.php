@@ -7,18 +7,13 @@ require_once "../library/library.php";
 
 Params::requestMethodMustBe('GET');
 
-$jwtInstance = API::verifyToken();
+API::verifyToken();
 
 $request_user = Params::getListOfIntsParam('user', true);
 
-if ($jwtInstance->payload['level'] <= ADMIN_MIN_LEVEL) {
-    if ($request_user !== null)
-        if ((count($request_user) != 1 || $jwtInstance->payload['id'] != $request_user[0]))
-            API::send_error('api_do_not_have_access');
-
-    $request_user = [(int) $jwtInstance->payload['id']];
-}
-
+if ($request_user !== null)
+    if ((count($request_user) != 1 || $jwtInstance->payload['id'] != $request_user[0]))
+        API::send_error('api_do_not_have_access');
 
 $request_key = Params::getListOfIntsParam('key', true);
 $request_status = Params::getListOfIntsParam('status', true);
@@ -58,6 +53,7 @@ if ($request_date_end !== null) {
 
 if ($request_date_start !== null and $request_date_end !== null) {
     $queries[] = '? < `date_expected_start` and `date_expected_end` < ?';
+
     $params[] = $request_date_start->format('Y-m-d H:i:s');
     $params[] = $request_date_end->format('Y-m-d H:i:s');
 }

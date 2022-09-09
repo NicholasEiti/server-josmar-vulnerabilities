@@ -5,9 +5,10 @@ ErrorDocument 403 /error/error403.php
 
 DirectoryIndex login.php
 
-RewriteRule ^drawers/$                  /drawers/list.php [QSA]
-RewriteRule ^drawers/([0-9]+)/edit$     /drawers/edit.php?id=$1 [QSA]
-RewriteRule ^drawers/([0-9]+)/delete$   /drawers/delete.php?id=$1 [QSA]
+RewriteRule ^drawers/$                  /drawers/list.php           [QSA]
+RewriteRule ^drawers/([0-9]+)$          /drawers/get.php?id=$1      [QSA]
+RewriteRule ^drawers/([0-9]+)/edit$     /drawers/edit.php?id=$1     [QSA]
+RewriteRule ^drawers/([0-9]+)/delete$   /drawers/delete.php?id=$1   [QSA]
 
 RewriteRule ^keys/$         /keys/list.php [QSA]
 
