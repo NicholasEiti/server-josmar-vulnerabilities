@@ -7,8 +7,8 @@ require_once "../library/library.php";
 
 Params::requestMethodMustBe('GET');
 
-API::verifyToken(ADMIN_MIN_LEVEL);
+API::verifyToken();
 
 $list = DrawerDB::search('ORDER BY id');
 
-API::send_success('drawer_list', [ 'list' => $list ]);
+API::send_success('drawer_list', [ 'list' => $list, 'count' => count($list) ]);

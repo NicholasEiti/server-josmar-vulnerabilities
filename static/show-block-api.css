@@ -1,0 +1,10 @@
+.block-title-icons a {
+    color: #111111;
+}
+
+.block-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+

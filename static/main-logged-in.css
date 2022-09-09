@@ -1,0 +1,110 @@
+html, body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    margin: 200px auto 0;
+    width: 50%;
+    min-width: 500px;
+}
+
+.navbar {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333333;
+}
+
+.navbar-item {
+    float: left;
+}
+
+.navbar-item-right {
+    float:right
+}
+
+.navbar-item-right a,
+.navbar-item a {
+    display: flex;
+    color: #ffffff;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    align-items: center;
+    gap: 10px;
+}
+
+.navbar-item-right a:hover,
+.navbar-item a:hover {
+    background-color: #111111;
+}
+
+.navbar-item-right .material-symbols-rounded,
+.navbar-item .material-symbols-rounded {
+    font-size: 18px;
+}
+
+
+.block-title {
+    display: flex;
+    justify-content: space-between;
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.list-block {
+    gap: 10px;
+    display: grid;
+}
+
+.item-list {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #b1b1b1;
+    padding: 15px;
+    border-radius: 10px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.item-list:hover {
+    transition: .1s;
+    transform: scale(1.01);
+}
+
+.item-list-icons {
+    gap: 10px;
+    display: flex;
+}
+
+.item-list-text {
+    display: grid;
+    margin: 0;
+    gap: 10px;
+}
+
+.item-list-text-title {
+    font-weight: bold;
+}
+
+.item-list-icon {
+    color: #000000;
+}
+
+.item-list-icon:hover {
+    color: #3c3c3c;
+}
+
+.msg-error {
+    display: none;
+    padding: 10px;
+    background: #f44336;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    color: #ffffff;
+    font-weight: bold;
+    border: 1px solid red;
+}

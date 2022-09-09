@@ -69,6 +69,7 @@ $api_success_msgs = [
     'drawer_edited' => 'Drawer edited.',
     'drawer_removed' => 'Drawer removed.',
     'drawer_list' => 'Success to generate list.',
+    'drawer_got' => 'Success to get drawer.',
 
     'key_created' => 'Key created.',
     'key_list' => 'Success to generate list.',

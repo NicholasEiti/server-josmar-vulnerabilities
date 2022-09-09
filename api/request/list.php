@@ -7,9 +7,14 @@ require_once "../library/library.php";
 
 Params::requestMethodMustBe('GET');
 
-API::verifyToken(ADMIN_MIN_LEVEL);
+API::verifyToken();
 
 $request_user = Params::getListOfIntsParam('user', true);
+
+if ($request_user !== null)
+    if ((count($request_user) != 1 || $jwtInstance->payload['id'] != $request_user[0]))
+        API::send_error('api_do_not_have_access');
+
 $request_key = Params::getListOfIntsParam('key', true);
 $request_status = Params::getListOfIntsParam('status', true);
 
@@ -48,13 +53,20 @@ if ($request_date_end !== null) {
 
 if ($request_date_start !== null and $request_date_end !== null) {
     $queries[] = '? < `date_expected_start` and `date_expected_end` < ?';
+
     $params[] = $request_date_start->format('Y-m-d H:i:s');
     $params[] = $request_date_end->format('Y-m-d H:i:s');
 }
 
 if (count($queries) != 0)
-    $list = RequestDB::search('WHERE ' . implode(' and ', $queries) . ' ORDER BY id', $params);
+    $list = RequestDB::search('WHERE ' . implode(' and ', $queries) . ' ORDER BY id', $params, [
+        'user' => [ 'name' => 'user_name' ],
+        'key' => [ 'name' => 'key_name' ]
+    ]);
 else
-    $list = RequestDB::search('ORDER BY id', $params);
+    $list = RequestDB::search('ORDER BY id', [], [
+        'user' => [ 'name' => 'user_name' ],
+        'key' => [ 'name' => 'key_name' ]
+    ]);
 
-API::send_success('request_list', [ 'list' => $list ]);
+API::send_success('request_list', [ 'list' => $list, 'count' => count($list) ]);
