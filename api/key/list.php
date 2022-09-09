@@ -11,4 +11,4 @@ API::verifyToken();
 
 $list = KeyDB::search('ORDER BY id');
 
-API::send_success('key_list', [ 'list' => $list, 'count' => count($list) ]);
+API::send_success('key_list', [ 'list' => $list, 'count' => count($list), ]);

@@ -26,7 +26,14 @@ class ListBlockElement extends HTMLElement {
         drawer: (count) => `Foram encontrados ${count} armário` + (count != 1 ? 's' : ''),
         key: (count) => `Foram encontrados ${count} chave` + (count != 1 ? 's' : ''),
         request: (count) => `Foram encontrados ${count} pedido` + (count != 1 ? 's' : ''),
-        user: (count) => `Foram encontrados ${count} usuários` + (count != 1 ? 's' : '')
+        user: (count) => `Foram encontrados ${count} usuário` + (count != 1 ? 's' : '')
+    }
+
+    URL_PARAMS = {
+        drawer: [],
+        key: ['key_drawer'],
+        request: [],
+        user: [],
     }
 
     TITLE_ICONS = {
@@ -65,11 +72,19 @@ class ListBlockElement extends HTMLElement {
 
         var generateItem = this.GENERATE_ITEM_FUNCS[tag];
         var urlTag = this.URL_TAGS[tag];
+        let url_params = this.URL_PARAMS[tag];
+
+        let params = {};
+
+        url_params.forEach(param => {
+            params[param] = this.getAttribute(param)
+        });
 
         requestAPI(urlTag, {
             token,
             page: this.page,
-            quant: this.quant
+            quant: this.quant,
+            ...params
         }, function(response) {
             listElement.innerHTML = '';
 
@@ -178,6 +193,10 @@ function generateDrawerItem(drawer) {
     itemIcons.appendChild(deleteLink);
 
     item.appendChild(itemIcons);
+
+    item.addEventListener('click', function () {
+        window.location.href = "/drawers/" + drawer.id
+    });
 
     return item;
 }

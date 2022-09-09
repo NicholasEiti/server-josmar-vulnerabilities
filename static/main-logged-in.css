@@ -108,13 +108,3 @@ html, body {
     font-weight: bold;
     border: 1px solid red;
 }
-
-.show-block {
-    display: flex;
-    border: 1px solid #b1b1b1;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: #dbdbdb 3px 4px 3px 0px;
-    justify-content: space-between;
-    align-items: center;
-}
