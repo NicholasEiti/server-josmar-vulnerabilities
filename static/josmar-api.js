@@ -2,6 +2,7 @@ const ERROR_STATUS = 1;
 const SUCCESS_STATUS = 0;
 
 const MSG_ERRORS = {
+    without_error: 'Erro interno do sistema, tente novamente mais tarde.',
     api_system_unexpected_error: 'Erro interno do sistema, tente novamente mais tarde.',
     database_connection_error: 'Erro interno do sistema, tente novamente mais tarde.',
     unexpected_server_error: 'Erro interno do sistema, tente novamente mais tarde.',
@@ -111,6 +112,7 @@ function requestAPI(url_tag, data, callback) {
 
     xmlHttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
+            console.log(this.responseText)
             try {
                 response = JSON.parse(this.responseText);
             } catch (e) {
