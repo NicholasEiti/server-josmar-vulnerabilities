@@ -22,12 +22,31 @@ class ListBlockElement extends HTMLElement {
         user:  'Não há usuários cadastrados'
     }
 
-    getTitle = {
+    GET_TITLE_FN = {
         drawer: (count) => `Foram encontrados ${count} armário` + (count != 1 ? 's' : ''),
         key: (count) => `Foram encontrados ${count} chave` + (count != 1 ? 's' : ''),
         request: (count) => `Foram encontrados ${count} pedido` + (count != 1 ? 's' : ''),
         user: (count) => `Foram encontrados ${count} usuários` + (count != 1 ? 's' : '')
     }
+
+    TITLE_ICONS = {
+        drawer: [{
+            link: "/drawers/add",
+            icon: "add_box"
+        }],
+        key: [{
+            link: "/keys/add",
+            icon: "add"
+        }],
+        request: [{
+            link: "/requests/add",
+            icon: "bookmark_add"
+        }],
+        user: [{
+            link: "/users/add",
+            icon: "person_add_alt"
+        }]
+    };
 
     DEFAULT_QUANT = 10
     DEFAULT_PAGE = 1
@@ -46,7 +65,6 @@ class ListBlockElement extends HTMLElement {
 
         var generateItem = this.GENERATE_ITEM_FUNCS[tag];
         var urlTag = this.URL_TAGS[tag];
-        let getTitle = this.getTitle[tag]
 
         requestAPI(urlTag, {
             token,
@@ -55,7 +73,7 @@ class ListBlockElement extends HTMLElement {
         }, function(response) {
             listElement.innerHTML = '';
 
-            let titleElement = this.generateTitle(getTitle, response.count);
+            let titleElement = this.generateTitle(tag, response.count);
             containerElement.appendChild(titleElement);
 
             if (response.list == false) {
@@ -95,11 +113,28 @@ class ListBlockElement extends HTMLElement {
         return item;
     }
 
-    generateTitle(getTitle, count) {
+    generateTitle(tag, count) {
         let titleElement = document.createElement('div');
         titleElement.classList.add('block-title');
 
-        titleElement.textContent = getTitle(count);
+        let getTitle = this.GET_TITLE_FN[tag]
+
+        let titleElementText = document.createElement('span');
+        titleElementText.textContent = getTitle(count);
+        titleElement.appendChild(titleElementText);
+
+        let titleElementIcons = document.createElement('div');
+
+        let iconsInfos = this.TITLE_ICONS[tag];
+
+        iconsInfos.forEach((iconsInfo) => {
+            let iconLink = document.createElement('a');
+            iconLink.setAttribute("href", iconsInfo.link);
+            iconLink.appendChild(generateIcon(iconsInfo.icon, 'item-list-icon'));
+            titleElementIcons.appendChild(iconLink);
+        })
+
+        titleElement.appendChild(titleElementIcons);
 
         return titleElement;
     }
