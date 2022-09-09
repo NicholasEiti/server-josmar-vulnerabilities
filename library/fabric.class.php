@@ -76,4 +76,19 @@ class Fabric
 
         ?><list-block tag="<?= $tag ?>"<?=$quant !== null ? " quant=\"$quant\"" : "" ?><?=$page !== null ? " page=\"$page\"" : "" ?>></list-block><?php
     }
+
+    static function generateInputs(array $inputs) {
+        foreach ($inputs as $input_name => $input_info) {
+            static::generateInput($input_name, $input_info);
+        }
+    }
+
+    static function generateInput(string $input_name, array $input_info) {
+        ?>
+        <div class='input-block-element'>
+            <label for='<?= $input_name ?>'><?= $input_info['label'] ?>:</label>
+            <input name='<?= $input_name ?>' id='<?= $input_name ?>' placeholder='<?= $input_info['label'] ?>' class='input-block-input'></input_name>
+        </div>
+        <?php
+    }
 }
