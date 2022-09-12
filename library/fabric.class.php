@@ -84,10 +84,22 @@ class Fabric
         ?><show-block tag="<?= $tag ?>" id="<?= $id ?>"></show-block><?php
     }
 
-    static function generateInputs(array $inputs) {
-        foreach ($inputs as $input_name => $input_info) {
-            static::generateInput($input_name, $input_info);
-        }
+    static function generateAddForm(string $title, array $inputs) {
+        ?>
+        <div class='add-form-block'>
+            <h1><?= $title ?></h1>
+            <div class='add-form-block-content'>
+            <?php
+            foreach ($inputs as $input_name => $input_info) {
+                static::generateInput($input_name, $input_info);
+            }
+            ?>
+            <div class='add-form-block-submit'>
+                <input type='submit' value='Adicionar'>
+            </div>
+            </div>
+        </div>
+        <?php
     }
 
     static function generateInput(string $input_name, array $input_info) {
