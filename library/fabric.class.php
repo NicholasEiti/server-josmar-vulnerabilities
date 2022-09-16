@@ -86,19 +86,20 @@ class Fabric
 
     static function generateAddForm(string $title, array $inputs) {
         ?>
-        <div class='add-form-block'>
+        <form-add-block class='add-form-block'>
             <h1><?= $title ?></h1>
             <div class='add-form-block-content'>
-            <?php
-            foreach ($inputs as $input_name => $input_info) {
-                static::generateInput($input_name, $input_info);
-            }
-            ?>
+                <?php
+                foreach ($inputs as $input_name => $input_info) {
+                    static::generateInput($input_name, $input_info);
+                }
+                ?>
+            </div>
             <div class='add-form-block-submit'>
-                <input type='submit' value='Adicionar'>
+                <input type='button' value='Cancelar' class='add-form-block-submit-cancel' onclick='javascript: window.location.href = "/drawers/";'>
+                <input type='submit' value='Adicionar' class='add-form-block-submit-add'>
             </div>
-            </div>
-        </div>
+        </form-add-block>
         <?php
     }
 
