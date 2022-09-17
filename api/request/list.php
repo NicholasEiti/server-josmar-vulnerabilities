@@ -7,7 +7,7 @@ require_once "../library/library.php";
 
 Params::requestMethodMustBe('GET');
 
-API::verifyToken();
+$jwtInstance = API::verifyToken();
 
 $request_user = Params::getListOfIntsParam('user', true);
 
