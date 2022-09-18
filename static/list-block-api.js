@@ -17,7 +17,7 @@ class ListBlockElement extends HTMLElement {
 
     NO_RESULT_MSG = {
         drawer: 'Não há armários cadastrados',
-        key: 'Não há chaves cadastrados',
+        key: 'Não há chaves cadastradas',
         request: 'Não há pedidos cadastrados',
         user:  'Não há usuários cadastrados'
     }
