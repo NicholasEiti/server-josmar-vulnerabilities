@@ -87,4 +87,11 @@ class Fabric
     static function generateAddForm(string $tag) {
         ?><form-add-block tag='<?= $tag ?>'></form-add-block><?php
     }
+
+    static function generateRemove(string $tag) {
+        $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
+        $id = 0 < $id ? $id : null;
+
+        ?><delete-block tag='<?= $tag ?>' id='<?= $id ?>'></delete-block><?php
+    }
 }
