@@ -5,24 +5,31 @@ form-add-block .add-form-block-submit {
 }
 
 form-add-block .add-form-block-submit-add {
-    font-size: 18px;
     border: 2px solid #58aaff;
     background: #e9f4ff;
-    border-radius: 6px;
-    padding: 3px 9px;
 }
 
-.add-form-block-submit-cancel {
-    font-size: 18px;
+form-add-block .add-form-block-submit-cancel {
     border: 2px solid #fff157;
     background: #fffdeb;
-    border-radius: 6px;
-    padding: 3px 9px;
-
 }
 
-.add-form-block-content {
+form-add-block .add-form-block-submit-cancel,
+form-add-block .add-form-block-submit-add {
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 6px;
+    padding: 3px 9px;
+}
+
+form-add-block .add-form-block-content {
     border: 1px solid #b1b1b1;
     padding: 25px;
     border-radius: 10px;
+}
+
+form-add-block .input-block-element {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }

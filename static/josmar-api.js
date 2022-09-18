@@ -27,7 +27,7 @@ const MSG_ERRORS = {
     // param_wrong_format:  (param_name, format) => `${param_name} does not follow expected date format, format: '${format}'`,
 
     // drawer_not_found: 'Drawer not found.',
-    // drawer_name_in_use: 'Name is already in use.',
+    drawer_name_in_use: 'Este nome já esta em uso.',
     // drawer_already_has_this_name: 'Drawer already has this name.',
     // drawer_error_on_create: 'Something wrong on create drawer, try again.',
     // drawer_error_on_edit: 'Something wrong on edit drawer, try again.',
@@ -93,6 +93,7 @@ const API_URLS_CONFIGS = {
     auth: {url: '/api/auth', method: 'GET'},
     drawer_list: {url: '/api/drawer/list', method: 'GET'},
     drawer_get: {url: '/api/drawer/get', method: 'GET'},
+    drawer_add: {url: '/api/drawer/create', method: 'GET'},
     key_list: {url: '/api/key/list', method: 'GET'},
     request_list: {url: '/api/request/list', method: 'GET'},
     user_list: {url: '/api/user/list', method: 'GET'}
@@ -112,6 +113,7 @@ function requestAPI(url_tag, data, callback) {
 
     xmlHttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
+            console.error(this.responseText);
             try {
                 response = JSON.parse(this.responseText);
             } catch (e) {

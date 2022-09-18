@@ -25,8 +25,6 @@ class ListBlockElement extends HTMLElement {
     GET_TITLE_FN = {
         drawer: (count) => `Foram encontrados ${count} armário` + (count != 1 ? 's' : ''),
         key: (count, params) => {
-            console.log(params.drawer)
-
             let title = `Foram encontrados ${count} chave` + (count != 1 ? 's' : '')
 
             if (params.drawer != undefined) {
@@ -132,7 +130,7 @@ class ListBlockElement extends HTMLElement {
     
         item.classList.add('item-list');
 
-        let noResultMsg = NO_RESULT_MSG[tag];
+        let noResultMsg = this.NO_RESULT_MSG[tag];
 
         let itemText = document.createElement('p');
         itemText.classList.add('item-list-text');
