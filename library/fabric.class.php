@@ -84,31 +84,7 @@ class Fabric
         ?><show-block tag="<?= $tag ?>" id="<?= $id ?>"></show-block><?php
     }
 
-    static function generateAddForm(string $title, array $inputs) {
-        ?>
-        <form-add-block class='add-form-block'>
-            <h1><?= $title ?></h1>
-            <div class='add-form-block-content'>
-                <?php
-                foreach ($inputs as $input_name => $input_info) {
-                    static::generateInput($input_name, $input_info);
-                }
-                ?>
-            </div>
-            <div class='add-form-block-submit'>
-                <input type='button' value='Cancelar' class='add-form-block-submit-cancel' onclick='javascript: window.location.href = "/drawers/";'>
-                <input type='submit' value='Adicionar' class='add-form-block-submit-add'>
-            </div>
-        </form-add-block>
-        <?php
-    }
-
-    static function generateInput(string $input_name, array $input_info) {
-        ?>
-        <div class='input-block-element'>
-            <label for='<?= $input_name ?>'><?= $input_info['label'] ?>:</label>
-            <input name='<?= $input_name ?>' id='<?= $input_name ?>' placeholder='<?= $input_info['label'] ?>' class='input-block-input'></input_name>
-        </div>
-        <?php
+    static function generateAddForm(string $tag) {
+        ?><form-add-block tag='<?= $tag ?>'></form-add-block><?php
     }
 }

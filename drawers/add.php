@@ -14,10 +14,5 @@ Fabric::generateHead("Página principal", [
 ]);
 
 Fabric::generateLoggedInStart($access);
-Fabric::generateAddForm('Criar novo armário', ['name' => [
-    'label' => 'Nome do novo armário',
-    'type' => 'string',
-    'min_length' => 5,
-    'max_length' => 50
-]]);
+Fabric::generateAddForm('drawer');
 Fabric::generateFooter();
