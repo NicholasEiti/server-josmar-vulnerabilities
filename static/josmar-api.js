@@ -94,6 +94,7 @@ const API_URLS_CONFIGS = {
     drawer_list: {url: '/api/drawer/list', method: 'GET'},
     drawer_get: {url: '/api/drawer/get', method: 'GET'},
     drawer_add: {url: '/api/drawer/create', method: 'GET'},
+    drawer_remove: {url: '/api/drawer/remove', method: 'POST'},
     key_list: {url: '/api/key/list', method: 'GET'},
     request_list: {url: '/api/request/list', method: 'GET'},
     user_list: {url: '/api/user/list', method: 'GET'}
@@ -129,7 +130,6 @@ function requestAPI(url_tag, data, callback) {
         }
     }
 
-    
     let url_config = API_URLS_CONFIGS[url_tag];
 
     if (url_config == undefined) {
@@ -142,7 +142,8 @@ function requestAPI(url_tag, data, callback) {
     }
     else {
         xmlHttp.open(url_config.method, url_config.url, true);
-        xmlHttp.send(data);
+        xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlHttp.send(new URLSearchParams(data).toString());
     }
 }
 
@@ -165,10 +166,15 @@ function getToken() {
 }
 
 function showError(code_msg) {
-    code_msg = MSG_ERRORS[code_msg];
+    let msg = MSG_ERRORS[code_msg];
+
+    if (msg === undefined) {
+        msg = `Erro Interno - código de erro inesperado`
+        console.error(code_msg);
+    }
 
     var errorElement = document.getElementById('msg-error');
-    errorElement.innerText = code_msg;
+    errorElement.innerText = msg;
     errorElement.style.display = "block";
 }
 
@@ -178,7 +184,7 @@ function clearError() {
     errorElement.style.display = null;
 }
 
-function generateIcon(icon_name, tokens, onclick) {
+function generateIcon(icon_name, tokens) {
     let icon = document.createElement('span');
     icon.classList.add('material-symbols-rounded');
 
