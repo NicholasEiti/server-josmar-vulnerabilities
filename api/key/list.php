@@ -19,4 +19,6 @@ if ($key_drawer !== null) {
 } else
     $list = KeyDB::search('ORDER BY id');
 
-API::send_success('key_list', [ 'list' => $list, 'count' => count($list) ]);
+$count = $list=== false ? 0 : count($list);
+
+API::send_success('key_list', [ 'list' => $list, 'count' => $count ]);
