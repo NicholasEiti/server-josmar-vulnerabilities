@@ -283,7 +283,6 @@ function generateRequestItem(request) {
 }
 
 function generateUserItem(user) {
-    console.log(user);
     let item = document.createElement('div');
     item.classList.add('item-list');
 

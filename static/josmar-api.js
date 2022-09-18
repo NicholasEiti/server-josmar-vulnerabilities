@@ -113,7 +113,6 @@ function requestAPI(url_tag, data, callback) {
 
     xmlHttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
-            console.error(this.responseText);
             try {
                 response = JSON.parse(this.responseText);
             } catch (e) {
