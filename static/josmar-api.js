@@ -28,7 +28,7 @@ const MSG_ERRORS = {
 
     // drawer_not_found: 'Drawer not found.',
     drawer_name_in_use: 'Este nome já esta em uso.',
-    // drawer_already_has_this_name: 'Drawer already has this name.',
+    drawer_already_has_this_name: 'Nada foi alterado, tente novamente.',
     // drawer_error_on_create: 'Something wrong on create drawer, try again.',
     // drawer_error_on_edit: 'Something wrong on edit drawer, try again.',
     // drawer_error_on_remove_keys: 'Something wrong on remove keys, try again.',
@@ -94,6 +94,7 @@ const API_URLS_CONFIGS = {
     drawer_list: {url: '/api/drawer/list', method: 'GET'},
     drawer_get: {url: '/api/drawer/get', method: 'GET'},
     drawer_add: {url: '/api/drawer/create', method: 'GET'},
+    drawer_edit: {url: '/api/drawer/edit', method: 'POST'},
     drawer_remove: {url: '/api/drawer/remove', method: 'POST'},
     key_list: {url: '/api/key/list', method: 'GET'},
     request_list: {url: '/api/request/list', method: 'GET'},

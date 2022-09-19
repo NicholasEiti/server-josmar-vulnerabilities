@@ -78,9 +78,7 @@ class ShowBlockElement extends HTMLElement {
         this.appendChild(showElement);
     }
 
-    // attributeChangedCallback(name, oldValue, newValue) {}
-
-    static get observedAttributes() { return ['tag', 'quant', 'page']; }
+    static get observedAttributes() { return ['tag', 'id']; }
 }
 
 function drawShowDrawer(drawer) {   
