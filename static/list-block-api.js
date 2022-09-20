@@ -17,21 +17,29 @@ class ListBlockElement extends HTMLElement {
 
     NO_RESULT_MSG = {
         drawer: 'Não há armários cadastrados',
-        key: 'Não há chaves cadastrados',
+        key: 'Não há chaves cadastradas',
         request: 'Não há pedidos cadastrados',
         user:  'Não há usuários cadastrados'
     }
 
     GET_TITLE_FN = {
         drawer: (count) => `Foram encontrados ${count} armário` + (count != 1 ? 's' : ''),
-        key: (count) => `Foram encontrados ${count} chave` + (count != 1 ? 's' : ''),
+        key: (count, params) => {
+            let title = `Foram encontrados ${count} chave` + (count != 1 ? 's' : '')
+
+            if (params.drawer != undefined) {
+                title += ' para este armário'
+            }
+
+            return title
+        },
         request: (count) => `Foram encontrados ${count} pedido` + (count != 1 ? 's' : ''),
         user: (count) => `Foram encontrados ${count} usuário` + (count != 1 ? 's' : '')
     }
 
     URL_PARAMS = {
         drawer: [],
-        key: ['key_drawer'],
+        key: ['drawer'],
         request: [],
         user: [],
     }
@@ -77,7 +85,11 @@ class ListBlockElement extends HTMLElement {
         let params = {};
 
         url_params.forEach(param => {
-            params[param] = this.getAttribute(param)
+            let value = this.getAttribute(param)
+
+            if (value != null) {
+                params[param] = value
+            }
         });
 
         requestAPI(urlTag, {
@@ -88,7 +100,7 @@ class ListBlockElement extends HTMLElement {
         }, function(response) {
             listElement.innerHTML = '';
 
-            let titleElement = this.generateTitle(tag, response.count);
+            let titleElement = this.generateTitle(tag, response.count, params);
             containerElement.appendChild(titleElement);
 
             if (response.list == false) {
@@ -118,7 +130,7 @@ class ListBlockElement extends HTMLElement {
     
         item.classList.add('item-list');
 
-        let noResultMsg = NO_RESULT_MSG[tag];
+        let noResultMsg = this.NO_RESULT_MSG[tag];
 
         let itemText = document.createElement('p');
         itemText.classList.add('item-list-text');
@@ -128,14 +140,14 @@ class ListBlockElement extends HTMLElement {
         return item;
     }
 
-    generateTitle(tag, count) {
+    generateTitle(tag, count, params) {
         let titleElement = document.createElement('div');
         titleElement.classList.add('block-title');
 
         let getTitle = this.GET_TITLE_FN[tag]
 
         let titleElementText = document.createElement('span');
-        titleElementText.textContent = getTitle(count);
+        titleElementText.textContent = getTitle(count, params);
         titleElement.appendChild(titleElementText);
 
         let titleElementIcons = document.createElement('div');
@@ -271,7 +283,6 @@ function generateRequestItem(request) {
 }
 
 function generateUserItem(user) {
-    console.log(user);
     let item = document.createElement('div');
     item.classList.add('item-list');
 

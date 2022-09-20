@@ -84,18 +84,21 @@ class Fabric
         ?><show-block tag="<?= $tag ?>" id="<?= $id ?>"></show-block><?php
     }
 
-    static function generateInputs(array $inputs) {
-        foreach ($inputs as $input_name => $input_info) {
-            static::generateInput($input_name, $input_info);
-        }
+    static function generateAddForm(string $tag) {
+        ?><form-add-block tag='<?= $tag ?>'></form-add-block><?php
     }
 
-    static function generateInput(string $input_name, array $input_info) {
-        ?>
-        <div class='input-block-element'>
-            <label for='<?= $input_name ?>'><?= $input_info['label'] ?>:</label>
-            <input name='<?= $input_name ?>' id='<?= $input_name ?>' placeholder='<?= $input_info['label'] ?>' class='input-block-input'></input_name>
-        </div>
-        <?php
+    static function generateEditForm(string $tag) {
+        $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
+        $id = 0 < $id ? $id : null;
+
+        ?><form-edit-block tag='<?= $tag ?>' id='<?= $id ?>'></form-edit-block><?php
+    }
+
+    static function generateRemove(string $tag) {
+        $id = isset($_GET['id']) ? (int) $_GET['id'] : null;
+        $id = 0 < $id ? $id : null;
+
+        ?><delete-block tag='<?= $tag ?>' id='<?= $id ?>'></delete-block><?php
     }
 }

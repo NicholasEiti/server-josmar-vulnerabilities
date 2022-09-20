@@ -7,12 +7,12 @@ $access = new Access;
 $access->loggedPage();
 
 Fabric::generateHead("Página principal", [
-    "/static/add-form-api.js",
+    "/static/edit-form-api.js",
 ], [
     "/static/main-logged-in.css",
-    "/static/add-form-api.css"
+    "/static/edit-form-api.css"
 ]);
 
 Fabric::generateLoggedInStart($access);
-Fabric::generateAddForm('drawer');
+Fabric::generateEditForm('drawer');
 Fabric::generateFooter();

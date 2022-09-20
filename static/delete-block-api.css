@@ -1,0 +1,23 @@
+delete-block .delete-block-submit {
+    display: flex;
+    justify-content: space-around;
+    padding: 16px 0 0;
+}
+
+delete-block .delete-block-submit-delete {
+    border: 2px solid #ff5858;
+    background: #ffe9e9;
+}
+
+delete-block .delete-block-submit-cancel {
+    border: 2px solid #fff157;
+    background: #fffdeb;
+}
+
+delete-block .delete-block-submit-cancel,
+delete-block .delete-block-submit-delete {
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 6px;
+    padding: 3px 9px;
+}

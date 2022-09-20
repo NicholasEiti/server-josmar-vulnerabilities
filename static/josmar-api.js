@@ -2,6 +2,7 @@ const ERROR_STATUS = 1;
 const SUCCESS_STATUS = 0;
 
 const MSG_ERRORS = {
+    without_error: 'Erro interno do sistema, tente novamente mais tarde.',
     api_system_unexpected_error: 'Erro interno do sistema, tente novamente mais tarde.',
     database_connection_error: 'Erro interno do sistema, tente novamente mais tarde.',
     unexpected_server_error: 'Erro interno do sistema, tente novamente mais tarde.',
@@ -26,8 +27,8 @@ const MSG_ERRORS = {
     // param_wrong_format:  (param_name, format) => `${param_name} does not follow expected date format, format: '${format}'`,
 
     // drawer_not_found: 'Drawer not found.',
-    // drawer_name_in_use: 'Name is already in use.',
-    // drawer_already_has_this_name: 'Drawer already has this name.',
+    drawer_name_in_use: 'Este nome já esta em uso.',
+    drawer_already_has_this_name: 'Nada foi alterado, tente novamente.',
     // drawer_error_on_create: 'Something wrong on create drawer, try again.',
     // drawer_error_on_edit: 'Something wrong on edit drawer, try again.',
     // drawer_error_on_remove_keys: 'Something wrong on remove keys, try again.',
@@ -92,6 +93,9 @@ const API_URLS_CONFIGS = {
     auth: {url: '/api/auth', method: 'GET'},
     drawer_list: {url: '/api/drawer/list', method: 'GET'},
     drawer_get: {url: '/api/drawer/get', method: 'GET'},
+    drawer_add: {url: '/api/drawer/create', method: 'GET'},
+    drawer_edit: {url: '/api/drawer/edit', method: 'POST'},
+    drawer_remove: {url: '/api/drawer/remove', method: 'POST'},
     key_list: {url: '/api/key/list', method: 'GET'},
     request_list: {url: '/api/request/list', method: 'GET'},
     user_list: {url: '/api/user/list', method: 'GET'}
@@ -116,7 +120,7 @@ function requestAPI(url_tag, data, callback) {
             } catch (e) {
                 return showError('api_system_unexpected_error');
             }
-            
+
             if (response.status === ERROR_STATUS) {
                 return showError(response.code);
             } else if (response.status == SUCCESS_STATUS) {
@@ -127,7 +131,6 @@ function requestAPI(url_tag, data, callback) {
         }
     }
 
-    
     let url_config = API_URLS_CONFIGS[url_tag];
 
     if (url_config == undefined) {
@@ -140,7 +143,8 @@ function requestAPI(url_tag, data, callback) {
     }
     else {
         xmlHttp.open(url_config.method, url_config.url, true);
-        xmlHttp.send(data);
+        xmlHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xmlHttp.send(new URLSearchParams(data).toString());
     }
 }
 
@@ -163,10 +167,15 @@ function getToken() {
 }
 
 function showError(code_msg) {
-    code_msg = MSG_ERRORS[code_msg];
+    let msg = MSG_ERRORS[code_msg];
+
+    if (msg === undefined) {
+        msg = `Erro Interno - código de erro inesperado`
+        console.error(code_msg);
+    }
 
     var errorElement = document.getElementById('msg-error');
-    errorElement.innerText = code_msg;
+    errorElement.innerText = msg;
     errorElement.style.display = "block";
 }
 
@@ -176,7 +185,7 @@ function clearError() {
     errorElement.style.display = null;
 }
 
-function generateIcon(icon_name, tokens, onclick) {
+function generateIcon(icon_name, tokens) {
     let icon = document.createElement('span');
     icon.classList.add('material-symbols-rounded');
 

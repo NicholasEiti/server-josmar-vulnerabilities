@@ -78,17 +78,16 @@ class ShowBlockElement extends HTMLElement {
         this.appendChild(showElement);
     }
 
-    // attributeChangedCallback(name, oldValue, newValue) {}
-
-    static get observedAttributes() { return ['tag', 'quant', 'page']; }
+    static get observedAttributes() { return ['tag', 'id']; }
 }
 
 function drawShowDrawer(drawer) {   
     let showElement = document.createElement('div');
 
     let keyListElement = document.createElement('list-block')
+    keyListElement.classList.add('show-block-list')
     keyListElement.setAttribute('tag', 'key');
-    keyListElement.setAttribute('key_drawer', drawer.id);
+    keyListElement.setAttribute('drawer', drawer.id);
 
     showElement.append(keyListElement)
 

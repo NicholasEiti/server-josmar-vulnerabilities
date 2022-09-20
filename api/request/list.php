@@ -69,4 +69,6 @@ else
         'key' => [ 'name' => 'key_name' ]
     ]);
 
-API::send_success('request_list', [ 'list' => $list, 'count' => count($list) ]);
+$count = $list === false ? 0 : count($list);
+
+API::send_success('request_list', [ 'list' => $list, 'count' => $count ]);

@@ -17,4 +17,6 @@ else
     foreach ($list as &$row)
         unset($row['password']);
 
-API::send_success('user_list', [ 'list' => $list, 'count' => count($list) ]);
+$count = $list === false ? 0 : count($list);
+
+API::send_success('user_list', [ 'list' => $list, 'count' => $count ]);
