@@ -32,10 +32,10 @@ if ($request_date_expected_end <= new DateTime())
 
 
 if (RequestDB::count('WHERE `key` = :key_id and `status` not in (2, 3) and (
-    :date_start < `date_expected_start` and `date_expected_start` < :date_end           and :date_end < `date_expected_end` or
-    `date_expected_start` < :date_start and :date_start < :date_end                     and :date_end < `date_expected_end` or
-    :date_start < `date_expected_start` and `date_expected_start` < `date_expected_end` and `date_expected_end` < :date_end or
-    `date_expected_start` < :date_start and :date_start < `date_expected_end`           and `date_expected_end` < :date_end
+    :date_start <= `date_expected_start` and `date_expected_start` <= :date_end           and :date_end <= `date_expected_end` or
+    `date_expected_start` <= :date_start and :date_start <= :date_end                     and :date_end <= `date_expected_end` or
+    :date_start <= `date_expected_start` and `date_expected_start` <= `date_expected_end` and `date_expected_end` <= :date_end or
+    `date_expected_start` <= :date_start and :date_start <= `date_expected_end`           and `date_expected_end` <= :date_end
 )', [
     ':key_id'       => $request_key,
     ':date_start'       => $request_date_expected_start->format('Y-m-d H:i:s'),
