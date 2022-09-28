@@ -6,5 +6,8 @@ ErrorDocument 403 /error/error403.php
 DirectoryIndex login.php
 
 RewriteRule ^(\w+)/$                /$1/list.php        [QSA]
+RewriteRule ^(\w+)/add$             /$1/add.php?id=$2    [QSA]
 RewriteRule ^(\w+)/([0-9]+)$        /$1/get.php?id=$2   [QSA]
 RewriteRule ^(\w+)/([0-9]+)/(\w+)$  /$1/$3.php?id=$2    [QSA]
+
+RewriteRule ^home$  /home.php [QSA]
