@@ -82,6 +82,7 @@ $api_success_msgs = [
     'request_list' => 'Success to generate list.',
     'request_created' => 'Request created.',
     'request_updated_status' => 'Request edited.',
+    'request_got' => 'Success to get request.',
 
     'api_auth' => 'Success in authentication.'
 ];
