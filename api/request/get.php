@@ -11,7 +11,10 @@ API::verifyToken();
 
 $request_id = Params::getIntParam('id');
 
-$request = RequestDB::searchById($request_id);
+$request = RequestDB::searchById($request_id, [
+    'user' => [ 'name' => 'user_name' ],
+    'key' => [ 'name' => 'key_name' ]
+]);
 
 if ($request === false)
     API::send_error('request_not_found');

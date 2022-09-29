@@ -74,10 +74,25 @@ abstract class ColumnDB {
         return $rows;
     }
 
-    static function searchById($id) {
+    static function searchById($id, array $joins = null) {
         global $GLOBAL_PDO;
 
-        $index = $GLOBAL_PDO->prepare("SELECT * FROM `" . static::$tablename . "` WHERE id = :id");
+        $columns = "";
+        $join = "";
+
+        if ($joins !== null) {
+            foreach ($joins as $join_name => $join_columns) {
+                $join_info = static::$joins[$join_name];
+                
+                $join .= " " . $join_info['join_statement'];
+                $join_tablename = $join_info['tablename'];
+    
+                foreach ($join_columns as $column_name => $column_alias)
+                    $columns .= ", `$join_tablename`.`$column_name` as `$column_alias`";
+            }
+        }
+
+        $index = $GLOBAL_PDO->prepare("SELECT `" . static::$tablename . "`.*$columns FROM `" . static::$tablename . "` $join WHERE `" . static::$tablename . "`.`id` = :id");
         $index->execute([':id' => $id]);
 
         return $index->fetch(PDO::FETCH_ASSOC);
