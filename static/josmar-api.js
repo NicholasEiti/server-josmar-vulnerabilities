@@ -98,6 +98,7 @@ const API_URLS_CONFIGS = {
     drawer_remove: {url: '/api/drawer/remove', method: 'POST'},
     key_list: {url: '/api/key/list', method: 'GET'},
     request_list: {url: '/api/request/list', method: 'GET'},
+    request_get: {url: '/api/request/get', method: 'GET'},
     user_list: {url: '/api/user/list', method: 'GET'}
 };
 
