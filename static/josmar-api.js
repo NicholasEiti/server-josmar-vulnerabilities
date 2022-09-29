@@ -97,6 +97,7 @@ const API_URLS_CONFIGS = {
     drawer_edit: {url: '/api/drawer/edit', method: 'POST'},
     drawer_remove: {url: '/api/drawer/remove', method: 'POST'},
     key_list: {url: '/api/key/list', method: 'GET'},
+    key_add: {url: '/api/key/create', method: 'GET'},
     request_list: {url: '/api/request/list', method: 'GET'},
     request_get: {url: '/api/request/get', method: 'GET'},
     user_list: {url: '/api/user/list', method: 'GET'}
@@ -175,6 +176,12 @@ function showError(code_msg) {
         console.error(code_msg);
     }
 
+    var errorElement = document.getElementById('msg-error');
+    errorElement.innerText = msg;
+    errorElement.style.display = "block";
+}
+
+function showNoCodeError(msg) {
     var errorElement = document.getElementById('msg-error');
     errorElement.innerText = msg;
     errorElement.style.display = "block";

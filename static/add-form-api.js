@@ -14,13 +14,47 @@ class FormAddBlockElement extends HTMLElement {
             max_length: 50,
             get: function (set) {
                 let inputElement = this.querySelector('#name');
+
+                if (inputElement.value == '') return false;
+
                 set('name', inputElement.value)
+            }
+        }],
+        key: [{
+            id: 'name',
+            label: 'Nome:',
+            type: 'string',
+            min_length: 5,
+            max_length: 50,
+            get: function (set) {
+                let inputElement = this.querySelector('#name');
+                set('name', inputElement.value)
+            }
+        },  {
+            id: 'drawer',
+            label: 'Armário:',
+            type: 'instance_select',
+            get: function (set) {
+                let selectElement = this.querySelector('#drawer');
+                let value = selectElement.options[selectElement.selectedIndex].value;
+                
+                if (value == '') return false;
+
+                set('drawer', value);
+            },
+            get_list(return_list) {
+                requestAPI('drawer_list', { token: getToken() }, function (response) {
+                    return_list(response.list.map(function (element) {
+                        return { id: element.id, value: element.name };
+                    }));
+                });
             }
         }]
     }
 
     URL_TAGS = {
-        drawer: 'drawer_add'
+        drawer: 'drawer_add',
+        key: 'key_add'
     }
 
     constructor(...args) {
@@ -108,6 +142,8 @@ class FormAddBlockElement extends HTMLElement {
         if (inputInfo.type == 'string') {
             let inputElement = document.createElement('input');
             inputElement.classList.add('input-block-input');
+            
+            inputElement.setAttribute('required', true);
 
             if (inputInfo.min_length !== null) {
                 inputElement.setAttribute('minlength', inputInfo.min_length)
@@ -124,6 +160,31 @@ class FormAddBlockElement extends HTMLElement {
             }
 
             contentInputElement.appendChild(inputElement);
+        } else if (inputInfo.type == 'instance_select') {
+            let selectElement = document.createElement('select');
+
+            selectElement.setAttribute('required', true);
+
+            selectElement.classList.add('input-block-select');
+
+            selectElement.setAttribute('id', inputInfo.id);
+
+            inputInfo.get_list(function(list) {
+                list.forEach(function (element) {
+                    let optionElement = document.createElement("option");
+
+                    optionElement.value = element.id;
+                    optionElement.text = element.value;
+
+                    selectElement.add(optionElement);
+                });
+            });
+
+            if (inputInfo.label !== null) {
+                selectElement.setAttribute('name', inputInfo.id);
+            }
+
+            contentInputElement.appendChild(selectElement);
         }
 
         return contentInputElement;
@@ -136,7 +197,16 @@ class FormAddBlockElement extends HTMLElement {
             params[key] = value;
         }
 
-        this.get_input_value_fns.map(f => f(setFn))
+        let hasError = false;
+
+        let errorFn = function (msg) {
+            hasError = true;
+            showNoCodeError(msg);
+        };
+
+        this.get_input_value_fns.forEach(function (f) {
+            f(setFn, errorFn);
+        });
 
         var urlTag = this.URL_TAGS[this.tag];
 
