@@ -16,6 +16,8 @@ class FormAddBlockElement extends HTMLElement {
                 let inputElement = this.querySelector('#name');
 
                 if (inputElement.value == '') return false;
+                if (value.length <= 5) error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
+                if (value.length >= 50) error('Nome muito longo, o nome deve tem menos de 50 caracteres.');
 
                 set('name', inputElement.value)
             }
@@ -25,20 +27,25 @@ class FormAddBlockElement extends HTMLElement {
             label: 'Nome:',
             type: 'string',
             min_length: 5,
-            max_length: 50,
-            get: function (set) {
-                let inputElement = this.querySelector('#name');
-                set('name', inputElement.value)
+            max_length: 10,
+            get: function (set, error) {
+                let value = this.querySelector('#name').value;
+
+                if (value == '') error('Nome vazio. Escolha um nome e tente novamente.');
+                if (value.length <= 5) error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
+                if (value.length >= 10) error('Nome muito longo, o nome deve tem menos de 10 caracteres.');
+
+                set('name', value)
             }
         },  {
             id: 'drawer',
             label: 'Armário:',
             type: 'instance_select',
-            get: function (set) {
+            get: function (set, error) {
                 let selectElement = this.querySelector('#drawer');
-                let value = selectElement.options[selectElement.selectedIndex].value;
-                
-                if (value == '') return false;
+                let value = Number(selectElement.options[selectElement.selectedIndex].value);
+
+                if (value == '') error('Armário não selecionado. Tente novamente.');
 
                 set('drawer', value);
             },
@@ -53,8 +60,16 @@ class FormAddBlockElement extends HTMLElement {
     }
 
     URL_TAGS = {
-        drawer: 'drawer_add',
-        key: 'key_add'
+        drawer: {
+            add: 'drawer_add',
+            list_url: '/drawers/',
+            get_url: (response) => '/drawers/' + response.id
+        },
+        key: {
+            add: 'key_add',
+            list_url: '/keys/',
+            get_url: (response) => '/keys/'// + response.id
+        }
     }
 
     constructor(...args) {
@@ -104,7 +119,7 @@ class FormAddBlockElement extends HTMLElement {
         return contentElement;
     }
 
-    generateSubmit() {
+    generateSubmit(tag) {
         let submitElement = document.createElement('div');
         submitElement.classList.add('add-form-block-submit');
 
@@ -112,8 +127,11 @@ class FormAddBlockElement extends HTMLElement {
         cancelButton.setAttribute('type', 'button');
         cancelButton.setAttribute('value', 'Cancelar');
         cancelButton.classList.add('add-form-block-submit-cancel')
+
+        var urlTag = this.URL_TAGS[tag];
+
         cancelButton.addEventListener('click', function () {
-            window.location.href = "/drawers/";
+            window.location.href = urlTag.list_url;
         });
         submitElement.appendChild(cancelButton);
 
@@ -142,8 +160,6 @@ class FormAddBlockElement extends HTMLElement {
         if (inputInfo.type == 'string') {
             let inputElement = document.createElement('input');
             inputElement.classList.add('input-block-input');
-            
-            inputElement.setAttribute('required', true);
 
             if (inputInfo.min_length !== null) {
                 inputElement.setAttribute('minlength', inputInfo.min_length)
@@ -159,12 +175,15 @@ class FormAddBlockElement extends HTMLElement {
                 inputElement.setAttribute('name', inputInfo.id);
             }
 
+            inputElement.addEventListener('keydown', function (e) {
+                if (e.key == 'Enter') {
+                    this.requestAddElement()
+                }
+            }.bind(this))
+
             contentInputElement.appendChild(inputElement);
         } else if (inputInfo.type == 'instance_select') {
             let selectElement = document.createElement('select');
-
-            selectElement.setAttribute('required', true);
-
             selectElement.classList.add('input-block-select');
 
             selectElement.setAttribute('id', inputInfo.id);
@@ -208,11 +227,13 @@ class FormAddBlockElement extends HTMLElement {
             f(setFn, errorFn);
         });
 
-        var urlTag = this.URL_TAGS[this.tag];
+        if (!hasError) {
+            var urlTag = this.URL_TAGS[this.tag];
 
-        requestAPI(urlTag, params, function (response) {
-            window.location.href = "/drawers/" + response.id;
-        })
+            requestAPI(urlTag.add, params, function (response) {
+                window.location.href = urlTag.get_url(response);
+            })
+        }
     }
 }
 
