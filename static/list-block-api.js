@@ -226,11 +226,6 @@ function generateKeyItem(key) {
     let itemIcons = document.createElement('div');
     itemIcons.classList.add('item-list-icons');
 
-    let editLink = document.createElement('a');
-    editLink.setAttribute("href", "/keys/" + key.id + "/edit");
-    editLink.appendChild(generateIcon('edit', 'item-list-icon'));
-    itemIcons.appendChild(editLink);
-
     let deleteLink = document.createElement('a');
     deleteLink.setAttribute("href", "/keys/" + key.id + "/delete");
     deleteLink.appendChild(generateIcon('delete', 'item-list-icon'));
