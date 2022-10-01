@@ -168,7 +168,15 @@ abstract class ColumnDB {
 }
 
 class DrawerDB  extends ColumnDB { static public $tablename = 'drawers';    }
-class KeyDB     extends ColumnDB { static public $tablename = 'keys';       }
+class KeyDB     extends ColumnDB {
+    static public $tablename = 'keys';
+    static public $joins = [
+        'drawer' => [
+            'tablename' => 'drawers',
+            'join_statement' => 'LEFT JOIN `drawers` ON `keys`.`drawer` = `drawers`.`id`'
+        ]
+    ];
+}
 class UserDB    extends ColumnDB {
     static public $tablename = 'users';
     const PASSWORD_HASH_COST = 12;

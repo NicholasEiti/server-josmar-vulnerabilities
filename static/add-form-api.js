@@ -2,7 +2,8 @@ class FormAddBlockElement extends HTMLElement {
     LOADING_MSG = 'Carregando...'
 
     GET_TITLE = {
-        drawer: 'Criar novo armário'
+        drawer: 'Criar novo armário',
+        key: 'Criar nova chave'
     }
 
     INPUTS_INFOS = {
@@ -68,7 +69,7 @@ class FormAddBlockElement extends HTMLElement {
         key: {
             add: 'key_add',
             list_url: '/keys/',
-            get_url: (response) => '/keys/'// + response.id
+            get_url: (response) => '/keys/'
         }
     }
 

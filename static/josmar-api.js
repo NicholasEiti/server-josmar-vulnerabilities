@@ -91,13 +91,18 @@ const MSG_ERRORS = {
 
 const API_URLS_CONFIGS = {
     auth: {url: '/api/auth', method: 'GET'},
+
     drawer_list: {url: '/api/drawer/list', method: 'GET'},
     drawer_get: {url: '/api/drawer/get', method: 'GET'},
     drawer_add: {url: '/api/drawer/create', method: 'GET'},
     drawer_edit: {url: '/api/drawer/edit', method: 'POST'},
     drawer_remove: {url: '/api/drawer/remove', method: 'POST'},
+
     key_list: {url: '/api/key/list', method: 'GET'},
     key_add: {url: '/api/key/create', method: 'GET'},
+    key_get: {url: '/api/key/get', method: 'GET'},
+    key_remove: {url: '/api/key/remove', method: 'POST'},
+
     request_list: {url: '/api/request/list', method: 'GET'},
     request_get: {url: '/api/request/get', method: 'GET'},
     user_list: {url: '/api/user/list', method: 'GET'}
@@ -134,6 +139,7 @@ function requestAPI(url_tag, data, callback) {
     }
 
     let url_config = API_URLS_CONFIGS[url_tag];
+
 
     if (url_config == undefined) {
         return showError('api_system_unexpected_error');
