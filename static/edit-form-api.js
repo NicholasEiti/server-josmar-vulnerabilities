@@ -2,7 +2,8 @@ class FormEditBlockElement extends HTMLElement {
     LOADING_MSG = 'Carregando...'
 
     GET_TITLE_FN = {
-        drawer: (drawer) => `Editar armário ${drawer.name}`
+        drawer: (drawer) => `Editar armário ${drawer.name}`,
+        key: (key) => `Editar chave ${key.name}`
     }
 
     INPUTS_INFOS = {
@@ -13,8 +14,13 @@ class FormEditBlockElement extends HTMLElement {
             min_length: 5,
             max_length: 50,
             get: function (set) {
-                let inputElement = this.querySelector('#name');
-                set('name', inputElement.value)
+                let value = this.querySelector('#name').value;
+
+                if (value == '') error('Nome vazio. Escolha um nome e tente novamente.');
+                if (value.length <= 5) error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
+                if (value.length >= 50) error('Nome muito longo, o nome deve tem menos de 50 caracteres.');
+
+                set('name', value);
             }
         }]
     }
@@ -23,7 +29,7 @@ class FormEditBlockElement extends HTMLElement {
         drawer: {
             edit: 'drawer_edit',
             get: 'drawer_get',
-            back: (id) => '/drawers/' + id
+            back_url: (id) => '/drawers/' + id
         }
     }
 
@@ -52,10 +58,10 @@ class FormEditBlockElement extends HTMLElement {
         requestAPI(urlTag.get, { token, id }, function(response) {
             containerElement.innerHTML = '';
 
-            let titleElement = this.generateTitle(tag, response.drawer);
+            let titleElement = this.generateTitle(tag, response[tag]);
             containerElement.appendChild(titleElement);
 
-            let contentElement = this.generateContent(tag, response.drawer);
+            let contentElement = this.generateContent(tag, response[tag]);
             containerElement.appendChild(contentElement);
 
             let submitElement = this.generateSubmit(tag, id);
@@ -152,6 +158,28 @@ class FormEditBlockElement extends HTMLElement {
             inputElement.value = value;
 
             contentInputElement.appendChild(inputElement);
+        } else if (inputInfo.type == 'instance_select') {
+            let selectElement = document.createElement('select');
+            selectElement.classList.add('input-block-select');
+
+            selectElement.setAttribute('id', inputInfo.id);
+
+            inputInfo.get_list(function(list) {
+                list.forEach(function (element) {
+                    let optionElement = document.createElement("option");
+
+                    optionElement.value = element.id;
+                    optionElement.text = element.value;
+
+                    selectElement.add(optionElement);
+                });
+            });
+
+            if (inputInfo.label !== null) {
+                selectElement.setAttribute('name', inputInfo.id);
+            }
+
+            contentInputElement.appendChild(selectElement);
         }
 
         return contentInputElement;
@@ -164,13 +192,25 @@ class FormEditBlockElement extends HTMLElement {
             params[key] = value;
         }
 
-        this.get_input_value_fns.map(f => f(setFn))
+        let hasError = false;
 
-        var urlTag = this.URL_TAGS[this.tag];
+        let errorFn = function (msg) {
+            hasError = true;
+            showNoCodeError(msg);
+        };
 
-        requestAPI(urlTag.edit, params, function () {
-            window.location.href = urlTag.back(this.id);
-        }.bind(this))
+        this.get_input_value_fns.forEach(function (f) {
+            f(setFn, errorFn);
+        });
+
+        
+        if (!hasError) {
+            var urlTag = this.URL_TAGS[this.tag];
+
+            requestAPI(urlTag.edit, params, function () {
+                window.location.href = urlTag.back_url(this.id);
+            }.bind(this));
+        }
     }
 
     static get observedAttributes() { return ['tag', 'id']; }

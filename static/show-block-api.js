@@ -65,12 +65,12 @@ class ShowBlockElement extends HTMLElement {
         titleIcons.classList.add('block-title-icons');
     
         let editLink = document.createElement('a');
-        editLink.setAttribute("href", urlTag.edit_url);
+        editLink.setAttribute("href", urlTag.edit_url(element));
         editLink.appendChild(generateIcon('edit', 'show-block-icon'))
         titleIcons.appendChild(editLink);
     
         let deleteLink = document.createElement('a');
-        deleteLink.setAttribute("href", urlTag.delete_url);
+        deleteLink.setAttribute("href", urlTag.delete_url(element));
         deleteLink.appendChild(generateIcon('delete', 'show-block-icon'));
         titleIcons.appendChild(deleteLink);
 
