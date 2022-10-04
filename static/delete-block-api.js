@@ -10,14 +10,14 @@ class DeleteBLockElement extends HTMLElement {
         drawer: {
             get: 'drawer_get',
             delete: 'drawer_remove',
-            list: "/drawers/",
-            back: (drawer) => "/drawers/" + drawer.id,
+            list: '/drawers/',
+            back_url: (drawer) => '/drawers/' + drawer.id,
         },
         key: {
             get: 'key_get',
             delete: 'key_remove',
-            list: "/keys/",
-            back: (key) => "/keys/" + key.id,
+            list: '/keys/',
+            back_url: () => '/keys/'
         }
     }
 
@@ -46,7 +46,7 @@ class DeleteBLockElement extends HTMLElement {
             let titleElement = this.generateTitle(tag, response[tag]);
             containerElement.appendChild(titleElement);
     
-            let submitElement = this.generateSubmit(tag, response.drawer);
+            let submitElement = this.generateSubmit(tag, response[tag]);
             containerElement.appendChild(submitElement);
         }.bind(this));
     
@@ -75,7 +75,7 @@ class DeleteBLockElement extends HTMLElement {
         cancelButton.setAttribute('value', 'Cancelar');
         cancelButton.classList.add('delete-block-submit-cancel')
 
-        let back_url_fn = this.URL_TAGS[tag].back
+        let back_url_fn = this.URL_TAGS[tag].back_url
 
         cancelButton.addEventListener('click', function () {
             window.location.href = back_url_fn(element);
