@@ -13,10 +13,10 @@
     </a>
 </p>
 
-# Server-Josmar
-Esse repositório é uma API par controlar o armário "e-josmar"
+# Server-Josmar e Admin-Josmar
+Esse repositório é uma API (Server-Josmar) para controlar o armário "e-josmar" e um sistema de gerenciamento de usuários, chaves, etc(Admin-Josmar).  
 
-## Rotas
+## Rotas do Server-Josmar
 ### Rotas sem autenticação
 - `/api/auth` - Autenticação do usuário
 ### Rotas com autenticação (level < 10)
@@ -45,3 +45,5 @@ Esse repositório é uma API par controlar o armário "e-josmar"
 - `/api/drawer/create` - Criar armário
 - `/api/drawer/edit` - Alterar armário
 - `/api/drawer/remove` - Remover armário
+
+ 

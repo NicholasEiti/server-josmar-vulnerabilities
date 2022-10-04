@@ -43,8 +43,12 @@ if ($user_email !== null and $user['email'] !== $user_email) {
 if ($user_password !== null)
     $params['password'] = UserDB::formatPassword($user_password);
 
-if ($user_level !== null)
+if ($user_level !== null) {
+    if ($user_level > $jwtInstance->payload['level'] or $user['level'] > $jwtInstance->payload['level'])
+        API::send_error('api_do_not_have_access');
+
     $params['level'] = $user_level;
+}
 
 if (count($params) === 0)
     API::send_error('user_nothing_edited');
