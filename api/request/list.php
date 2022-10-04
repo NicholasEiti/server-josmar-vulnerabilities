@@ -39,22 +39,25 @@ if ($request_status !== null) {
     $params = array_merge($params, $request_status);
 }
 
-if ($request_date_start !== null) {
+if ($request_date_start !== null and $request_date_end !== null) {
+    $queries[] = "(
+    (`date_expected_start` < ? and ? < `date_expected_end`) or
+    (`date_expected_start` < ? and ? < `date_expected_end`) or
+    (? <= `date_expected_start` and `date_expected_end` <= ?)
+)";
+    $params[] = $request_date_start->format('Y-m-d H:i:s');
+    $params[] = $request_date_start->format('Y-m-d H:i:s');
+    $params[] = $request_date_end->format('Y-m-d H:i:s');
+    $params[] = $request_date_end->format('Y-m-d H:i:s');
+    $params[] = $request_date_start->format('Y-m-d H:i:s');
+    $params[] = $request_date_end->format('Y-m-d H:i:s');
+} elseif ($request_date_start !== null) {
     $queries[] = '`date_expected_start` < ? and ? < `date_expected_end`';
     $params[] = $request_date_start->format('Y-m-d H:i:s');
     $params[] = $request_date_start->format('Y-m-d H:i:s');
-}
-
-if ($request_date_end !== null) {
-    $queries[] = 'date_expected_start` < ? and ? < `date_expected_end`';
+} elseif ($request_date_end !== null) {
+    $queries[] = '`date_expected_start` < ? and ? < `date_expected_end`';
     $params[] = $request_date_end->format('Y-m-d H:i:s');
-    $params[] = $request_date_end->format('Y-m-d H:i:s');
-}
-
-if ($request_date_start !== null and $request_date_end !== null) {
-    $queries[] = '? < `date_expected_start` and `date_expected_end` < ?';
-
-    $params[] = $request_date_start->format('Y-m-d H:i:s');
     $params[] = $request_date_end->format('Y-m-d H:i:s');
 }
 
