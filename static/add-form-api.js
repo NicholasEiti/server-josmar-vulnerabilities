@@ -2,7 +2,9 @@ class FormAddBlockElement extends HTMLElement {
     LOADING_MSG = 'Carregando...'
 
     GET_TITLE = {
-        drawer: 'Criar novo armário'
+        drawer: 'Criar novo armário',
+        key: 'Criar nova chave',
+        user: 'Criar novo usuário'
     }
 
     INPUTS_INFOS = {
@@ -14,13 +16,124 @@ class FormAddBlockElement extends HTMLElement {
             max_length: 50,
             get: function (set) {
                 let inputElement = this.querySelector('#name');
+
+                if (inputElement.value == '') return error('Nome vazio. Escolha um nome e tente novamente.');
+                if (value.length <= 5) return error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
+                if (value.length >= 50) return error('Nome muito longo, o nome deve tem menos de 50 caracteres.');
+
                 set('name', inputElement.value)
+            }
+        }],
+        key: [{
+            id: 'name',
+            label: 'Nome:',
+            type: 'string',
+            min_length: 5,
+            max_length: 10,
+            get: function (set, error) {
+                let value = this.querySelector('#name').value;
+
+                if (value == '') return error('Nome vazio. Escolha um nome e tente novamente.');
+                if (value.length <= 5) return error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
+                if (value.length >= 10) return error('Nome muito longo, o nome deve tem menos de 10 caracteres.');
+
+                set('name', value)
+            }
+        },  {
+            id: 'drawer',
+            label: 'Armário:',
+            type: 'instance_select',
+            get: function (set, error) {
+                let selectElement = this.querySelector('#drawer');
+                let value = Number(selectElement.options[selectElement.selectedIndex].value);
+
+                if (value == '') return error('Armário não selecionado. Tente novamente.');
+
+                set('drawer', value);
+            },
+            get_list(return_list) {
+                requestAPI('drawer_list', { token: getToken() }, function (response) {
+                    return_list(response.list.map(function (element) {
+                        return { id: element.id, value: element.name };
+                    }));
+                });
+            }
+        }],
+        user: [{
+            id: 'name',
+            label: 'Nome:',
+            type: 'string',
+            min_length: 5,
+            max_length: 20,
+            get: function (set, error) {
+                let value = this.querySelector('#name').value;
+
+                if (value == '') return error('Nome vazio. Escolha um nome e tente novamente.');
+                if (value.length <= 5) return error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
+                if (value.length >= 20) return error('Nome muito longo, o nome deve tem menos de 20 caracteres.');
+
+                set('name', value)
+            }
+        }, {
+            id: 'email',
+            label: 'Email de cadastro:',
+            type: 'email',
+            get: function (set, error) {
+                let value = this.querySelector('#email').value;
+
+                if (value == '') return error('Email vazio. Escolha um email e tente novamente.');
+                if (!value.match(EMAIL_PATTERN)) return error('Formatação invalida de email. Tente novamente.');
+
+                set('email', value)
+            }
+        }, {
+            id: 'password',
+            label: 'Senha:',
+            type: 'password',
+            min_length: 5,
+            max_length: 20,
+            get: function (set, error) {
+                let value = this.querySelector('#password').value;
+
+                if (value == '') return error('Senha vazia. Escolha um senha e tente novamente.');
+                if (value.length <= 5) return error('Senha muito pequeno.');
+                if (value.length >= 20) return error('Senha muito longa.');
+
+
+                set('password', value)
+            }
+        }, {
+            id: 'level',
+            label: 'Nível na hierarquia:',
+            type: 'select',
+            list: {collaborator: 'Colaborador', admin: 'Administrador'},
+            get: function (set, error) {
+                let selectElement = this.querySelector('#level');
+                let value = selectElement.options[selectElement.selectedIndex].value;
+
+                if (value == '') return error('Nível na hierarquia não selecionado. Tente novamente.');
+
+                set('level', value);
             }
         }]
     }
 
     URL_TAGS = {
-        drawer: 'drawer_add'
+        drawer: {
+            add: 'drawer_add',
+            list_url: '/drawers/',
+            get_url: (response) => '/drawers/' + response.id
+        },
+        key: {
+            add: 'key_add',
+            list_url: '/keys/',
+            get_url: () => '/keys/'
+        },
+        user: {
+            add: 'user_add',
+            list_url: '/users/',
+            get_url: () => '/users/'
+        }
     }
 
     constructor(...args) {
@@ -70,7 +183,7 @@ class FormAddBlockElement extends HTMLElement {
         return contentElement;
     }
 
-    generateSubmit() {
+    generateSubmit(tag) {
         let submitElement = document.createElement('div');
         submitElement.classList.add('add-form-block-submit');
 
@@ -78,8 +191,11 @@ class FormAddBlockElement extends HTMLElement {
         cancelButton.setAttribute('type', 'button');
         cancelButton.setAttribute('value', 'Cancelar');
         cancelButton.classList.add('add-form-block-submit-cancel')
+
+        var urlTag = this.URL_TAGS[tag];
+
         cancelButton.addEventListener('click', function () {
-            window.location.href = "/drawers/";
+            window.location.href = urlTag.list_url;
         });
         submitElement.appendChild(cancelButton);
 
@@ -97,7 +213,7 @@ class FormAddBlockElement extends HTMLElement {
         let contentInputElement = document.createElement('div');
         contentInputElement.classList.add('input-block-element');
 
-        if (inputInfo.label !== null) {
+        if (inputInfo.label !== undefined) {
             let labelElement = document.createElement('label');
             labelElement.classList.add('input-block-label');
             labelElement.textContent = inputInfo.label;
@@ -105,25 +221,79 @@ class FormAddBlockElement extends HTMLElement {
             contentInputElement.appendChild(labelElement);
         }
 
-        if (inputInfo.type == 'string') {
+        if (inputInfo.type == 'string' || inputInfo.type == 'email' || inputInfo.type == 'password') {
             let inputElement = document.createElement('input');
             inputElement.classList.add('input-block-input');
 
-            if (inputInfo.min_length !== null) {
+            if (inputInfo.type == 'email' || inputInfo.type == 'password') {
+                inputElement.setAttribute('type', inputInfo.type)
+            }
+
+            if (inputInfo.min_length !== undefined) {
                 inputElement.setAttribute('minlength', inputInfo.min_length)
             }
 
-            if (inputInfo.max_length !== null) {
+            if (inputInfo.max_length !== undefined) {
                 inputElement.setAttribute('minlength', inputInfo.max_length)
             }
 
             inputElement.setAttribute('id', inputInfo.id);
 
-            if (inputInfo.label !== null) {
+            if (inputInfo.label !== undefined) {
                 inputElement.setAttribute('name', inputInfo.id);
             }
 
+            inputElement.addEventListener('keydown', function (e) {
+                if (e.key == 'Enter') {
+                    this.requestAddElement()
+                }
+            }.bind(this))
+
             contentInputElement.appendChild(inputElement);
+        } else if (inputInfo.type == 'instance_select') {
+            let selectElement = document.createElement('select');
+            selectElement.classList.add('input-block-select');
+
+            selectElement.setAttribute('id', inputInfo.id);
+
+            inputInfo.get_list(function(list) {
+                list.forEach(function (element) {
+                    let optionElement = document.createElement("option");
+
+                    optionElement.value = element.id;
+                    optionElement.text = element.value;
+
+                    selectElement.add(optionElement);
+                });
+            });
+
+            if (inputInfo.label !== null) {
+                selectElement.setAttribute('name', inputInfo.id);
+            }
+
+            contentInputElement.appendChild(selectElement);
+        } else if (inputInfo.type == 'select') {
+            let selectElement = document.createElement('select');
+            selectElement.classList.add('input-block-select');
+
+            selectElement.setAttribute('id', inputInfo.id);
+
+            Object.entries(inputInfo.list).forEach(element => {
+                let [id, value] = element;
+                  
+                let optionElement = document.createElement("option");
+
+                optionElement.value = id;
+                optionElement.text = value;
+
+                selectElement.add(optionElement);
+            });
+
+            if (inputInfo.label !== null) {
+                selectElement.setAttribute('name', inputInfo.id);
+            }
+
+            contentInputElement.appendChild(selectElement);
         }
 
         return contentInputElement;
@@ -136,13 +306,24 @@ class FormAddBlockElement extends HTMLElement {
             params[key] = value;
         }
 
-        this.get_input_value_fns.map(f => f(setFn))
+        let hasError = false;
 
-        var urlTag = this.URL_TAGS[this.tag];
+        let errorFn = function (msg) {
+            hasError = true;
+            showNoCodeError(msg);
+        };
 
-        requestAPI(urlTag, params, function (response) {
-            window.location.href = "/drawers/" + response.id;
-        })
+        this.get_input_value_fns.forEach(function (f) {
+            f(setFn, errorFn);
+        });
+
+        if (!hasError) {
+            var urlTag = this.URL_TAGS[this.tag];
+
+            requestAPI(urlTag.add, params, function (response) {
+                window.location.href = urlTag.get_url(response);
+            })
+        }
     }
 }
 

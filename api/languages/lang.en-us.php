@@ -66,21 +66,23 @@ $api_error_msgs = [
 
 $api_success_msgs = [
     'drawer_created' => 'Drawer created.',
+    'drawer_got' => 'Success to get drawer.',
+    'drawer_list' => 'Success to generate list.',
     'drawer_edited' => 'Drawer edited.',
     'drawer_removed' => 'Drawer removed.',
-    'drawer_list' => 'Success to generate list.',
-    'drawer_got' => 'Success to get drawer.',
 
     'key_created' => 'Key created.',
+    'key_got' => 'Success to get key.',
     'key_list' => 'Success to generate list.',
     'key_removed' => 'Key removed.',
     
-    'user_list' => 'Success to generate list.',
     'user_created' => 'User created.',
+    'user_list' => 'Success to generate list.',
     'user_edited' => 'User edited.',
 
-    'request_list' => 'Success to generate list.',
     'request_created' => 'Request created.',
+    'request_got' => 'Success to get request.',
+    'request_list' => 'Success to generate list.',
     'request_updated_status' => 'Request edited.',
 
     'api_auth' => 'Success in authentication.'

@@ -1,5 +1,6 @@
 const ERROR_STATUS = 1;
 const SUCCESS_STATUS = 0;
+const EMAIL_PATTERN = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 const MSG_ERRORS = {
     without_error: 'Erro interno do sistema, tente novamente mais tarde.',
@@ -91,14 +92,23 @@ const MSG_ERRORS = {
 
 const API_URLS_CONFIGS = {
     auth: {url: '/api/auth', method: 'GET'},
+
     drawer_list: {url: '/api/drawer/list', method: 'GET'},
     drawer_get: {url: '/api/drawer/get', method: 'GET'},
     drawer_add: {url: '/api/drawer/create', method: 'GET'},
     drawer_edit: {url: '/api/drawer/edit', method: 'POST'},
     drawer_remove: {url: '/api/drawer/remove', method: 'POST'},
+
     key_list: {url: '/api/key/list', method: 'GET'},
+    key_add: {url: '/api/key/create', method: 'GET'},
+    key_get: {url: '/api/key/get', method: 'GET'},
+    key_remove: {url: '/api/key/remove', method: 'POST'},
+
     request_list: {url: '/api/request/list', method: 'GET'},
-    user_list: {url: '/api/user/list', method: 'GET'}
+    request_get: {url: '/api/request/get', method: 'GET'},
+
+    user_list: {url: '/api/user/list', method: 'GET'},
+    user_add: {url: '/api/user/create', method: 'GET'},
 };
 
 const API_REQUEST_STATUS = {
@@ -132,6 +142,7 @@ function requestAPI(url_tag, data, callback) {
     }
 
     let url_config = API_URLS_CONFIGS[url_tag];
+
 
     if (url_config == undefined) {
         return showError('api_system_unexpected_error');
@@ -174,6 +185,12 @@ function showError(code_msg) {
         console.error(code_msg);
     }
 
+    var errorElement = document.getElementById('msg-error');
+    errorElement.innerText = msg;
+    errorElement.style.display = "block";
+}
+
+function showNoCodeError(msg) {
     var errorElement = document.getElementById('msg-error');
     errorElement.innerText = msg;
     errorElement.style.display = "block";
