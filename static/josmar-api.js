@@ -1,5 +1,6 @@
 const ERROR_STATUS = 1;
 const SUCCESS_STATUS = 0;
+const EMAIL_PATTERN = /^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 
 const MSG_ERRORS = {
     without_error: 'Erro interno do sistema, tente novamente mais tarde.',
@@ -105,7 +106,9 @@ const API_URLS_CONFIGS = {
 
     request_list: {url: '/api/request/list', method: 'GET'},
     request_get: {url: '/api/request/get', method: 'GET'},
-    user_list: {url: '/api/user/list', method: 'GET'}
+
+    user_list: {url: '/api/user/list', method: 'GET'},
+    user_add: {url: '/api/user/create', method: 'GET'},
 };
 
 const API_REQUEST_STATUS = {

@@ -3,7 +3,8 @@ class FormAddBlockElement extends HTMLElement {
 
     GET_TITLE = {
         drawer: 'Criar novo armário',
-        key: 'Criar nova chave'
+        key: 'Criar nova chave',
+        user: 'Criar novo usuário'
     }
 
     INPUTS_INFOS = {
@@ -16,9 +17,9 @@ class FormAddBlockElement extends HTMLElement {
             get: function (set) {
                 let inputElement = this.querySelector('#name');
 
-                if (inputElement.value == '') return false;
-                if (value.length <= 5) error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
-                if (value.length >= 50) error('Nome muito longo, o nome deve tem menos de 50 caracteres.');
+                if (inputElement.value == '') return error('Nome vazio. Escolha um nome e tente novamente.');
+                if (value.length <= 5) return error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
+                if (value.length >= 50) return error('Nome muito longo, o nome deve tem menos de 50 caracteres.');
 
                 set('name', inputElement.value)
             }
@@ -32,9 +33,9 @@ class FormAddBlockElement extends HTMLElement {
             get: function (set, error) {
                 let value = this.querySelector('#name').value;
 
-                if (value == '') error('Nome vazio. Escolha um nome e tente novamente.');
-                if (value.length <= 5) error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
-                if (value.length >= 10) error('Nome muito longo, o nome deve tem menos de 10 caracteres.');
+                if (value == '') return error('Nome vazio. Escolha um nome e tente novamente.');
+                if (value.length <= 5) return error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
+                if (value.length >= 10) return error('Nome muito longo, o nome deve tem menos de 10 caracteres.');
 
                 set('name', value)
             }
@@ -46,7 +47,7 @@ class FormAddBlockElement extends HTMLElement {
                 let selectElement = this.querySelector('#drawer');
                 let value = Number(selectElement.options[selectElement.selectedIndex].value);
 
-                if (value == '') error('Armário não selecionado. Tente novamente.');
+                if (value == '') return error('Armário não selecionado. Tente novamente.');
 
                 set('drawer', value);
             },
@@ -56,6 +57,63 @@ class FormAddBlockElement extends HTMLElement {
                         return { id: element.id, value: element.name };
                     }));
                 });
+            }
+        }],
+        user: [{
+            id: 'name',
+            label: 'Nome:',
+            type: 'string',
+            min_length: 5,
+            max_length: 20,
+            get: function (set, error) {
+                let value = this.querySelector('#name').value;
+
+                if (value == '') return error('Nome vazio. Escolha um nome e tente novamente.');
+                if (value.length <= 5) return error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
+                if (value.length >= 20) return error('Nome muito longo, o nome deve tem menos de 20 caracteres.');
+
+                set('name', value)
+            }
+        }, {
+            id: 'email',
+            label: 'Email de cadastro:',
+            type: 'email',
+            get: function (set, error) {
+                let value = this.querySelector('#email').value;
+
+                if (value == '') return error('Email vazio. Escolha um email e tente novamente.');
+                if (!value.match(EMAIL_PATTERN)) return error('Formatação invalida de email. Tente novamente.');
+
+                set('email', value)
+            }
+        }, {
+            id: 'password',
+            label: 'Senha:',
+            type: 'password',
+            min_length: 5,
+            max_length: 20,
+            get: function (set, error) {
+                let value = this.querySelector('#password').value;
+
+                if (value == '') return error('Senha vazia. Escolha um senha e tente novamente.');
+                if (value.length <= 5) return error('Senha muito pequeno.');
+                if (value.length >= 20) return error('Senha muito longa.');
+
+
+                set('password', value)
+            }
+        }, {
+            id: 'level',
+            label: 'Nível na hierarquia:',
+            type: 'select',
+            list: {collaborator: 'Colaborador', admin: 'Administrador'},
+            get: function (set, error) {
+                let selectElement = this.querySelector('#level');
+                let value = selectElement.options[selectElement.selectedIndex].value;
+
+                if (value == '') return error('Nível na hierarquia não selecionado. Tente novamente.');
+
+                set('level', value);
             }
         }]
     }
@@ -69,7 +127,12 @@ class FormAddBlockElement extends HTMLElement {
         key: {
             add: 'key_add',
             list_url: '/keys/',
-            get_url: (response) => '/keys/'
+            get_url: () => '/keys/'
+        },
+        user: {
+            add: 'user_add',
+            list_url: '/users/',
+            get_url: () => '/users/'
         }
     }
 
@@ -150,7 +213,7 @@ class FormAddBlockElement extends HTMLElement {
         let contentInputElement = document.createElement('div');
         contentInputElement.classList.add('input-block-element');
 
-        if (inputInfo.label !== null) {
+        if (inputInfo.label !== undefined) {
             let labelElement = document.createElement('label');
             labelElement.classList.add('input-block-label');
             labelElement.textContent = inputInfo.label;
@@ -158,21 +221,25 @@ class FormAddBlockElement extends HTMLElement {
             contentInputElement.appendChild(labelElement);
         }
 
-        if (inputInfo.type == 'string') {
+        if (inputInfo.type == 'string' || inputInfo.type == 'email' || inputInfo.type == 'password') {
             let inputElement = document.createElement('input');
             inputElement.classList.add('input-block-input');
 
-            if (inputInfo.min_length !== null) {
+            if (inputInfo.type == 'email' || inputInfo.type == 'password') {
+                inputElement.setAttribute('type', inputInfo.type)
+            }
+
+            if (inputInfo.min_length !== undefined) {
                 inputElement.setAttribute('minlength', inputInfo.min_length)
             }
 
-            if (inputInfo.max_length !== null) {
+            if (inputInfo.max_length !== undefined) {
                 inputElement.setAttribute('minlength', inputInfo.max_length)
             }
 
             inputElement.setAttribute('id', inputInfo.id);
 
-            if (inputInfo.label !== null) {
+            if (inputInfo.label !== undefined) {
                 inputElement.setAttribute('name', inputInfo.id);
             }
 
@@ -198,6 +265,28 @@ class FormAddBlockElement extends HTMLElement {
 
                     selectElement.add(optionElement);
                 });
+            });
+
+            if (inputInfo.label !== null) {
+                selectElement.setAttribute('name', inputInfo.id);
+            }
+
+            contentInputElement.appendChild(selectElement);
+        } else if (inputInfo.type == 'select') {
+            let selectElement = document.createElement('select');
+            selectElement.classList.add('input-block-select');
+
+            selectElement.setAttribute('id', inputInfo.id);
+
+            Object.entries(inputInfo.list).forEach(element => {
+                let [id, value] = element;
+                  
+                let optionElement = document.createElement("option");
+
+                optionElement.value = id;
+                optionElement.text = value;
+
+                selectElement.add(optionElement);
             });
 
             if (inputInfo.label !== null) {
