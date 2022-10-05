@@ -15,7 +15,7 @@ $ENUM_REQUEST_STATUS = [
     'ended'         => 5,
     'canceled'      => 6
 ];
-$ENUM_USER_LEVELS    = [ 'collaborator' => 5, 'admin' => 15 ];
+$ENUM_USER_LEVELS    = [ 'inactive' => 0, 'collaborator' => 5, 'admin' => 15 ];
 
 function startPDO($name, $host, $charset, $login, $password): PDO
 {

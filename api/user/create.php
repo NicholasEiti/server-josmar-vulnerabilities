@@ -17,11 +17,12 @@ $user_level     = Params::getEnumParam('level', $ENUM_USER_LEVELS);
 if (UserDB::count('WHERE name = ?', [$user_name]) !== 0)
     API::send_error('user_name_in_use');
 
+$user_email = UserDB::formatEmail($user_email);
+
 if (UserDB::count('WHERE email = ?', [$user_email]) !== 0)
     API::send_error('user_email_in_use');
 
 $user_password = UserDB::formatPassword($user_password);
-$user_email = UserDB::formatEmail($user_email);
 
 if (!UserDB::insert([
     'name'      => $user_name,

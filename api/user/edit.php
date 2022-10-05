@@ -34,10 +34,12 @@ if ($user_name !== null and $user['name'] !== $user_name) {
 }
 
 if ($user_email !== null and $user['email'] !== $user_email) {
+    $user_email = UserDB::formatEmail($user_email);
+
     if (UserDB::count('WHERE email = ?', [$user_email]) !== 0)
         API::send_error('user_email_in_use');
 
-    $params['email'] = UserDB::formatEmail($user_email);
+    $params['email'] = $user_email;
 }
 
 if ($user_password !== null)

@@ -106,7 +106,7 @@ class FormAddBlockElement extends HTMLElement {
             id: 'level',
             label: 'Nível na hierarquia:',
             type: 'select',
-            list: {collaborator: 'Colaborador', admin: 'Administrador'},
+            list: {inactive: 'Inativo', collaborator: 'Colaborador', admin: 'Administrador'},
             get: function (set, error) {
                 let selectElement = this.querySelector('#level');
                 let value = selectElement.options[selectElement.selectedIndex].value;

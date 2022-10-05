@@ -41,6 +41,7 @@ const MSG_ERRORS = {
     // key_drawer_not_found: 'Drawer not found.',
     // key_error_on_create: 'Something wrong on create key, try again.',
 
+    user_unexpected_level: 'Erro interno do sistema ao ler o usuário, tente novamente mais tarde.',
     // user_name_in_use: 'Name is already in use.',
     // user_email_in_use: 'Email is already in use.',
     // user_error_on_create: 'Something wrong on create user, try again.',
@@ -107,6 +108,8 @@ const API_URLS_CONFIGS = {
     request_list: {url: '/api/request/list', method: 'GET'},
     request_get: {url: '/api/request/get', method: 'GET'},
 
+    user_get: {url: '/api/user/get', method: 'GET'},
+    user_edit: {url: '/api/user/edit', method: 'POST'},
     user_list: {url: '/api/user/list', method: 'GET'},
     user_add: {url: '/api/user/create', method: 'GET'},
 };

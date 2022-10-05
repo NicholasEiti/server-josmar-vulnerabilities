@@ -35,10 +35,11 @@ $api_error_msgs = [
     'key_drawer_not_found' => 'Drawer not found.',
     'key_error_on_create' => 'Something wrong on create key, try again.',
 
+    'user_not_found' => 'User not found.',
+    'user_unexpected_level' => 'Unexpected user level.',
     'user_name_in_use' => 'Name is already in use.',
     'user_email_in_use' => 'Email is already in use.',
     'user_error_on_create' => 'Something wrong on create user, try again.',
-
     'user_nothing_edited' => 'Nothing edited.',
     'user_error_on_edit' => 'Something wrong on edit user, try again.',
 
@@ -79,6 +80,7 @@ $api_success_msgs = [
     'user_created' => 'User created.',
     'user_list' => 'Success to generate list.',
     'user_edited' => 'User edited.',
+    'user_got' => 'Success to get user.',
 
     'request_created' => 'Request created.',
     'request_got' => 'Success to get request.',
