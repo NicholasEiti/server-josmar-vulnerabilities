@@ -17,7 +17,7 @@ if ($jwtInstance->payload['id'] != $user_id and $jwtInstance->payload['level'] <
 $user_name      = Params::getParam('name', 5, 20, true, '_POST');
 $user_password  = Params::getParam('password', 5, 20, true, '_POST');
 $user_email     = Params::getRegexParam('email', EMAIL_PATTERN, true, '_POST');
-$user_level     = Params::getEnumParam('level', $ENUM_USER_LEVELS, true, '_POST');
+$user_level     = Params::getEnumParam('level', UserDB::$ENUM_LEVELS, true, '_POST');
 
 $params = [];
 

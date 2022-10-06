@@ -18,7 +18,7 @@ if ($user === false)
 
 unset($user['password']);
 
-$possible_levels = array_flip($ENUM_USER_LEVELS);
+$possible_levels = array_flip(UserDB::$ENUM_LEVELS);
 
 if (!isset($possible_levels[$user['level']]))
     API::send_error('user_unexpected_level');

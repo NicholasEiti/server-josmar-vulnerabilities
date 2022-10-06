@@ -52,17 +52,16 @@ $api_error_msgs = [
 
     'request_not_found'  => 'Request not found.',
     'request_already_this_status' => 'Request already has this status.',
-    'request_status_already_ended' => 'Request already ended, you can\'t change it.',
-    'request_status_already_canceled' => 'Request already canceled, you can\'t change it.',
-    'request_status_can_not_ended' => 'Request can\'t end like this, you need started.',
-    'request_status_must_ended' => 'Request must end, not anything else.',
+    'request_status_already_ended' => 'Request already ended, you cannot change it.',
+    'request_status_already_canceled' => 'Request already canceled, you cannot change it.',
+    'request_cannot_go_to_this_status' => 'Request cannot go to this status.',
     'request_error_on_update_status' => 'Something wrong on update start of request, try again.',
 
     'api_login_not_found' => 'Unable to find account.',
     'api_wrong_password' => 'Incorrect password, try again.',
 
     'api_invalid_token' => 'Invalid Token.',
-    'api_do_not_have_access' => 'You don\'t have access to this page.',
+    'api_do_not_have_access' => 'You do not have access to this page.',
 ];
 
 $api_success_msgs = [

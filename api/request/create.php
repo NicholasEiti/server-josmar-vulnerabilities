@@ -46,7 +46,7 @@ if (RequestDB::count('WHERE `key` = :key_id and `status` not in (2, 3) and (
 if (!RequestDB::insert([
     'user'                  => $request_user,
     'key'                   => $request_key,
-    'status'                => $ENUM_REQUEST_STATUS['not_started'],
+    'status'                => RequestDB::$ENUM_STATUS['not_started'],
     'date_expected_start'   => $request_date_expected_start->format('Y-m-d H:i:s'),
     'date_expected_end'     => $request_date_expected_end->format('Y-m-d H:i:s')
 ]))
