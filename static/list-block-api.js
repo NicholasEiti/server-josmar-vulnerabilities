@@ -295,11 +295,6 @@ function generateUserItem(user) {
     editLink.appendChild(generateIcon('edit', 'item-list-icon'));
     itemIcons.appendChild(editLink);
 
-    let deleteLink = document.createElement('a');
-    deleteLink.setAttribute("href", "/users/" + user.id + "/delete");
-    deleteLink.appendChild(generateIcon('delete', 'item-list-icon'));
-    itemIcons.appendChild(deleteLink);
-
     item.appendChild(itemIcons);
 
     return item;

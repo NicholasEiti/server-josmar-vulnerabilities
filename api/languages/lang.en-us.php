@@ -35,10 +35,11 @@ $api_error_msgs = [
     'key_drawer_not_found' => 'Drawer not found.',
     'key_error_on_create' => 'Something wrong on create key, try again.',
 
+    'user_not_found' => 'User not found.',
+    'user_unexpected_level' => 'Unexpected user level.',
     'user_name_in_use' => 'Name is already in use.',
     'user_email_in_use' => 'Email is already in use.',
     'user_error_on_create' => 'Something wrong on create user, try again.',
-
     'user_nothing_edited' => 'Nothing edited.',
     'user_error_on_edit' => 'Something wrong on edit user, try again.',
 
@@ -51,17 +52,16 @@ $api_error_msgs = [
 
     'request_not_found'  => 'Request not found.',
     'request_already_this_status' => 'Request already has this status.',
-    'request_status_already_ended' => 'Request already ended, you can\'t change it.',
-    'request_status_already_canceled' => 'Request already canceled, you can\'t change it.',
-    'request_status_can_not_ended' => 'Request can\'t end like this, you need started.',
-    'request_status_must_ended' => 'Request must end, not anything else.',
+    'request_status_already_ended' => 'Request already ended, you cannot change it.',
+    'request_status_already_canceled' => 'Request already canceled, you cannot change it.',
+    'request_cannot_go_to_this_status' => 'Request cannot go to this status.',
     'request_error_on_update_status' => 'Something wrong on update start of request, try again.',
 
     'api_login_not_found' => 'Unable to find account.',
     'api_wrong_password' => 'Incorrect password, try again.',
 
     'api_invalid_token' => 'Invalid Token.',
-    'api_do_not_have_access' => 'You don\'t have access to this page.',
+    'api_do_not_have_access' => 'You do not have access to this page.',
 ];
 
 $api_success_msgs = [
@@ -79,6 +79,7 @@ $api_success_msgs = [
     'user_created' => 'User created.',
     'user_list' => 'Success to generate list.',
     'user_edited' => 'User edited.',
+    'user_got' => 'Success to get user.',
 
     'request_created' => 'Request created.',
     'request_got' => 'Success to get request.',

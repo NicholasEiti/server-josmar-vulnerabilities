@@ -17,7 +17,7 @@ if ($jwtInstance->payload['id'] != $user_id and $jwtInstance->payload['level'] <
 $user_name      = Params::getParam('name', 5, 20, true, '_POST');
 $user_password  = Params::getParam('password', 5, 20, true, '_POST');
 $user_email     = Params::getRegexParam('email', EMAIL_PATTERN, true, '_POST');
-$user_level     = Params::getEnumParam('level', $ENUM_USER_LEVELS, true, '_POST');
+$user_level     = Params::getEnumParam('level', UserDB::$ENUM_LEVELS, true, '_POST');
 
 $params = [];
 
@@ -34,10 +34,12 @@ if ($user_name !== null and $user['name'] !== $user_name) {
 }
 
 if ($user_email !== null and $user['email'] !== $user_email) {
+    $user_email = UserDB::formatEmail($user_email);
+
     if (UserDB::count('WHERE email = ?', [$user_email]) !== 0)
         API::send_error('user_email_in_use');
 
-    $params['email'] = UserDB::formatEmail($user_email);
+    $params['email'] = $user_email;
 }
 
 if ($user_password !== null)

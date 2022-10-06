@@ -12,16 +12,17 @@ API::verifyToken(ADMIN_MIN_LEVEL);
 $user_name      = Params::getParam('name', min_length: 5, max_length: 20);
 $user_password  = Params::getParam('password', min_length: 5, max_length: 20);
 $user_email     = Params::getRegexParam('email', EMAIL_PATTERN);
-$user_level     = Params::getEnumParam('level', $ENUM_USER_LEVELS);
+$user_level     = Params::getEnumParam('level', UserDB::$ENUM_LEVELS);
 
 if (UserDB::count('WHERE name = ?', [$user_name]) !== 0)
     API::send_error('user_name_in_use');
+
+$user_email = UserDB::formatEmail($user_email);
 
 if (UserDB::count('WHERE email = ?', [$user_email]) !== 0)
     API::send_error('user_email_in_use');
 
 $user_password = UserDB::formatPassword($user_password);
-$user_email = UserDB::formatEmail($user_email);
 
 if (!UserDB::insert([
     'name'      => $user_name,

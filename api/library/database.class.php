@@ -7,16 +7,6 @@ define('EMAIL_PATTERN', "/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA
 define('DATETIME_PATTERN', '/^([0-9]{4})-([0-1][0-9])-([0-3][0-9])\s([0-1][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9])$/');
 define('ADMIN_MIN_LEVEL', 10);
 
-$ENUM_REQUEST_STATUS = [
-    'not_started'   => 1,
-    'start_request' => 2,
-    'started'       => 3,
-    'end_request'   => 4,
-    'ended'         => 5,
-    'canceled'      => 6
-];
-$ENUM_USER_LEVELS    = [ 'collaborator' => 5, 'admin' => 15 ];
-
 function startPDO($name, $host, $charset, $login, $password): PDO
 {
     try {
@@ -194,6 +184,13 @@ class UserDB    extends ColumnDB {
             'cost' => static::PASSWORD_HASH_COST
         ]);
     }
+
+
+    static public $ENUM_LEVELS = [
+        'inactive'      => 0,
+        'collaborator'  => 5,
+        'admin'         => 15
+    ];
 }
 class RequestDB extends ColumnDB {
     static public $tablename = 'requests';
@@ -206,6 +203,15 @@ class RequestDB extends ColumnDB {
             'tablename' => 'keys',
             'join_statement' => 'LEFT JOIN `keys` ON `requests`.`key` = `keys`.`id`'
         ]
+    ];
+
+    static public $ENUM_STATUS = [
+        'not_started'   => 1,
+        'start_request' => 2,
+        'started'       => 3,
+        'end_request'   => 4,
+        'ended'         => 5,
+        'canceled'      => 6
     ];
 }
 class SessionDB extends ColumnDB { static public $tablename = 'sessions';   }

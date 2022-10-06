@@ -3,7 +3,8 @@ class FormEditBlockElement extends HTMLElement {
 
     GET_TITLE_FN = {
         drawer: (drawer) => `Editar armário ${drawer.name}`,
-        key: (key) => `Editar chave ${key.name}`
+        key: (key) => `Editar chave ${key.name}`,
+        user: (user) => `Editar usuário ${user.name}`
     }
 
     INPUTS_INFOS = {
@@ -16,11 +17,67 @@ class FormEditBlockElement extends HTMLElement {
             get: function (set) {
                 let value = this.querySelector('#name').value;
 
-                if (value == '') error('Nome vazio. Escolha um nome e tente novamente.');
-                if (value.length <= 5) error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
-                if (value.length >= 50) error('Nome muito longo, o nome deve tem menos de 50 caracteres.');
+                if (value == '') return error('Nome vazio. Escolha um nome e tente novamente.');
+                if (value.length <= 5) return error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
+                if (value.length >= 50) return error('Nome muito longo, o nome deve tem menos de 50 caracteres.');
 
                 set('name', value);
+            }
+        }],
+        user: [{
+            id: 'name',
+            label: 'Nome:',
+            type: 'string',
+            min_length: 5,
+            max_length: 20,
+            get: function (set, error) {
+                let value = this.querySelector('#name').value;
+
+                if (value == '') return error('Nome vazio. Escolha um nome e tente novamente.');
+                if (value.length <= 5) return error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
+                if (value.length >= 20) return error('Nome muito longo, o nome deve tem menos de 20 caracteres.');
+
+                set('name', value)
+            }
+        }, {
+            id: 'email',
+            label: 'Email de cadastro:',
+            type: 'email',
+            get: function (set, error) {
+                let value = this.querySelector('#email').value;
+
+                if (value == '') return error('Email vazio. Escolha um email e tente novamente.');
+                if (!value.match(EMAIL_PATTERN)) return error('Formatação invalida de email. Tente novamente.');
+
+                set('email', value)
+            }
+        }, {
+            id: 'password',
+            label: 'Senha:',
+            type: 'password',
+            min_length: 5,
+            max_length: 20,
+            get: function (set, error) {
+                let value = this.querySelector('#password').value;
+
+                if (value == '') return;
+                if (value.length <= 5) return error('Senha muito pequeno.');
+                if (value.length >= 20) return error('Senha muito longa.');
+
+                set('password', value);
+            }
+        }, {
+            id: 'level',
+            label: 'Nível na hierarquia:',
+            type: 'select',
+            list: {inactive: 'Inativo', collaborator: 'Colaborador', admin: 'Administrador'},
+            get: function (set, error) {
+                let selectElement = this.querySelector('#level');
+                let value = selectElement.options[selectElement.selectedIndex].value;
+
+                if (value == '') return error('Nível na hierarquia não selecionado. Tente novamente.');
+
+                set('level', value);
             }
         }]
     }
@@ -30,6 +87,11 @@ class FormEditBlockElement extends HTMLElement {
             edit: 'drawer_edit',
             get: 'drawer_get',
             back_url: (id) => '/drawers/' + id
+        },
+        user: {
+            edit: 'user_edit',
+            get: 'user_get',
+            back_url: () => '/users/'
         }
     }
 
@@ -111,7 +173,7 @@ class FormEditBlockElement extends HTMLElement {
         var urlTag = this.URL_TAGS[tag];
 
         cancelButton.addEventListener('click', function () {
-            window.location.href = urlTag.back(id);
+            window.location.href = urlTag.back_url(id);
         });
         submitElement.appendChild(cancelButton);
 
@@ -137,9 +199,13 @@ class FormEditBlockElement extends HTMLElement {
             contentInputElement.appendChild(labelElement);
         }
 
-        if (inputInfo.type == 'string') {
+        if (inputInfo.type == 'string' || inputInfo.type == 'email' || inputInfo.type == 'password') {
             let inputElement = document.createElement('input');
             inputElement.classList.add('input-block-input');
+
+            if (inputInfo.type == 'email' || inputInfo.type == 'password') {
+                inputElement.setAttribute('type', inputInfo.type)
+            }
 
             if (inputInfo.min_length !== null) {
                 inputElement.setAttribute('minlength', inputInfo.min_length)
@@ -155,7 +221,15 @@ class FormEditBlockElement extends HTMLElement {
                 inputElement.setAttribute('name', inputInfo.id);
             }
 
-            inputElement.value = value;
+            inputElement.addEventListener('keydown', function (e) {
+                if (e.key == 'Enter') {
+                    this.requestEditElement()
+                }
+            }.bind(this))
+
+            if (inputInfo.type != 'password') {
+                inputElement.value = value;
+            }
 
             contentInputElement.appendChild(inputElement);
         } else if (inputInfo.type == 'instance_select') {
@@ -178,6 +252,32 @@ class FormEditBlockElement extends HTMLElement {
             if (inputInfo.label !== null) {
                 selectElement.setAttribute('name', inputInfo.id);
             }
+
+            selectElement.value = value;
+
+            contentInputElement.appendChild(selectElement);
+        } else if (inputInfo.type == 'select') {
+            let selectElement = document.createElement('select');
+            selectElement.classList.add('input-block-select');
+
+            selectElement.setAttribute('id', inputInfo.id);
+
+            Object.entries(inputInfo.list).forEach(element => {
+                let [id, value] = element;
+                  
+                let optionElement = document.createElement("option");
+
+                optionElement.value = id;
+                optionElement.text = value;
+
+                selectElement.add(optionElement);
+            });
+
+            if (inputInfo.label !== null) {
+                selectElement.setAttribute('name', inputInfo.id);
+            }
+
+            selectElement.value = value;
 
             contentInputElement.appendChild(selectElement);
         }
