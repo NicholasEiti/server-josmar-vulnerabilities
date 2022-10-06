@@ -19,4 +19,6 @@ $request = RequestDB::searchById($request_id, [
 if ($request === false)
     API::send_error('request_not_found');
 
+$request['status'] = array_flip(RequestDB::$ENUM_STATUS)[$request['status']];
+
 API::send_success('request_got', ['request' => $request]);
