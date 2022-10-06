@@ -1,0 +1,42 @@
+.list-block {
+    gap: 10px;
+    display: grid;
+}
+
+.item-list {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #b1b1b1;
+    padding: 15px;
+    border-radius: 10px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.item-list-clickable:hover {
+    transition: .1s;
+    transform: scale(1.01);
+}
+
+.item-list-icons {
+    gap: 10px;
+    display: flex;
+}
+
+.item-list-text {
+    display: grid;
+    margin: 0;
+    gap: 10px;
+}
+
+.item-list-text-title {
+    font-weight: bold;
+}
+
+.item-list-icon {
+    color: #000000;
+}
+
+.item-list-icon:hover {
+    color: #3c3c3c;
+}

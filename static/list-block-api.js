@@ -206,6 +206,7 @@ function generateDrawerItem(drawer) {
 
     item.appendChild(itemIcons);
 
+    item.classList.add('item-list-clickable');
     item.addEventListener('click', function () {
         window.location.href = "/drawers/" + drawer.id
     });
@@ -273,6 +274,11 @@ function generateRequestItem(request) {
     itemIcons.appendChild(deleteLink);
 
     item.appendChild(itemIcons);
+
+    item.classList.add('item-list-clickable');
+    item.addEventListener('click', function () {
+        window.location.href = "/requests/" + request.id
+    });
 
     return item;
 }

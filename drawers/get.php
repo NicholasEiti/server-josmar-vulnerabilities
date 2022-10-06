@@ -11,6 +11,7 @@ Fabric::generateHead("Listagem dos armários", [
     "/static/show-block-api.js"
 ], [
     "/static/main-logged-in.css",
+    "/static/list-block-api.css",
     "/static/show-block-api.css"
 ]);
 
