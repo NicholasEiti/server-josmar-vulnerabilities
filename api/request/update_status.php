@@ -10,7 +10,7 @@ Params::requestMethodMustBe('POST');
 $jwtInstance = API::verifyToken(method: '_POST');
 
 $request_id        = Params::getIntParam('id', method: '_POST');
-$request_status    = Params::getEnumParam('status', $ENUM_REQUEST_STATUS, method: '_POST');
+$request_status    = Params::getEnumParam('status', RequestDB::$ENUM_STATUS, method: '_POST');
 
 $params = [];
 
@@ -25,23 +25,35 @@ if ($request === false)
 if ($request_status == $request['status'])
     API::send_error('request_already_this_status');
 
-if ($request['status'] == $ENUM_REQUEST_STATUS['ended'])
+if ($request['status'] == RequestDB::$ENUM_STATUS['ended'])
     API::send_error('request_status_already_ended');
 
-if ($request['status'] == $ENUM_REQUEST_STATUS['canceled'])
+if ($request['status'] == RequestDB::$ENUM_STATUS['canceled'])
     API::send_error('request_status_already_canceled');
 
-if (
-    $request['status'] == $ENUM_REQUEST_STATUS['not_started'] and
-    $request_status == $ENUM_REQUEST_STATUS['ended']
-)
-    API::send_error('request_status_can_not_ended');
+$available_status_paths = [
+    RequestDB::$ENUM_STATUS['not_started'] => [
+        RequestDB::$ENUM_STATUS['canceled'],
+        RequestDB::$ENUM_STATUS['start_request']
+    ],
+    RequestDB::$ENUM_STATUS['start_request'] => [
+        RequestDB::$ENUM_STATUS['canceled'],
+        RequestDB::$ENUM_STATUS['start']
+    ],
+    RequestDB::$ENUM_STATUS['start'] => [
+        RequestDB::$ENUM_STATUS['end_request']
+    ],
+    RequestDB::$ENUM_STATUS['end_request'] => [
+        RequestDB::$ENUM_STATUS['start'],
+        RequestDB::$ENUM_STATUS['ended']
+    ]
+];
 
-if (
-    $request['status'] == $ENUM_REQUEST_STATUS['started'] and
-    $request_status != $ENUM_REQUEST_STATUS['ended']
-)
-    API::send_error('request_status_must_ended');
+if (!isset($available_status_paths[$request['status']]))
+    API::send_error('request_cannot_go_to_this_status');
+
+if (!in_array($request_status, $available_status_paths[$request['status']]))
+    API::send_error('request_cannot_go_to_this_status');
 
 if (!RequestDB::update($request_id, [ 'status' => $request_status ]))
     API::send_error('request_error_on_update_status');
