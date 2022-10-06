@@ -3,8 +3,8 @@ class FormEditBlockElement extends HTMLElement {
 
     GET_TITLE_FN = {
         drawer: (drawer) => `Editar armário ${drawer.name}`,
-        key: (key) => `Editar chave ${key.name}`,
-        user: (user) => `Editar usuário ${user.name}`
+        user: (user) => `Editar usuário ${user.name}`,
+        request: (request) => `Editar pedido de chave ${request.name}`
     }
 
     INPUTS_INFOS = {
@@ -79,7 +79,8 @@ class FormEditBlockElement extends HTMLElement {
 
                 set('level', value);
             }
-        }]
+        }],
+        request: []
     }
 
     URL_TAGS = {
@@ -92,6 +93,11 @@ class FormEditBlockElement extends HTMLElement {
             edit: 'user_edit',
             get: 'user_get',
             back_url: () => '/users/'
+        },
+        request: {
+            edit: 'request_edit',
+            get: 'request_get',
+            back_url: (id) => '/requests/' + id
         }
     }
 
