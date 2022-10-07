@@ -38,8 +38,8 @@ if (RequestDB::count('WHERE `key` = :key_id and `status` not in (:ended_status, 
     (`date_expected_start` < :date_start and `date_expected_end` > :date_start) or
     (`date_expected_start` >= :date_start and `date_expected_end` <= :date_end)
 )', [
-    ':ended_status'     => $ENUM_REQUEST_STATUS['ended'],
-    ':canceled_status'  => $ENUM_REQUEST_STATUS['canceled'],
+    ':ended_status'     => RequestDB::$ENUM_STATUS['ended'],
+    ':canceled_status'  => RequestDB::$ENUM_STATUS['canceled'],
     ':key_id'       => $request_key,
     ':date_start'   => $request_date_expected_start->format('Y-m-d H:i:s'),
     ':date_end'     => $request_date_expected_end->format('Y-m-d H:i:s')
