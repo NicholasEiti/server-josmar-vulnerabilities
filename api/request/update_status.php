@@ -38,13 +38,13 @@ $available_status_paths = [
     ],
     RequestDB::$ENUM_STATUS['start_request'] => [
         RequestDB::$ENUM_STATUS['canceled'],
-        RequestDB::$ENUM_STATUS['start']
+        RequestDB::$ENUM_STATUS['started']
     ],
-    RequestDB::$ENUM_STATUS['start'] => [
+    RequestDB::$ENUM_STATUS['started'] => [
         RequestDB::$ENUM_STATUS['end_request']
     ],
     RequestDB::$ENUM_STATUS['end_request'] => [
-        RequestDB::$ENUM_STATUS['start'],
+        RequestDB::$ENUM_STATUS['started'],
         RequestDB::$ENUM_STATUS['ended']
     ]
 ];
@@ -55,7 +55,19 @@ if (!isset($available_status_paths[$request['status']]))
 if (!in_array($request_status, $available_status_paths[$request['status']]))
     API::send_error('request_cannot_go_to_this_status');
 
-if (!RequestDB::update($request_id, [ 'status' => $request_status ]))
+$params = [ 'status' => $request_status ];
+
+if (
+    $request_status == RequestDB::$ENUM_STATUS['started'] and
+    $request['status'] == RequestDB::$ENUM_STATUS['start_request']
+) $params['date_start'] = (new DateTime())->format('Y-m-d H:i:s');
+
+elseif (
+    $request_status == RequestDB::$ENUM_STATUS['ended'] and
+    $request['status'] == RequestDB::$ENUM_STATUS['end_request']
+) $params['date_end'] = (new DateTime())->format('Y-m-d H:i:s');
+
+if (!RequestDB::update($request_id, $params))
     API::send_error('request_error_on_update_status');
 
 API::send_success('request_updated_status');

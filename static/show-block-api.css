@@ -7,8 +7,36 @@
     justify-content: space-between;
 }
 
-
-
-.show-block-list  .block-title {
+.show-block-list .block-title {
     font-size: 22px;
+}
+
+.show-block {
+    gap: 10px;
+    display: grid;
+}
+
+.block-title-icons {
+    gap: 10px;
+    display: flex;
+}
+
+.show-block {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #b1b1b1;
+    padding: 15px;
+    border-radius: 10px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.show-block-text {
+    display: grid;
+    margin: 0;
+    gap: 10px;
+}
+
+.show-block-text-title {
+    font-weight: bold;
 }

@@ -4,7 +4,8 @@ class FormAddBlockElement extends HTMLElement {
     GET_TITLE = {
         drawer: 'Criar novo armário',
         key: 'Criar nova chave',
-        user: 'Criar novo usuário'
+        user: 'Criar novo usuário',
+        request: 'Criar novo pedido de chave'
     }
 
     INPUTS_INFOS = {
@@ -99,7 +100,6 @@ class FormAddBlockElement extends HTMLElement {
                 if (value.length <= 5) return error('Senha muito pequeno.');
                 if (value.length >= 20) return error('Senha muito longa.');
 
-
                 set('password', value)
             }
         }, {
@@ -114,6 +114,74 @@ class FormAddBlockElement extends HTMLElement {
                 if (value == '') return error('Nível na hierarquia não selecionado. Tente novamente.');
 
                 set('level', value);
+            }
+        }],
+        request: [{
+            id: 'key',
+            label: 'Chave:',
+            type: 'instance_select',
+            get: function (set, error) {
+                let selectElement = this.querySelector('#key');
+                let value = Number(selectElement.options[selectElement.selectedIndex].value);
+
+                if (value == '') return error('Chave não selecionado. Tente novamente.');
+
+                set('key', value);
+            },
+            get_list(return_list) {
+                requestAPI('key_list', { token: getToken() }, function (response) {
+                    return_list(response.list.map(function (element) {
+                        return { id: element.id, value: element.name };
+                    }));
+                });
+            }
+        }, {
+            id: 'date_start',
+            label: 'Data inicial:',
+            type: 'date_time',
+            get: function(set, error) {
+                let value = this.querySelector('#date_start').value;
+
+                if (value == '') return error('Data inicial vazia. Escolha um data inicial e tente novamente.');
+
+                var date = Date.parse(value);
+
+                if (isNaN(date)) return error('Data inicial com formatação inesperada. Tente novamente.');
+
+                date = new Date(date);
+
+                let date_start = date.getFullYear() + "-" +
+                    ("00" + (date.getMonth() + 1)).slice(-2) + "-" +
+                    ("00" + date.getDate()).slice(-2) + " " +
+                    ("00" + date.getHours()).slice(-2) + ":" +
+                    ("00" + date.getMinutes()).slice(-2) + ":" +
+                    ("00" + date.getSeconds()).slice(-2);
+
+                return set('date_start', date_start)
+            }
+        }, {
+            id: 'date_end',
+            label: 'Data final:',
+            type: 'date_time',
+            get: function(set, error) {
+                let value = this.querySelector('#date_end').value;
+
+                if (value == '') return error('Data final vazia. Escolha um data final e tente novamente.');
+
+                var date = Date.parse(value);
+
+                if (isNaN(date)) return error('Data final com formatação inesperada. Tente novamente.');
+
+                date = new Date(date);
+
+                let date_end = date.getFullYear() + "-" +
+                    ("00" + (date.getMonth() + 1)).slice(-2) + "-" +
+                    ("00" + date.getDate()).slice(-2) + " " +
+                    ("00" + date.getHours()).slice(-2) + ":" +
+                    ("00" + date.getMinutes()).slice(-2) + ":" +
+                    ("00" + date.getSeconds()).slice(-2);
+
+                return set('date_end', date_end)
             }
         }]
     }
@@ -133,6 +201,11 @@ class FormAddBlockElement extends HTMLElement {
             add: 'user_add',
             list_url: '/users/',
             get_url: () => '/users/'
+        },
+        request: {
+            add: 'request_add',
+            list_url: '/requests/',
+            get_url: (response) => '/requests/' + response.id
         }
     }
 
@@ -221,12 +294,14 @@ class FormAddBlockElement extends HTMLElement {
             contentInputElement.appendChild(labelElement);
         }
 
-        if (inputInfo.type == 'string' || inputInfo.type == 'email' || inputInfo.type == 'password') {
+        if (inputInfo.type == 'string' || inputInfo.type == 'email' || inputInfo.type == 'password' || inputInfo.type == 'date_time') {
             let inputElement = document.createElement('input');
             inputElement.classList.add('input-block-input');
 
-            if (inputInfo.type == 'email' || inputInfo.type == 'password') {
+            if (inputInfo.type == 'email' || inputInfo.type == 'password')
                 inputElement.setAttribute('type', inputInfo.type)
+            else if (inputInfo.type == 'date_time') {
+                inputElement.setAttribute('type', 'datetime-local')
             }
 
             if (inputInfo.min_length !== undefined) {
@@ -313,9 +388,11 @@ class FormAddBlockElement extends HTMLElement {
             showNoCodeError(msg);
         };
 
-        this.get_input_value_fns.forEach(function (f) {
-            f(setFn, errorFn);
-        });
+        for (const fn of this.get_input_value_fns) {
+            fn(setFn, errorFn);
+
+            if (hasError) break;
+        }
 
         if (!hasError) {
             var urlTag = this.URL_TAGS[this.tag];

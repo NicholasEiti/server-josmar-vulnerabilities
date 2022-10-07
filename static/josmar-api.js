@@ -105,8 +105,10 @@ const API_URLS_CONFIGS = {
     key_get: {url: '/api/key/get', method: 'GET'},
     key_remove: {url: '/api/key/remove', method: 'POST'},
 
+    request_add: {url: '/api/request/create', method: 'GET'},
     request_list: {url: '/api/request/list', method: 'GET'},
     request_get: {url: '/api/request/get', method: 'GET'},
+    request_update_status: {url: '/api/request/update_status', method: 'POST'},
 
     user_get: {url: '/api/user/get', method: 'GET'},
     user_edit: {url: '/api/user/edit', method: 'POST'},
@@ -115,12 +117,12 @@ const API_URLS_CONFIGS = {
 };
 
 const API_REQUEST_STATUS = {
-    1: 'Usuário ainda não pegou a chave',
-    2: 'Usuário pediu abertura do armário',
-    3: 'Usuário está com a chave',
-    4: 'Usuário pediu para devolver chave',
-    5: 'Usuário já devolveu a chave',
-    6: 'Usuário cancelou o pedido'
+    'not_started':      'Usuário ainda não pegou a chave',
+    'start_request':    'Usuário pediu abertura do armário',
+    'started':          'Usuário está com a chave',
+    'end_request':      'Usuário pediu para devolver chave',
+    'ended':            'Usuário já devolveu a chave',
+    'canceled':         'Usuário cancelou o pedido'
 }
 
 function requestAPI(url_tag, data, callback) {

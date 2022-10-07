@@ -3,8 +3,8 @@ class FormEditBlockElement extends HTMLElement {
 
     GET_TITLE_FN = {
         drawer: (drawer) => `Editar armário ${drawer.name}`,
-        key: (key) => `Editar chave ${key.name}`,
-        user: (user) => `Editar usuário ${user.name}`
+        user: (user) => `Editar usuário ${user.name}`,
+        request: (request) => `Editar situação do pedido de chave de ${request.user_name}`
     }
 
     INPUTS_INFOS = {
@@ -79,6 +79,44 @@ class FormEditBlockElement extends HTMLElement {
 
                 set('level', value);
             }
+        }],
+        request: [{
+            id: 'status',
+            label: 'Situação do pedido:',
+            type: 'select',
+            list: (value) => {
+                let available_paths = {
+                    'not_started': {
+                        'not_started': '-',
+                        'canceled': 'Cancelar pedido',
+                        'start_request': 'Pedir chave '
+                    },
+                    'start_request': {
+                        'start_request': '-',
+                        'canceled': 'Cancelar pedido',
+                        'started': 'Pegar chave'
+                    },
+                    'started': {
+                        'started': '-',
+                        'end_request': 'Pedir entrega da chave'
+                    },
+                    'end_request': {
+                        'end_request': '-',
+                        'started': 'Ficar a chave',
+                        'ended': 'Devolver chave'
+                    }
+                };
+
+                return available_paths[value];
+            },
+            get: function (set, error) {
+                let selectElement = this.querySelector('#status');
+                let value = selectElement.options[selectElement.selectedIndex].value;
+                
+                if (value == '') return error('Situação do pedido não selecionado. Tente novamente.');
+
+                set('status', value);
+            }
         }]
     }
 
@@ -92,6 +130,11 @@ class FormEditBlockElement extends HTMLElement {
             edit: 'user_edit',
             get: 'user_get',
             back_url: () => '/users/'
+        },
+        request: {
+            edit: 'request_update_status',
+            get: 'request_get',
+            back_url: (id) => '/requests/' + id
         }
     }
 
@@ -118,12 +161,13 @@ class FormEditBlockElement extends HTMLElement {
         var urlTag = this.URL_TAGS[tag];
 
         requestAPI(urlTag.get, { token, id }, function(response) {
+            let element = response[tag];
             containerElement.innerHTML = '';
 
-            let titleElement = this.generateTitle(tag, response[tag]);
+            let titleElement = this.generateTitle(tag, element);
             containerElement.appendChild(titleElement);
 
-            let contentElement = this.generateContent(tag, response[tag]);
+            let contentElement = this.generateContent(tag, element);
             containerElement.appendChild(contentElement);
 
             let submitElement = this.generateSubmit(tag, id);
@@ -261,6 +305,9 @@ class FormEditBlockElement extends HTMLElement {
             selectElement.classList.add('input-block-select');
 
             selectElement.setAttribute('id', inputInfo.id);
+
+            if(typeof inputInfo.list === "function")
+                inputInfo.list = inputInfo.list(value);
 
             Object.entries(inputInfo.list).forEach(element => {
                 let [id, value] = element;

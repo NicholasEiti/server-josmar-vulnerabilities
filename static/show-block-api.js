@@ -37,12 +37,14 @@ class ShowBlockElement extends HTMLElement {
         var urlTag = this.URL_TAGS[tag];
 
         requestAPI(urlTag.get, { token, id }, function(response) {
+            let element = response[tag];
+
             containerElement.innerHTML = '';
 
-            let titleElement = this.generateTitle(tag, response[tag]);
+            let titleElement = this.generateTitle(tag, element);
             containerElement.appendChild(titleElement);
 
-            let item = generateItem(response.drawer);
+            let item = generateItem(element);
             containerElement.appendChild(item);
         }.bind(this));
 
@@ -104,12 +106,48 @@ function drawShowDrawer(drawer) {
     return showElement
 }
 
-function drawShowRequest(request) {   
+function drawShowRequest(request) {
+    request.date_expected_start = new Date(request.date_expected_start).toLocaleString("pt-br")
+    request.date_expected_end = new Date(request.date_expected_end).toLocaleString("pt-br")
+
     let showElement = document.createElement('div');
+    showElement.classList.add('show-block');
 
-    showElement.append(keyListElement);
+    let showElementText = document.createElement('div');
+    showElementText.classList.add('show-block-text');
 
-    return showElement
+    let showElementText1 = document.createElement('span');
+    showElementText1.classList.add('show-block-text-title');
+    showElementText1.textContent = `Pedido da chave ${request.key_name} de ${request.user_name}`;
+    showElementText.appendChild(showElementText1);
+
+    let showElementText2 = document.createElement('span');
+    showElementText2.textContent = `Pedido foi programado para ${request.date_expected_start} e ${request.date_expected_end}`;
+    showElementText.appendChild(showElementText2);
+
+    if (request.date_start !== null) {
+        request.date_start = new Date(request.date_start).toLocaleString("pt-br")
+
+        let showElementText3 = document.createElement('span');
+        let textContent = `Usuário pegou a chave ás ${request.date_start}`;
+        
+        if (request.date_end !== null) {
+            request.date_end = new Date(request.date_end).toLocaleString("pt-br")
+
+            textContent += ` e devolveu ás ${request.date_end}`
+        }
+
+        showElementText3.textContent = textContent;
+        showElementText.appendChild(showElementText3);
+    }
+
+    let showElementText4 = document.createElement('span');
+    showElementText4.textContent = `Situação do pedido: ${API_REQUEST_STATUS[request.status]}`;
+    showElementText.appendChild(showElementText4);
+
+    showElement.appendChild(showElementText); 
+
+    return showElement;
 }
 
 window.customElements.define('show-block', ShowBlockElement)
