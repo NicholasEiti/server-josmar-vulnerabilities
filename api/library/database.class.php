@@ -163,8 +163,8 @@ abstract class ColumnDB {
 
         $count = static::count($query, $params);
 
-        if ($order !== null) $query = " ORDER BY $order";
-        if ($limit !== null) $query = " LIMIT $limit";
+        if ($order !== null) $query .= " ORDER BY $order";
+        if ($limit !== null) $query .= " LIMIT $limit";
 
         $list = static::search($query, $params, $joins);
 
