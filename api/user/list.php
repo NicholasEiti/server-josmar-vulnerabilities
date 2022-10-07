@@ -9,9 +9,9 @@ Params::requestMethodMustBe('GET');
 
 API::verifyToken(ADMIN_MIN_LEVEL);
 
-$limit = Params::getIntParam('limit', optional: true);
+$quant = Params::getIntParam('quant', optional: true);
 
-$dynamicSearch = UserDB::dynamicListSearch([], [], '`users`.`id`', $limit);
+$dynamicSearch = UserDB::dynamicListSearch([], [], '`users`.`id`', $quant);
 
 if ($dynamicSearch['list'] !== false && count($dynamicSearch['list']) !== 0)
     foreach ($dynamicSearch['list'] as &$user)

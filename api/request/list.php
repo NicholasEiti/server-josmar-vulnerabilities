@@ -21,7 +21,7 @@ $request_status = Params::getListOfIntsParam('status', true);
 $request_date_start = Params::getDateParam('date_start', '!Y-m-d H:i:s', optional: true);
 $request_date_end   = Params::getDateParam('date_end', '!Y-m-d H:i:s', optional: true);
 
-$limit = Params::getIntParam('limit', optional: true);
+$quant = Params::getIntParam('quant', optional: true);
 
 $queries = [];
 $params = [];
@@ -63,7 +63,7 @@ if ($request_date_start !== null and $request_date_end !== null) {
     $params[] = $request_date_end->format('Y-m-d H:i:s');
 }
 
-$dynamicSearch = RequestDB::dynamicListSearch($queries, $params, '`requests`.`id`', $limit, [
+$dynamicSearch = RequestDB::dynamicListSearch($queries, $params, '`requests`.`id`', $quant, [
     'user' => [ 'name' => 'user_name' ],
     'key' => [ 'name' => 'key_name' ]
 ]);

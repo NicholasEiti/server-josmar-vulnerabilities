@@ -9,7 +9,7 @@ Params::requestMethodMustBe('GET');
 
 API::verifyToken();
 
-$limit = Params::getIntParam('limit', optional: true);
-$dynamicSearch = DrawerDB::dynamicListSearch(order: '`drawers`.`id`', limit: $limit);
+$quant = Params::getIntParam('quant', optional: true);
+$dynamicSearch = DrawerDB::dynamicListSearch(order: '`drawers`.`id`', limit: $quant);
 
 API::send_success('drawer_list', $dynamicSearch);
