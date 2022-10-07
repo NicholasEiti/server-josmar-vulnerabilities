@@ -131,12 +131,11 @@ function requestAPI(url_tag, data, callback) {
     xmlHttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
             try {
+                console.log(this.responseText)
                 response = JSON.parse(this.responseText);
             } catch (e) {
                 return showError('api_system_unexpected_error');
             }
-
-            console.log(response);
 
             if (response.status === ERROR_STATUS) {
                 return showError(response.code);

@@ -63,9 +63,12 @@ if ($request_date_start !== null and $request_date_end !== null) {
     $params[] = $request_date_end->format('Y-m-d H:i:s');
 }
 
-$dynamicSearch = RequestDB::dynamicListSearch($queries, $params, '`requests`.`id`', $limit);
+$dynamicSearch = RequestDB::dynamicListSearch($queries, $params, '`requests`.`id`', $limit, [
+    'user' => [ 'name' => 'user_name' ],
+    'key' => [ 'name' => 'key_name' ]
+]);
 
-if ($dynamicSearch['list'] && count($dynamicSearch['list'])) {
+if ($dynamicSearch['list'] && count($dynamicSearch['list']) !== 0) {
     $status_names = array_flip(RequestDB::$ENUM_STATUS);
 
     foreach ($dynamicSearch['list'] as &$request)
