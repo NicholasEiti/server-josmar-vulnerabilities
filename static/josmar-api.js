@@ -105,6 +105,7 @@ const API_URLS_CONFIGS = {
     key_get: {url: '/api/key/get', method: 'GET'},
     key_remove: {url: '/api/key/remove', method: 'POST'},
 
+    request_add: {url: '/api/request/create', method: 'GET'},
     request_list: {url: '/api/request/list', method: 'GET'},
     request_get: {url: '/api/request/get', method: 'GET'},
     request_update_status: {url: '/api/request/update_status', method: 'POST'},
