@@ -155,6 +155,24 @@ abstract class ColumnDB {
 
         return $rows['id'];
     }
+
+    static function dynamicListSearch(array $queries, ?array $params = null, ?string $order = null, ?int $limit = null) {
+        $query = '';
+
+        if (count($queries) != 0) $query = 'WHERE ' . implode(' and ', $queries);
+
+        $count = static::count($query, $params);
+
+        if ($order !== null) $query = " ORDER BY $order";
+        if ($limit !== null) $query = " LIMIT $limit";
+
+        $list = static::search($query, $params, [
+            'user' => [ 'name' => 'user_name' ],
+            'key' => [ 'name' => 'key_name' ]
+        ]);
+
+        return ['count' => $count, 'list' => $list];
+    }
 }
 
 class DrawerDB  extends ColumnDB { static public $tablename = 'drawers';    }

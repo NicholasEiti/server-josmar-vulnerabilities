@@ -136,6 +136,8 @@ function requestAPI(url_tag, data, callback) {
                 return showError('api_system_unexpected_error');
             }
 
+            console.log(response);
+
             if (response.status === ERROR_STATUS) {
                 return showError(response.code);
             } else if (response.status == SUCCESS_STATUS) {
