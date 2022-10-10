@@ -40,7 +40,7 @@ class DeleteBLockElement extends HTMLElement {
 
         var urlTag = this.URL_TAGS[tag].get;
 
-        requestAPI(urlTag, { token, id }, function(response) {
+        requestAPI(urlTag, { token, id }, (response) => {
             containerElement.innerHTML = '';
     
             let titleElement = this.generateTitle(tag, response[tag]);
@@ -48,7 +48,7 @@ class DeleteBLockElement extends HTMLElement {
     
             let submitElement = this.generateSubmit(tag, response[tag]);
             containerElement.appendChild(submitElement);
-        }.bind(this));
+        });
     
         return containerElement;
     }

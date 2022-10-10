@@ -6,7 +6,7 @@ $access = new Access;
 
 $access->loggedPage();
 
-Fabric::generateHead("Listagem dos armários", [
+Fabric::generateHead("Visualizar pedido de chave", [
     "/static/show-block-api.js"
 ], [
     "/static/main-logged-in.css",

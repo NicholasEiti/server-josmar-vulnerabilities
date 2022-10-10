@@ -160,7 +160,7 @@ class FormEditBlockElement extends HTMLElement {
         let token = getToken();
         var urlTag = this.URL_TAGS[tag];
 
-        requestAPI(urlTag.get, { token, id }, function(response) {
+        requestAPI(urlTag.get, { token, id }, (response) => {
             let element = response[tag];
             containerElement.innerHTML = '';
 
@@ -172,7 +172,7 @@ class FormEditBlockElement extends HTMLElement {
 
             let submitElement = this.generateSubmit(tag, id);
             containerElement.appendChild(submitElement);
-        }.bind(this));
+        });
 
         return containerElement;
     }
@@ -194,13 +194,13 @@ class FormEditBlockElement extends HTMLElement {
 
         let inputsInfo = this.INPUTS_INFOS[tag];
 
-        inputsInfo.forEach(function (inputInfo) {
+        inputsInfo.forEach((inputInfo) => {
             let inputElement = this.generateInput(inputInfo, element[inputInfo.id]);
 
             this.get_input_value_fns.push(inputInfo.get.bind(inputElement));
 
             contentElement.appendChild(inputElement);
-        }.bind(this));
+        });
 
         return contentElement;
     }
@@ -265,11 +265,11 @@ class FormEditBlockElement extends HTMLElement {
                 inputElement.setAttribute('name', inputInfo.id);
             }
 
-            inputElement.addEventListener('keydown', function (e) {
+            inputElement.addEventListener('keydown', (e) => {
                 if (e.key == 'Enter') {
                     this.requestEditElement()
                 }
-            }.bind(this))
+            })
 
             if (inputInfo.type != 'password') {
                 inputElement.value = value;
@@ -354,9 +354,9 @@ class FormEditBlockElement extends HTMLElement {
         if (!hasError) {
             var urlTag = this.URL_TAGS[this.tag];
 
-            requestAPI(urlTag.edit, params, function () {
+            requestAPI(urlTag.edit, params, () => {
                 window.location.href = urlTag.back_url(this.id);
-            }.bind(this));
+            });
         }
     }
 

@@ -155,6 +155,22 @@ abstract class ColumnDB {
 
         return $rows['id'];
     }
+
+    static function dynamicListSearch(?array $queries = null, ?array $params = null, ?string $order = null, ?int $limit = null, ?int $offset = null, ?array $joins = null) {
+        $query = '';
+
+        if ($queries !== null && count($queries) != 0) $query = 'WHERE ' . implode(' and ', $queries);
+
+        $count = static::count($query, $params);
+
+        if ($order !== null) $query .= " ORDER BY $order";
+        if ($limit !== null) $query .= " LIMIT $limit";
+        if ($offset !== null) $query .= " OFFSET $offset";
+
+        $list = static::search($query, $params, $joins);
+
+        return ['count' => $count, 'list' => $list];
+    }
 }
 
 class DrawerDB  extends ColumnDB { static public $tablename = 'drawers';    }

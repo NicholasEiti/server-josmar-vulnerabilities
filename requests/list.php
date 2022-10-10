@@ -5,7 +5,7 @@ require_once "../library/library.php";
 $access = new Access;
 $access->loggedPage();
 
-Fabric::generateHead("Listagem dos armários", [
+Fabric::generateHead("Listagem dos pedidos de chave", [
     "/static/list-block-api.js"
 ], [
     "/static/main-logged-in.css",

@@ -6,7 +6,7 @@ $access = new Access;
 
 $access->loggedPage();
 
-Fabric::generateHead("Página principal", [
+Fabric::generateHead("Alterar pedido de chave", [
     "/static/edit-form-api.js",
 ], [
     "/static/main-logged-in.css",

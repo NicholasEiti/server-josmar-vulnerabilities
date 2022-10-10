@@ -21,6 +21,9 @@ $request_status = Params::getListOfIntsParam('status', true);
 $request_date_start = Params::getDateParam('date_start', '!Y-m-d H:i:s', optional: true);
 $request_date_end   = Params::getDateParam('date_end', '!Y-m-d H:i:s', optional: true);
 
+$quant = Params::getIntParam('quant', optional: true);
+$offset = Params::getIntParam('offset', optional: true);
+
 $queries = [];
 $params = [];
 
@@ -61,17 +64,16 @@ if ($request_date_start !== null and $request_date_end !== null) {
     $params[] = $request_date_end->format('Y-m-d H:i:s');
 }
 
-if (count($queries) != 0)
-    $list = RequestDB::search('WHERE ' . implode(' and ', $queries) . ' ORDER BY id', $params, [
-        'user' => [ 'name' => 'user_name' ],
-        'key' => [ 'name' => 'key_name' ]
-    ]);
-else
-    $list = RequestDB::search('ORDER BY id', [], [
-        'user' => [ 'name' => 'user_name' ],
-        'key' => [ 'name' => 'key_name' ]
-    ]);
+$dynamicSearch = RequestDB::dynamicListSearch($queries, $params, '`requests`.`id`', $quant, $offset, [
+    'user' => [ 'name' => 'user_name' ],
+    'key' => [ 'name' => 'key_name' ]
+]);
 
-$count = $list === false ? 0 : count($list);
+if ($dynamicSearch['list'] && count($dynamicSearch['list']) !== 0) {
+    $status_names = array_flip(RequestDB::$ENUM_STATUS);
 
-API::send_success('request_list', [ 'list' => $list, 'count' => $count ]);
+    foreach ($dynamicSearch['list'] as &$request)
+        $request['status'] = $status_names[$request['status']];
+}
+
+API::send_success('request_list', $dynamicSearch);

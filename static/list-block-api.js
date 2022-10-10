@@ -82,7 +82,10 @@ class ListBlockElement extends HTMLElement {
         var urlTag = this.URL_TAGS[tag];
         let url_params = this.URL_PARAMS[tag];
 
-        let params = {};
+        let params = {
+            quant: this.quant,
+            offset: (this.page - 1) * this.quant
+        };
 
         url_params.forEach(param => {
             let value = this.getAttribute(param)
@@ -92,12 +95,7 @@ class ListBlockElement extends HTMLElement {
             }
         });
 
-        requestAPI(urlTag, {
-            token,
-            page: this.page,
-            quant: this.quant,
-            ...params
-        }, function(response) {
+        requestAPI(urlTag, { token, ...params }, (response) => {
             listElement.innerHTML = '';
 
             let titleElement = this.generateTitle(tag, response.count, params);
@@ -119,8 +117,11 @@ class ListBlockElement extends HTMLElement {
                 }
             }
 
-            containerElement.appendChild(listElement)
-        }.bind(this));
+            containerElement.appendChild(listElement);
+
+            let pageSelectorElement = this.generatePageSelectorElement(response.count);
+            containerElement.appendChild(pageSelectorElement);
+        });
 
         return containerElement;
     }
@@ -165,18 +166,46 @@ class ListBlockElement extends HTMLElement {
 
         return titleElement;
     }
+    
+    generatePageSelectorElement(count) {
+        let pageSelectorElement = document.createElement('div');
+        pageSelectorElement.classList.add('block-footer');
 
-    connectedCallback() {
+        let numPages = Math.floor(count / this.quant) + 1
+
+        for (let i = 1; i <= numPages; i++) {
+            let pageElement = document.createElement('div');
+            pageElement.classList.add('selector-page');
+
+            if (i == this.page)
+                pageElement.classList.add('selected-page')
+
+            pageElement.textContent = i;
+            
+            pageElement.addEventListener('click', () => {
+                window.history.pushState({page: i}, document.title, "?page=" + i);
+                this.setAttribute('page', i);
+            });
+
+            pageSelectorElement.appendChild(pageElement);
+        }
+
+        return pageSelectorElement;
+    }
+
+    generate() {
         this.tag = this.getAttribute('tag');
         this.quant = Number(this.getAttribute('quant')) || this.DEFAULT_QUANT;
         this.page = Number(this.getAttribute('page')) || this.DEFAULT_PAGE;
 
         let listElement = this.generateList(this.tag, this.quant, this.page);
 
+        this.innerHTML = '';
         this.appendChild(listElement);
     }
 
-    // attributeChangedCallback(name, oldValue, newValue) {}
+    connectedCallback() { this.generate(); }
+    attributeChangedCallback() { this.generate(); }
 
     static get observedAttributes() { return ['tag', 'quant', 'page']; }
 }

@@ -9,14 +9,13 @@ Params::requestMethodMustBe('GET');
 
 API::verifyToken(ADMIN_MIN_LEVEL);
 
-$list = UserDB::search('ORDER BY id');
+$quant = Params::getIntParam('quant', optional: true);
+$offset = Params::getIntParam('offset', optional: true);
 
-if ($list === False)
-    $list = [];
-else
-    foreach ($list as &$row)
-        unset($row['password']);
+$dynamicSearch = UserDB::dynamicListSearch([], [], '`users`.`id`', $quant, $offset);
 
-$count = $list === false ? 0 : count($list);
+if ($dynamicSearch['list'] !== false && count($dynamicSearch['list']) !== 0)
+    foreach ($dynamicSearch['list'] as &$user)
+        unset($user['password']);
 
-API::send_success('user_list', [ 'list' => $list, 'count' => $count ]);
+API::send_success('user_list', $dynamicSearch);

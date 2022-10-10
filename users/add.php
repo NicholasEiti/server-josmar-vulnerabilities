@@ -6,7 +6,7 @@ $access = new Access;
 
 $access->loggedPage();
 
-Fabric::generateHead("Página principal", [
+Fabric::generateHead("Criar usuário", [
     "/static/add-form-api.js",
 ], [
     "/static/main-logged-in.css",
