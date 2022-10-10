@@ -13,6 +13,6 @@ Fabric::generateHead("Remover chave", [
     "/static/delete-block-api.css"
 ]);
 
-Fabric::generateLoggedInStart($access);
+Fabric::generateStart($access);
 Fabric::generateRemove('key');
 Fabric::generateFooter();

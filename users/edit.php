@@ -13,6 +13,6 @@ Fabric::generateHead("Alterar usuário", [
     "/static/edit-form-api.css"
 ]);
 
-Fabric::generateLoggedInStart($access);
+Fabric::generateStart($access);
 Fabric::generateEditForm('user');
 Fabric::generateFooter();

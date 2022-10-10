@@ -13,6 +13,6 @@ Fabric::generateHead("Criar pedido de chave", [
     "/static/add-form-api.css"
 ]);
 
-Fabric::generateLoggedInStart($access);
+Fabric::generateStart($access);
 Fabric::generateAddForm('request');
 Fabric::generateFooter();

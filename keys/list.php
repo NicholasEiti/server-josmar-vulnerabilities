@@ -13,6 +13,6 @@ Fabric::generateHead("Listagem das chaves", [
     "/static/list-block-api.css"
 ]);
 
-Fabric::generateLoggedInStart($access);
+Fabric::generateStart($access);
 Fabric::generateListBlock('key');
 Fabric::generateFooter();

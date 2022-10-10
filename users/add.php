@@ -13,6 +13,6 @@ Fabric::generateHead("Criar usuário", [
     "/static/add-form-api.css"
 ]);
 
-Fabric::generateLoggedInStart($access);
+Fabric::generateStart($access);
 Fabric::generateAddForm('user');
 Fabric::generateFooter();

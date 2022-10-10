@@ -7,11 +7,16 @@ class Access
 {
     const TOKEN_COOKIE_NAME = 'api_token';
 
+    public ?string $token;
+    public ?bool $logged;
+    public JosmarWT|false $jwtInstance;
+    public ?array $session;
+
     function __construct()
     {
         $this->token = $_COOKIE[static::TOKEN_COOKIE_NAME] ?? null;
         $this->logged = null;
-        $this->jwtInstance = null;
+        $this->jwtInstance = false;
         $this->session = null;
     }
 
@@ -51,6 +56,8 @@ class Access
 
     function notLoggedPage(string $url_if_not=MAIN_LOGGED_IN): void
     {
+        $this->logged = false;
+
         if ($this->token !== null) {
             $this->jwtInstance = JosmarWT::fromToken($this->token);
 

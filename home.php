@@ -1,5 +1,5 @@
 <?php
-/** Página principal - logado*/
+/** Página principal - conectado */
 
 require_once "./library/library.php";
 
@@ -11,6 +11,6 @@ Fabric::generateHead("Página principal", styleFiles: [
     "/static/main-logged-in.css"
 ]);
 
-Fabric::generateLoggedInStart($access);
+Fabric::generateStart($access);
 
 Fabric::generateFooter();

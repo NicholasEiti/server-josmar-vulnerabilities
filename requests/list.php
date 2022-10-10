@@ -11,6 +11,6 @@ Fabric::generateHead("Listagem dos pedidos de chave", [
     "/static/main-logged-in.css",
     "/static/list-block-api.css"
 ]);
-Fabric::generateLoggedInStart($access);
+Fabric::generateStart($access);
 Fabric::generateListBlock('request');
 Fabric::generateFooter();

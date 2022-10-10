@@ -14,7 +14,7 @@
 </p>
 
 # Server-Josmar e Admin-Josmar
-Esse repositório é uma API (Server-Josmar) para controlar o armário "e-josmar" e um sistema de gerenciamento de usuários, chaves, etc(Admin-Josmar).  
+Esse repositório é uma API (Server-Josmar) para controlar o armário "e-josmar" e um sistema de administração de usuários, chaves, etc(Admin-Josmar).  
 
 ## Rotas do Server-Josmar
 ### Rotas sem autenticação

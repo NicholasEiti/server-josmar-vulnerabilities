@@ -15,6 +15,6 @@ Fabric::generateHead("Visualizar armário", [
     "/static/show-block-api.css"
 ]);
 
-Fabric::generateLoggedInStart($access);
+Fabric::generateStart($access);
 Fabric::generateShowBlock('drawer');
 Fabric::generateFooter();

@@ -13,6 +13,6 @@ Fabric::generateHead("Listagem dos armários", [
     "/static/list-block-api.css"
 ]);
 
-Fabric::generateLoggedInStart($access);
+Fabric::generateStart($access);
 Fabric::generateListBlock('drawer');
 Fabric::generateFooter();

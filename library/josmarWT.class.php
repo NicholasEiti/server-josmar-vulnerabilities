@@ -16,7 +16,7 @@ class JosmarWT {
     public ?string $expire_after = null;
     public ?string $signature = null;
 
-    static function fromToken($token): JosmarWT|false
+    static function fromToken($token): JosmarWT|bool
     {
         [
             $header,
@@ -49,7 +49,7 @@ class JosmarWT {
         $this->header = static::$default_header;
     }
 
-    private static function _json_base64_encode(array $value): false|string
+    private static function _json_base64_encode(array $value): bool|string
     {
         $value = json_encode($value);
 
@@ -61,7 +61,7 @@ class JosmarWT {
         return $value;
     }
 
-    private static function _json_base64_decode(string $value): array|false
+    private static function _json_base64_decode(string $value): array|bool
     {
         $value = base64_decode($value);
 

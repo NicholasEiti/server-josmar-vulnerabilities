@@ -13,6 +13,6 @@ Fabric::generateHead("Visualizar pedido de chave", [
     "/static/show-block-api.css"
 ]);
 
-Fabric::generateLoggedInStart($access);
+Fabric::generateStart($access);
 Fabric::generateShowBlock('request');
 Fabric::generateFooter();

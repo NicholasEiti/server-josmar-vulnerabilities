@@ -32,15 +32,15 @@ class Fabric
 </head><?php
     }
 
-    static function generateStart(Access $access)
+    static function generateStart(Access $access): void
     {
         if ($access->isLogged())
-            return static::generateLoggedInStart($access);
+            static::generateStart($access);
         else
-            return static::generateLogoutStart();
+            static::generateLogoutStart();
     }
 
-    static function generateLoggedInStart(Access $access)
+    static function generateStart(Access $access)
     {
         ?><body>
 <ul class="navbar">
@@ -60,7 +60,7 @@ class Fabric
 <?php
     }
 
-    static function generateLogoutStart()
+    private static function generateLogoutStart()
     {
         ?><body>
     <div class="container">

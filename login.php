@@ -9,7 +9,7 @@ Fabric::generateHead("Login", styleFiles: [
     '/static/login-style.css'
 ]);
 
-Fabric::generateLogoutStart();
+Fabric::generateStart($access);
 
 ?>
 <form class="login-block" onsubmit="return tryLogin()" action="/home">

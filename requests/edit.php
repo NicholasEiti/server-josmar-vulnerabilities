@@ -13,6 +13,6 @@ Fabric::generateHead("Alterar pedido de chave", [
     "/static/edit-form-api.css"
 ]);
 
-Fabric::generateLoggedInStart($access);
+Fabric::generateStart($access);
 Fabric::generateEditForm('request');
 Fabric::generateFooter();

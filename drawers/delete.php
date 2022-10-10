@@ -13,6 +13,6 @@ Fabric::generateHead("Remover armário", [
     "/static/delete-block-api.css"
 ]);
 
-Fabric::generateLoggedInStart($access);
+Fabric::generateStart($access);
 Fabric::generateRemove('drawer');
 Fabric::generateFooter();

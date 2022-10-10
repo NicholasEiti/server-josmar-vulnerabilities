@@ -13,6 +13,6 @@ Fabric::generateHead("Alterar armário", [
     "/static/edit-form-api.css"
 ]);
 
-Fabric::generateLoggedInStart($access);
+Fabric::generateStart($access);
 Fabric::generateEditForm('drawer');
 Fabric::generateFooter();

@@ -13,6 +13,6 @@ Fabric::generateHead("Criar armário", [
     "/static/add-form-api.css"
 ]);
 
-Fabric::generateLoggedInStart($access);
+Fabric::generateStart($access);
 Fabric::generateAddForm('drawer');
 Fabric::generateFooter();

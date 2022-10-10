@@ -13,6 +13,6 @@ Fabric::generateHead("Listagem dos usuários", [
     "/static/list-block-api.css"
 ]);
 
-Fabric::generateLoggedInStart($access);
+Fabric::generateStart($access);
 Fabric::generateListBlock('user');
 Fabric::generateFooter();
