@@ -10,7 +10,7 @@ define('ADMIN_MIN_LEVEL', 10);
 function startPDO($name, $host, $charset, $login, $password): PDO
 {
     try {
-        $pdo = new PDO("mysql:dbname=$name;host=$host;chartset=$charset", $login, $password);
+        $pdo = new PDO("mysql:dbname=$name;host=$host;charset=$charset", $login, $password);
     } catch (Exception $e) {
         API::send_error('database_connection_error');
     }
@@ -34,8 +34,7 @@ abstract class ColumnDB {
         return $index->rowCount();
     }
 
-    static function search(string $sql = null, array $params = null, array $joins = null): array|false
-    {
+    static function search(string $sql = null, array $params = null, array $joins = null): array|bool {
         global $GLOBAL_PDO;
 
         $columns = "";
@@ -59,7 +58,7 @@ abstract class ColumnDB {
         $rows = $index->fetchAll(PDO::FETCH_ASSOC);
 
         if (count($rows) === 0)
-            return False;
+            return false;
         
         return $rows;
     }
