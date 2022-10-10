@@ -10,24 +10,43 @@ class Access
     function __construct()
     {
         $this->token = $_COOKIE[static::TOKEN_COOKIE_NAME] ?? null;
+        $this->logged = null;
+        $this->jwtInstance = null;
+        $this->session = null;
     }
 
-    function loggedPage(string $url_if_not=MAIN_LOGOUT)
+    function isLogged(): bool
     {
+        if ($this->logged !== null)
+            return $this->logged;
+
         if ($this->token === null) {
-            header("Location: $url_if_not");
-            exit;
+            $this->logged = false;
+            return false;
         }
 
         $this->jwtInstance = JosmarWT::fromToken($this->token);
 
         if ($this->jwtInstance === false or !$this->jwtInstance->verify())
         {
+            $this->logged = false;
+            return false;
+        }
+
+        $this->session = $this->jwtInstance->payload;
+        $this->logged = true;
+
+        return true;
+    }
+
+    function loggedPage(string $url_if_not=MAIN_LOGOUT)
+    {
+        if (!$this->isLogged()) {
             header("Location: $url_if_not");
             exit;
         }
 
-        $this->session = $this->jwtInstance->payload;
+        return true;
     }
 
     function notLoggedPage(string $url_if_not=MAIN_LOGGED_IN): void

@@ -14,8 +14,8 @@ const MSG_ERRORS = {
     api_do_not_have_access: 'Você não tem acesso a está página',
 
     
-    // error_404: 'Page not found.',
-    // error_403: 'Forbidden page.',
+    error_404: 'Erro 404: Página não encontrada.',
+    error_403: 'Erro 403: Página não encontrada',
 
     
     // param_wrong_request_method: 'Unexpected request method.',

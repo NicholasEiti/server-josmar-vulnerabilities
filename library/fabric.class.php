@@ -32,6 +32,14 @@ class Fabric
 </head><?php
     }
 
+    static function generateStart(Access $access)
+    {
+        if ($access->isLogged())
+            return static::generateLoggedInStart($access);
+        else
+            return static::generateLogoutStart();
+    }
+
     static function generateLoggedInStart(Access $access)
     {
         ?><body>
@@ -55,8 +63,8 @@ class Fabric
     static function generateLogoutStart()
     {
         ?><body>
-            <div class="container">
-                <div id="msg-error" class="msg-error"></div>
+    <div class="container">
+        <div id="msg-error" class="msg-error"></div>
         <?php
     }
 

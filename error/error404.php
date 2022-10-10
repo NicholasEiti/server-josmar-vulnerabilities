@@ -4,10 +4,10 @@ require_once "../library/library.php";
 
 $access = new Access;
 
-Fabric::generateHead("Erro 404");
+Fabric::generateHead("Erro 404", styleFiles: [ "/static/main-logged-in.css" ]);
 
-Fabric::generateLogoutStart();
+Fabric::generateStart($access);
 
-?><h1>Página de erro 404</h1><?php
+?><script>showError('error_404')</script><?php
 
 Fabric::generateFooter();
