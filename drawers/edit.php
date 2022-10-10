@@ -6,7 +6,7 @@ $access = new Access;
 
 $access->loggedPage();
 
-Fabric::generateHead("Página principal", [
+Fabric::generateHead("Alterar armário", [
     "/static/edit-form-api.js",
 ], [
     "/static/main-logged-in.css",

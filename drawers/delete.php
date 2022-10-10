@@ -6,7 +6,7 @@ $access = new Access;
 
 $access->loggedPage();
 
-Fabric::generateHead("Página principal", [
+Fabric::generateHead("Remover armário", [
     "/static/delete-block-api.js"
 ], [
     "/static/main-logged-in.css",
