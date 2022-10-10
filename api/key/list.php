@@ -11,6 +11,7 @@ API::verifyToken();
 
 $key_drawer = Params::getListOfIntsParam('drawer', true);
 $quant = Params::getIntParam('quant', optional: true);
+$offset = Params::getIntParam('offset', optional: true);
 
 $queries = [];
 $params = [];
@@ -20,6 +21,6 @@ if ($key_drawer !== null) {
     $params = $key_drawer;
 }
 
-$dynamicSearch = KeyDB::dynamicListSearch($queries, $params, '`keys`.`id`', $quant);
+$dynamicSearch = KeyDB::dynamicListSearch($queries, $params, '`keys`.`id`', $quant, $offset);
 
 API::send_success('key_list', $dynamicSearch);

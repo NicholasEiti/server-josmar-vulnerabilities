@@ -156,7 +156,7 @@ abstract class ColumnDB {
         return $rows['id'];
     }
 
-    static function dynamicListSearch(?array $queries = null, ?array $params = null, ?string $order = null, ?int $limit = null, ?array $joins = null) {
+    static function dynamicListSearch(?array $queries = null, ?array $params = null, ?string $order = null, ?int $limit = null, ?int $offset = null, ?array $joins = null) {
         $query = '';
 
         if ($queries !== null && count($queries) != 0) $query = 'WHERE ' . implode(' and ', $queries);
@@ -165,6 +165,7 @@ abstract class ColumnDB {
 
         if ($order !== null) $query .= " ORDER BY $order";
         if ($limit !== null) $query .= " LIMIT $limit";
+        if ($offset !== null) $query .= " OFFSET $offset";
 
         $list = static::search($query, $params, $joins);
 
