@@ -245,13 +245,13 @@ class FormAddBlockElement extends HTMLElement {
 
         let inputsInfo = this.INPUTS_INFOS[this.tag];
 
-        inputsInfo.forEach(function (inputInfo) {
+        inputsInfo.forEach((inputInfo) => {
             let inputElement = this.generateInput(inputInfo);
 
             this.get_input_value_fns.push(inputInfo.get.bind(inputElement));
 
             contentElement.appendChild(inputElement);
-        }.bind(this));
+        });
 
         return contentElement;
     }
@@ -267,7 +267,7 @@ class FormAddBlockElement extends HTMLElement {
 
         var urlTag = this.URL_TAGS[tag];
 
-        cancelButton.addEventListener('click', function () {
+        cancelButton.addEventListener('click', () => {
             window.location.href = urlTag.list_url;
         });
         submitElement.appendChild(cancelButton);
@@ -318,11 +318,11 @@ class FormAddBlockElement extends HTMLElement {
                 inputElement.setAttribute('name', inputInfo.id);
             }
 
-            inputElement.addEventListener('keydown', function (e) {
+            inputElement.addEventListener('keydown', (e) => {
                 if (e.key == 'Enter') {
                     this.requestAddElement()
                 }
-            }.bind(this))
+            });
 
             contentInputElement.appendChild(inputElement);
         } else if (inputInfo.type == 'instance_select') {

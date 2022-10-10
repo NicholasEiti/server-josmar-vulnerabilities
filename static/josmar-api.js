@@ -37,7 +37,7 @@ const MSG_ERRORS = {
 
     // key_not_found: 'Key not found.',
 
-    // key_name_in_use: 'Name is already in use.',
+    key_name_in_use: 'Está nome ja está em uso',
     // key_drawer_not_found: 'Drawer not found.',
     // key_error_on_create: 'Something wrong on create key, try again.',
 

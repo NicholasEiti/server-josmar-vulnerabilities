@@ -36,7 +36,7 @@ class ShowBlockElement extends HTMLElement {
         var generateItem = this.GENERATE_ITEM_FUNCS[tag];
         var urlTag = this.URL_TAGS[tag];
 
-        requestAPI(urlTag.get, { token, id }, function(response) {
+        requestAPI(urlTag.get, { token, id }, (response) => {
             let element = response[tag];
 
             containerElement.innerHTML = '';
@@ -46,7 +46,7 @@ class ShowBlockElement extends HTMLElement {
 
             let item = generateItem(element);
             containerElement.appendChild(item);
-        }.bind(this));
+        });
 
         return containerElement;
     }
