@@ -1,7 +1,11 @@
 ports:
-  - name: API
-    port: 8000
-    onOpen: open-preview
+  - name: Server-josmar
+    port: 80
+    onOpen: open-browser
+
+  - name: DB-josmar
+    port: 3306
+    onOpen: ignore
 
   - name: Adminer
     port: 8080
