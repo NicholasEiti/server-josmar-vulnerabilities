@@ -16,6 +16,7 @@ if ($request_user !== null)
         API::send_error('api_do_not_have_access');
 
 $request_key = Params::getListOfIntsParam('key', true);
+$request_key_drawer = Params::getListOfIntsParam('key_drawer', true);
 $request_status = Params::getListOfIntsParam('status', true);
 
 $request_date_start = Params::getDateParam('date_start', '!Y-m-d H:i:s', optional: true);
@@ -35,6 +36,11 @@ if ($request_user !== null) {
 if ($request_key !== null) {
     $queries[] = '`key` IN (?' . str_repeat(', ?', count($request_key) - 1) . ')';
     $params = array_merge($params, $request_key);
+}
+
+if ($request_key_drawer !== null) {
+    $queries[] = '`keys`.`drawer` IN (?' . str_repeat(', ?', count($request_key_drawer) - 1) . ')';
+    $params = array_merge($params, $request_key_drawer);
 }
 
 if ($request_status !== null) {
@@ -66,7 +72,7 @@ if ($request_date_start !== null and $request_date_end !== null) {
 
 $dynamicSearch = RequestDB::dynamicListSearch($queries, $params, '`requests`.`id`', $quant, $offset, [
     'user' => [ 'name' => 'user_name' ],
-    'key' => [ 'name' => 'key_name' ]
+    'key' => [ 'name' => 'key_name', 'drawer' => 'key_drawer' ]
 ]);
 
 if ($dynamicSearch['list'] && count($dynamicSearch['list']) !== 0) {
