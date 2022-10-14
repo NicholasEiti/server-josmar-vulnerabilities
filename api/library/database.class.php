@@ -24,11 +24,26 @@ abstract class ColumnDB {
     /** @var array $tablename */
     static public $joins = [];
 
-    static function count(string $sql = null, array $params = null): int
+    static function count(string $sql = null, array $params = null, ?array $joins = null): int
     {
         global $GLOBAL_PDO;
 
-        $index = $GLOBAL_PDO->prepare("SELECT id FROM `" . static::$tablename . "` $sql");
+        $columns = "";
+        $join = "";
+
+        if ($joins !== null) {
+            foreach ($joins as $join_name => $join_columns) {
+                $join_info = static::$joins[$join_name];
+                
+                $join .= " " . $join_info['join_statement'];
+                $join_tablename = $join_info['tablename'];
+    
+                foreach ($join_columns as $column_name => $column_alias)
+                    $columns .= ", `$join_tablename`.`$column_name` as `$column_alias`";
+            }
+        }
+
+        $index = $GLOBAL_PDO->prepare("SELECT `" . static::$tablename . "`.`id` FROM `" . static::$tablename . "` $join $sql");
         $index->execute($params);
 
         return $index->rowCount();
@@ -160,11 +175,12 @@ abstract class ColumnDB {
 
         if ($queries !== null && count($queries) != 0) $query = 'WHERE ' . implode(' and ', $queries);
 
-        $count = static::count($query, $params);
+        $count = static::count($query, $params, $joins);
 
         if ($order !== null) $query .= " ORDER BY $order";
         if ($limit !== null) $query .= " LIMIT $limit";
         if ($offset !== null) $query .= " OFFSET $offset";
+
 
         $list = static::search($query, $params, $joins);
 
