@@ -248,10 +248,27 @@ function generateKeyItem(key) {
     let item = document.createElement('div');
     item.classList.add('item-list');
 
-    let itemText = document.createElement('p');
+    let itemText = document.createElement('span');
     itemText.classList.add('item-list-text');
     itemText.textContent = key.name;
     item.appendChild(itemText);
+
+    let itemKV = document.createElement('div');
+    itemKV.classList.add('item-list-key-value');
+
+    let itemKey = document.createElement('span');
+    itemKey.classList.add('item-list-key');
+
+    itemKey.textContent = 'Armário:'
+    itemKV.appendChild(itemKey);
+    
+    let itemValue = document.createElement('span');
+    itemValue.classList.add('item-list-value');
+
+    itemValue.textContent = key.drawer_name;
+    itemKV.appendChild(itemValue);
+
+    item.appendChild(itemKV);
 
     let itemIcons = document.createElement('div');
     itemIcons.classList.add('item-list-icons');
@@ -316,7 +333,7 @@ function generateUserItem(user) {
     let item = document.createElement('div');
     item.classList.add('item-list');
 
-    let itemText = document.createElement('p');
+    let itemText = document.createElement('span');
     itemText.classList.add('item-list-text');
     itemText.textContent = user.name;
 

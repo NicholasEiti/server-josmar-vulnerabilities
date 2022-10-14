@@ -33,6 +33,16 @@
     font-weight: bold;
 }
 
+.item-list-key-value {
+    display: grid;
+    margin: 0 10px;
+    gap: 3px;
+}
+
+.item-list-key, .item-list-value {
+    margin: 0;
+}
+
 .item-list-icon {
     color: #000000;
 }
