@@ -21,6 +21,8 @@ if ($key_drawer !== null) {
     $params = $key_drawer;
 }
 
-$dynamicSearch = KeyDB::dynamicListSearch($queries, $params, '`keys`.`id`', $quant, $offset);
+$dynamicSearch = KeyDB::dynamicListSearch($queries, $params, '`keys`.`id`', $quant, $offset, [
+    'drawer' => [ 'name' => 'drawer_name']
+]);
 
 API::send_success('key_list', $dynamicSearch);
