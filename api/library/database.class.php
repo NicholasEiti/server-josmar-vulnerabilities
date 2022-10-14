@@ -197,6 +197,11 @@ class KeyDB     extends ColumnDB {
             'join_statement' => 'LEFT JOIN `drawers` ON `keys`.`drawer` = `drawers`.`id`'
         ]
     ];
+    
+    static function formatName(string $name): string
+    {
+        return preg_replace("/[^a-zA-Z0-9]+/", "", trim($name));
+    }
 }
 class UserDB    extends ColumnDB {
     static public $tablename = 'users';

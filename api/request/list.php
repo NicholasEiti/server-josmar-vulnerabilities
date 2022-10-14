@@ -72,7 +72,11 @@ if ($request_date_start !== null and $request_date_end !== null) {
 
 $dynamicSearch = RequestDB::dynamicListSearch($queries, $params, '`requests`.`id`', $quant, $offset, [
     'user' => [ 'name' => 'user_name' ],
-    'key' => [ 'name' => 'key_name', 'drawer' => 'key_drawer' ]
+    'key' => [
+        'name' => 'key_name',
+        'drawer' => 'key_drawer', 
+        'position' => 'key_position'
+    ]
 ]);
 
 if ($dynamicSearch['list'] && count($dynamicSearch['list']) !== 0) {

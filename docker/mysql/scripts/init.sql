@@ -21,14 +21,15 @@ CREATE TABLE `keys` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `drawer` int NOT NULL,
+  `position` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `keys` (`id`, `name`, `drawer`) VALUES
-(1,	'Room-302',	1),
-(2,	'Room-301',	1),
-(3,	'Room-303',	1),
-(4,	'Room-501',	2);
+INSERT INTO `keys` (`id`, `name`, `drawer`, `position`) VALUES
+(1,	'Room-302',	1, NULL),
+(2,	'Room-301',	1, 0),
+(3,	'Room-303',	1, 1),
+(4,	'Room-501',	2, 0);
 
 DROP TABLE IF EXISTS `requests`;
 CREATE TABLE `requests` (
