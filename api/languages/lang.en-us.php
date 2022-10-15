@@ -34,6 +34,9 @@ $api_error_msgs = [
     'key_name_in_use' => 'Name is already in use.',
     'key_drawer_not_found' => 'Drawer not found.',
     'key_error_on_create' => 'Something wrong on create key, try again.',
+    'key_position_in_use' => 'Position is already in use.',
+    'key_nothing_edited' => 'Nothing edited.',
+    'key_error_on_edit' => 'Something wrong on edit key, try again.',
 
     'user_not_found' => 'User not found.',
     'user_unexpected_level' => 'Unexpected user level.',
@@ -74,6 +77,7 @@ $api_success_msgs = [
     'key_created' => 'Key created.',
     'key_got' => 'Success to get key.',
     'key_list' => 'Success to generate list.',
+    'key_edited' => 'Key edited.',
     'key_removed' => 'Key removed.',
     
     'user_created' => 'User created.',

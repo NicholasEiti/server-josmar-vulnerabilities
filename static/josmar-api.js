@@ -22,6 +22,7 @@ const MSG_ERRORS = {
 
     key_name_in_use: 'Está nome ja está em uso',
     key_position_in_use: 'Esta posição da chave já está em uso.',
+    key_nothing_edited: 'Nada foi alterado, tente novamente.',
 
     user_unexpected_level: 'Erro interno do sistema ao ler o usuário, tente novamente mais tarde.',
 };
@@ -37,6 +38,7 @@ const API_URLS_CONFIGS = {
 
     key_list: {url: '/api/key/list', method: 'GET'},
     key_add: {url: '/api/key/create', method: 'GET'},
+    key_edit: {url: '/api/key/edit', method: 'POST'},
     key_get: {url: '/api/key/get', method: 'GET'},
     key_remove: {url: '/api/key/remove', method: 'POST'},
 
@@ -65,6 +67,8 @@ function requestAPI(url_tag, data, callback) {
 
     xmlHttp.onreadystatechange = function() {
         if (this.readyState === 4 && this.status === 200) {
+            let response;
+
             try {
                 response = JSON.parse(this.responseText);
             } catch (e) {

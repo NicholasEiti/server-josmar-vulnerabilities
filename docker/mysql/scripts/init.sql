@@ -27,9 +27,9 @@ CREATE TABLE `keys` (
 
 INSERT INTO `keys` (`id`, `name`, `drawer`, `position`) VALUES
 (1,	'Room-302',	1, NULL),
-(2,	'Room-301',	1, 0),
-(3,	'Room-303',	1, 1),
-(4,	'Room-501',	2, 0);
+(2,	'Room-301',	1, 1),
+(3,	'Room-303',	1, 2),
+(4,	'Room-501',	2, 1);
 
 DROP TABLE IF EXISTS `requests`;
 CREATE TABLE `requests` (
