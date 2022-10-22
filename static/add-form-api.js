@@ -135,15 +135,15 @@ class FormAddBlockElement extends HTMLElement {
                 set('level', value);
             }
         }, {
-            id: 'expiretime',
+            id: 'expire_time',
             label: 'Tempo de duração do login do usuário (em minutos):',
             type: 'number',
             min_value: 6,
             max_value: 10080, // 7 * 24 * 60 - 7 dias
             get: function (set, error) {
-                let value = this.querySelector('#expiretime').value;
+                let value = this.querySelector('#expire_time').value;
 
-                if (value == '') return set('expiretime', 0);
+                if (value == '') return set('expire_time', 0);
 
                 try {
                     value = Number(value);
@@ -154,7 +154,7 @@ class FormAddBlockElement extends HTMLElement {
                 if (value <= 5 || value > 10080)
                     return error('Tempo de duração do login em invalido, valor deve ser entre 5 minutos e 1 semana.');
 
-                set('expiretime', value);
+                set('expire_time', value);
             }
         }],
         request: [{
