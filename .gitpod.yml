@@ -1,6 +1,7 @@
 ports:
   - name: Server-josmar
     port: 80
+    visibility: public
     onOpen: open-browser
 
   - name: DB-josmar
