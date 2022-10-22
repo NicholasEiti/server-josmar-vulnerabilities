@@ -45,6 +45,7 @@ $api_error_msgs = [
     'user_error_on_create' => 'Something wrong on create user, try again.',
     'user_nothing_edited' => 'Nothing edited.',
     'user_error_on_edit' => 'Something wrong on edit user, try again.',
+    'user_invalid_expire_time' => 'Invalid expire time.',
 
     'request_user_not_found' => 'User not found.',
     'request_key_not_found' => 'Key not found.',

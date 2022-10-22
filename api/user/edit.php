@@ -18,6 +18,7 @@ $user_name      = Params::getParam('name', 5, 20, true, '_POST');
 $user_password  = Params::getParam('password', 5, 20, true, '_POST');
 $user_email     = Params::getRegexParam('email', EMAIL_PATTERN, true, '_POST');
 $user_level     = Params::getEnumParam('level', UserDB::$ENUM_LEVELS, true, '_POST');
+$user_expire_time = Params::getIntParam('expire_time', true, '_POST');
 
 $params = [];
 
@@ -50,6 +51,19 @@ if ($user_level !== null) {
         API::send_error('api_do_not_have_access');
 
     $params['level'] = $user_level;
+}
+
+if ($user_expire_time !== null) {
+    if ($user_expire_time === 0) {
+        if ($user['expiretime'] !== null) {
+            $params['expiretime'] = null;
+        }
+    } elseif ($user['expiretime'] !== $user_expire_time) {
+        if (UserDB::MIN_EXPIRE_TIME >= $user_expire_time || $user_expire_time >= UserDB::MAX_EXPIRE_TIME)
+            API::send_error('user_invalid_expire_time');
+    
+        $params['expiretime'] = $user_expire_time;
+    }
 }
 
 if (count($params) === 0)

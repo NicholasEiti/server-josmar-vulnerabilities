@@ -206,6 +206,9 @@ class KeyDB     extends ColumnDB {
 class UserDB    extends ColumnDB {
     static public $tablename = 'users';
     const PASSWORD_HASH_COST = 12;
+    
+    const MIN_EXPIRE_TIME = 5;
+    const MAX_EXPIRE_TIME = 7 * 24 * 60;
 
     static function formatEmail(string $email) {
         $matches = null;

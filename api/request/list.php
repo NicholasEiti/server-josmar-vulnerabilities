@@ -74,7 +74,7 @@ $dynamicSearch = RequestDB::dynamicListSearch($queries, $params, '`requests`.`id
     'user' => [ 'name' => 'user_name' ],
     'key' => [
         'name' => 'key_name',
-        'drawer' => 'key_drawer', 
+        'drawer' => 'key_drawer',
         'position' => 'key_position'
     ]
 ]);

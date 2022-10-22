@@ -398,7 +398,7 @@ class FormEditBlockElement extends HTMLElement {
             }
 
             selectElement.value = value;
-p
+
             contentInputElement.appendChild(selectElement);
         }
 
