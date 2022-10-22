@@ -25,6 +25,7 @@ const MSG_ERRORS = {
     key_nothing_edited: 'Nada foi alterado, tente novamente.',
 
     user_unexpected_level: 'Erro interno do sistema ao ler o usuário, tente novamente mais tarde.',
+    user_invalid_expire_time: 'Tempo de duração do login em invalido, valor deve ser entre 5 minutos e 1 semana.'
 };
 
 const API_URLS_CONFIGS = {

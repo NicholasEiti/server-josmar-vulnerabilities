@@ -80,6 +80,28 @@ class FormEditBlockElement extends HTMLElement {
 
                 set('level', value);
             }
+        }, {
+            id: 'expiretime',
+            label: 'Tempo de duração do login do usuário (em minutos):',
+            type: 'number',
+            min_value: 5,
+            max_value: 10080, // 7 * 24 * 60 - 7 dias
+            get: function (set, error) {
+                let value = this.querySelector('#expiretime').value;
+
+                if (value == '') return set('expiretime', 0);
+
+                try {
+                    value = Number(value);
+                } catch {
+                    return error('Tempo de duração do login em formato inesperado. Tente novamente.');
+                }
+
+                if (value <= 5 || value > 10080)
+                    return error('Tempo de duração do login em invalido, valor deve ser entre 5 minutos e 1 semana.');
+
+                set('expiretime', value);
+            }
         }],
         key: [{
             id: 'name',
