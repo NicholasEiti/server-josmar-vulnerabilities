@@ -70,11 +70,14 @@ class ShowBlockElement extends HTMLElement {
         editLink.setAttribute("href", urlTag.edit_url(element));
         editLink.appendChild(generateIcon('edit', 'show-block-icon'))
         titleIcons.appendChild(editLink);
+
+        if (typeof urlTag.delete_url === 'undefined') {
+            let deleteLink = document.createElement('a');
+            deleteLink.setAttribute("href", urlTag.delete_url(element));
+            deleteLink.appendChild(generateIcon('delete', 'show-block-icon'));
+            titleIcons.appendChild(deleteLink);
+        }
     
-        let deleteLink = document.createElement('a');
-        deleteLink.setAttribute("href", urlTag.delete_url(element));
-        deleteLink.appendChild(generateIcon('delete', 'show-block-icon'));
-        titleIcons.appendChild(deleteLink);
 
         titleContent.appendChild(titleIcons);
 
