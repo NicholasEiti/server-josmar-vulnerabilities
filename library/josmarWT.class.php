@@ -42,7 +42,7 @@ class JosmarWT {
         return $jwtInstance;
     }
 
-    function __construct(array $payload, string $expire_after='PT1H')
+    function __construct(array $payload, ?string $expire_after=null)
     {
         $this->payload = $payload;
         $this->expire_after = $expire_after;
@@ -93,11 +93,11 @@ class JosmarWT {
 
     function generate_token(): string
     {        
-        $expire = static::_generate_time_expire($this->expire_after);
+        if ($this->expire_after !== null) {
+            $expire = static::_generate_time_expire($this->expire_after);
 
-        $this->payload = array_merge($this->payload, [
-            'exp' => $expire
-        ]);
+            $this->payload['exp'] = $expire;
+        }
 
         $header = static::_json_base64_encode($this->header);
 
