@@ -14,8 +14,7 @@ class ShowBlockElement extends HTMLElement {
         },
         request: {
             get: 'request_get',
-            edit_url: (request) => '/requests/' + request.id + '/edit',
-            delete_url: (request) => '/requests/' + request.id + '/delete'
+            edit_url: (request) => '/requests/' + request.id + '/edit'
         }
     }
 
