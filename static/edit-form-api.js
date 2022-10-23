@@ -81,13 +81,13 @@ class FormEditBlockElement extends HTMLElement {
                 set('level', value);
             }
         }, {
-            id: 'expire_time',
+            id: 'expiretime',
             label: 'Tempo de duração do login do usuário (em minutos):',
             type: 'number',
             min_value: 5,
             max_value: 10080, // 7 * 24 * 60 - 7 dias
             get: function (set, error) {
-                let value = this.querySelector('#expire_time').value;
+                let value = this.querySelector('#expiretime').value;
 
                 if (value == '') return set('expire_time', 0);
 
