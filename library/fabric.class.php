@@ -47,7 +47,9 @@ class Fabric
     <li class="navbar-item"><a href="/drawers/">Armários</a></li>
     <li class="navbar-item"><a href="/keys/">Chaves</a></li>
     <li class="navbar-item"><a href="/requests/">Pedidos de chave</a></li>
+    <?php if ($access->userLevelIsBiggerThan(ADMIN_MIN_LEVEL)): ?>
     <li class="navbar-item"><a href="/users/">Usuário</a></li>
+    <?php endif; ?>
     <li class="navbar-item-right">
         <a href="#logout" onclick="return doLogout(this);">
             <span>Logout</span>

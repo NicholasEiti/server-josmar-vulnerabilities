@@ -45,22 +45,37 @@ class ListBlockElement extends HTMLElement {
     }
 
     TITLE_ICONS = {
-        drawer: [{
-            link: "/drawers/add",
-            icon: "add_box"
-        }],
-        key: [{
-            link: "/keys/add",
-            icon: "add"
-        }],
+        drawer: function () {
+            if (isAdminLevel())
+                return [{
+                    link: "/drawers/add",
+                    icon: "add_box"
+                }];
+
+            return [];
+        },
+        key: function () {
+            if (isAdminLevel())
+                return [{
+                    link: "/keys/add",
+                    icon: "add"
+                }];
+
+            return [];
+        },
         request: [{
             link: "/requests/add",
             icon: "bookmark_add"
         }],
-        user: [{
-            link: "/users/add",
-            icon: "person_add_alt"
-        }]
+        user: function () {
+            if (isAdminLevel())
+                return [{
+                    link: "/users/add",
+                    icon: "person_add_alt"
+                }];
+
+            return [];
+        },
     };
 
     DEFAULT_QUANT = 10
@@ -155,6 +170,8 @@ class ListBlockElement extends HTMLElement {
 
         let iconsInfos = this.TITLE_ICONS[tag];
 
+        if (typeof iconsInfos === "function") iconsInfos = iconsInfos();
+
         iconsInfos.forEach((iconsInfo) => {
             let iconLink = document.createElement('a');
             iconLink.setAttribute("href", iconsInfo.link);
@@ -220,20 +237,22 @@ function generateDrawerItem(drawer) {
     itemText.textContent = drawer.name;
     item.appendChild(itemText);
 
-    let itemIcons = document.createElement('div')
-    itemIcons.classList.add('item-list-icons')
+    if (isAdminLevel()) {
+        let itemIcons = document.createElement('div')
+        itemIcons.classList.add('item-list-icons')
 
-    let editLink = document.createElement('a');
-    editLink.setAttribute("href", "/drawers/" + drawer.id + "/edit");
-    editLink.appendChild(generateIcon('edit', 'item-list-icon'))
-    itemIcons.appendChild(editLink);
+        let editLink = document.createElement('a');
+        editLink.setAttribute("href", "/drawers/" + drawer.id + "/edit");
+        editLink.appendChild(generateIcon('edit', 'item-list-icon'))
+        itemIcons.appendChild(editLink);
 
-    let deleteLink = document.createElement('a');
-    deleteLink.setAttribute("href", "/drawers/" + drawer.id + "/delete");
-    deleteLink.appendChild(generateIcon('delete', 'item-list-icon'));
-    itemIcons.appendChild(deleteLink);
+        let deleteLink = document.createElement('a');
+        deleteLink.setAttribute("href", "/drawers/" + drawer.id + "/delete");
+        deleteLink.appendChild(generateIcon('delete', 'item-list-icon'));
+        itemIcons.appendChild(deleteLink);
 
-    item.appendChild(itemIcons);
+        item.appendChild(itemIcons);
+    }
 
     item.classList.add('item-list-clickable');
     item.addEventListener('click', function () {
@@ -270,20 +289,22 @@ function generateKeyItem(key) {
 
     item.appendChild(itemKV);
 
-    let itemIcons = document.createElement('div');
-    itemIcons.classList.add('item-list-icons');
+    if (isAdminLevel()) {
+        let itemIcons = document.createElement('div');
+        itemIcons.classList.add('item-list-icons');
 
-    let editLink = document.createElement('a');
-    editLink.setAttribute("href", "/keys/" + key.id + "/edit");
-    editLink.appendChild(generateIcon('edit', 'item-list-icon'))
-    itemIcons.appendChild(editLink);
+        let editLink = document.createElement('a');
+        editLink.setAttribute("href", "/keys/" + key.id + "/edit");
+        editLink.appendChild(generateIcon('edit', 'item-list-icon'))
+        itemIcons.appendChild(editLink);
 
-    let deleteLink = document.createElement('a');
-    deleteLink.setAttribute("href", "/keys/" + key.id + "/delete");
-    deleteLink.appendChild(generateIcon('delete', 'item-list-icon'));
-    itemIcons.appendChild(deleteLink);
+        let deleteLink = document.createElement('a');
+        deleteLink.setAttribute("href", "/keys/" + key.id + "/delete");
+        deleteLink.appendChild(generateIcon('delete', 'item-list-icon'));
+        itemIcons.appendChild(deleteLink);
 
-    item.appendChild(itemIcons);
+        item.appendChild(itemIcons);
+    }
 
     return item;
 }
@@ -311,15 +332,17 @@ function generateRequestItem(request) {
     itemText.append(itemText1, itemText2, itemText3);
     item.appendChild(itemText); 
 
-    let itemIcons = document.createElement('div')
-    itemIcons.classList.add('item-list-icons')
+    if (isAdminLevel() || request.user == getUserId()) {
+        let itemIcons = document.createElement('div')
+        itemIcons.classList.add('item-list-icons')
 
-    let editLink = document.createElement('a');
-    editLink.setAttribute("href", "/requests/" + request.id + "/edit");
-    editLink.appendChild(generateIcon('edit', 'item-list-icon'))
-    itemIcons.appendChild(editLink);
+        let editLink = document.createElement('a');
+        editLink.setAttribute("href", "/requests/" + request.id + "/edit");
+        editLink.appendChild(generateIcon('edit', 'item-list-icon'))
+        itemIcons.appendChild(editLink);
 
-    item.appendChild(itemIcons);
+        item.appendChild(itemIcons);
+    }
 
     item.classList.add('item-list-clickable');
     item.addEventListener('click', function () {

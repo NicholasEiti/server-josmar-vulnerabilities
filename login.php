@@ -34,7 +34,7 @@ function tryLogin() {
     var login = loginInput.value;
     var password = passwordInput.value;
 
-    requestAPI('auth', { login, password }, ({ token }) => doLogin(token));
+    requestAPI('auth', { login, password }, ({ token, id, level }) => doLogin(token, id, level));
 
     return false;
 }

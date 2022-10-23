@@ -36,5 +36,6 @@ $jwtInstance = new JosmarWT([
 
 API::send_success('api_auth', [
     'token' => $jwtInstance->generate_token(),
-    'id' => $user['id']
+    'id' => $user['id'],
+    'level' => $user['level']
 ]);

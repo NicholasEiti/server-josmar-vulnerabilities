@@ -110,16 +110,41 @@ function doLogout() {
     window.location.href = "/";
 }
 
-function doLogin(token) {
+function doLogin(token, id, level) {
     document.cookie = "api_token=" + token + ";path=/";
+    document.cookie = "api_data=" + id + "." + level + ";path=/";
     window.location.href = "/home";
 }
 
-function getToken() {
-    const parts = `; ${document.cookie}`.split('; api_token=');
+function getCookie(name) {
+    const cookie = `; ${document.cookie}`.split('; ' + name + '=');
 
-    if (parts.length === 2)
-        return parts.pop().split(';').shift();
+    if (cookie.length === 2)
+        return cookie.pop().split(';').shift();
+}
+
+var _token = null;
+
+function getToken() {
+    if (_token === null) _token = getCookie('api_token');
+    return _token;
+}
+
+var _data = null;
+
+
+function getUserData() {
+    if (_data === null) _data = getCookie('api_data');
+    return _data;
+}
+
+function isAdminLevel() {
+    let level = Number(getUserData().split('.')[1]);
+    return level >= 15;
+}
+
+function getUserId() {
+    return Number(getUserData().split('.')[0]);
 }
 
 function showError(code_msg) {

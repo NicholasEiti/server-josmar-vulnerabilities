@@ -18,6 +18,24 @@ class ShowBlockElement extends HTMLElement {
         }
     }
 
+    TITLE_ICONS = {
+        drawer: function () {
+            if (isAdminLevel())
+                return [
+                    { icon: 'edit', link: (drawer) => '/drawers/' + drawer.id + '/edit' },
+                    { icon: 'delete', link: (drawer) => '/drawers/' + drawer.id + '/delete' }
+                ];
+
+            return [];
+        },
+        request: function  (request) {
+            if (isAdminLevel() || request.user == getUserId())
+                return [ { icon: 'edit', link: (request) => '/requests/' + request.id + '/edit' } ];
+
+            return [];
+        }
+    }
+
     getTitle = {
         drawer: (drawer) => `Armário ${drawer.name}`,
         request: (request) => `Pedido de chave de ${request.user_name}`
@@ -64,19 +82,17 @@ class ShowBlockElement extends HTMLElement {
 
         let titleIcons = document.createElement('div');
         titleIcons.classList.add('block-title-icons');
-    
-        let editLink = document.createElement('a');
-        editLink.setAttribute("href", urlTag.edit_url(element));
-        editLink.appendChild(generateIcon('edit', 'show-block-icon'))
-        titleIcons.appendChild(editLink);
 
-        if (typeof urlTag.delete_url === 'undefined') {
-            let deleteLink = document.createElement('a');
-            deleteLink.setAttribute("href", urlTag.delete_url(element));
-            deleteLink.appendChild(generateIcon('delete', 'show-block-icon'));
-            titleIcons.appendChild(deleteLink);
-        }
-    
+        let iconsInfos = this.TITLE_ICONS[tag];
+
+        if (typeof iconsInfos === "function") iconsInfos = iconsInfos(element);
+
+        iconsInfos.forEach(iconsInfo => {
+            let titleIcon = document.createElement('a');
+            titleIcon.setAttribute("href", iconsInfo.link(element));
+            titleIcon.appendChild(generateIcon(iconsInfo.icon, 'show-block-icon'))
+            titleIcons.appendChild(titleIcon);
+        });
 
         titleContent.appendChild(titleIcons);
 
