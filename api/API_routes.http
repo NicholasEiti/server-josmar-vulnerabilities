@@ -1,7 +1,7 @@
 #### Authentication
 GET http://localhost/api/auth
-    ?login=Renan
-    &password=password_of_renan
+    ?login=admin
+    &password=password_of_admin
 
 #### Drawers Routes
 ### Get list of drawers
@@ -15,7 +15,8 @@ GET http://localhost/api/drawer/create
 POST http://localhost/api/drawer/edit HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
-id=2&name=Secondary+drawer
+id=2
+&name=Secondary+drawer
 
 ### Remove drawer
 POST http://localhost/api/drawer/remove HTTP/1.1
@@ -32,6 +33,13 @@ GET http://localhost/api/key/create
     ?name=Room-303
     &drawer=1
 
+### Edit key
+POST http://localhost/api/key/edit HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+id=2
+&name=Room 304
+
 ### Remove key
 POST http://localhost/api/key/remove HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
@@ -45,17 +53,18 @@ GET http://localhost/api/user/list
 
 ### Create an user
 GET http://localhost/api/user/create
-    ?name=admin
-    &password=password_of_admin
-    &email=admin@gmail.com
-    &level=admin
+    ?name=patos
+    &password=password_of_pato
+    &email=pato@gmail.com
+    &level=collaborator
+    &expire_time=0
 
 ### Edit user
 POST http://localhost/api/user/edit HTTP/1.1
 Content-Type: application/x-www-form-urlencoded
 
 id=1
-&name=user12
+&expire_time=0
 
 #### Request Routes
 ### Get a list of requests

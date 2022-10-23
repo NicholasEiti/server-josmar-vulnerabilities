@@ -197,10 +197,18 @@ class KeyDB     extends ColumnDB {
             'join_statement' => 'LEFT JOIN `drawers` ON `keys`.`drawer` = `drawers`.`id`'
         ]
     ];
+    
+    static function formatName(string $name): string
+    {
+        return preg_replace("/[^a-zA-Z0-9]+/", "", trim($name));
+    }
 }
 class UserDB    extends ColumnDB {
     static public $tablename = 'users';
     const PASSWORD_HASH_COST = 12;
+    
+    const MIN_EXPIRE_TIME = 5;
+    const MAX_EXPIRE_TIME = 7 * 24 * 60;
 
     static function formatEmail(string $email) {
         $matches = null;

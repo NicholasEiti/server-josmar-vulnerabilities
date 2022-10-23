@@ -21,14 +21,15 @@ CREATE TABLE `keys` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `drawer` int NOT NULL,
+  `position` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `keys` (`id`, `name`, `drawer`) VALUES
-(1,	'Room-302',	1),
-(2,	'Room-301',	1),
-(3,	'Room-303',	1),
-(4,	'Room-501',	2);
+INSERT INTO `keys` (`id`, `name`, `drawer`, `position`) VALUES
+(1,	'Room-302',	1, NULL),
+(2,	'Room-301',	1, 1),
+(3,	'Room-303',	1, 2),
+(4,	'Room-501',	2, 1);
 
 DROP TABLE IF EXISTS `requests`;
 CREATE TABLE `requests` (
@@ -54,10 +55,11 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `email` varchar(50) NOT NULL,
   `level` int NOT NULL,
+  `expiretime` int DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `users` (`id`, `name`, `password`, `email`, `level`) VALUES
-(1,	'Renan',	'$2y$12$yj9DXhcGipsz3WOVmONIT.Q7apNNnBUVyO/V1faj2a84fQguhAovW',	'renanpraga@gmail.com',	5), -- password_of_renan
-(2,	'Bruno',	'$2y$12$fucWqL46jyUjWaiWV4rGJOPJ3NngEqGUKgIyeiCzXBnxoeQmFW9zC',	'brunorocha@gmail.com',	5), -- password_of_bruno
-(3,	'admin',	'$2y$12$i6yB/QqcANQf6nZ.HOOBMuG1GYYJugBkTxQc8auWc/Z0JOoVcoaMi',	'admin@gmail.com',	15); -- password_of_admin
+(1,	'Renan',	'$2y$12$yj9DXhcGipsz3WOVmONIT.Q7apNNnBUVyO/V1faj2a84fQguhAovW',	'renanpraga@gmail.com',	5, 120), -- password_of_renan
+(2,	'Bruno',	'$2y$12$fucWqL46jyUjWaiWV4rGJOPJ3NngEqGUKgIyeiCzXBnxoeQmFW9zC',	'brunorocha@gmail.com',	5, 10), -- password_of_bruno
+(3,	'admin',	'$2y$12$i6yB/QqcANQf6nZ.HOOBMuG1GYYJugBkTxQc8auWc/Z0JOoVcoaMi',	'admin@gmail.com',	15, NULL); -- password_of_admin

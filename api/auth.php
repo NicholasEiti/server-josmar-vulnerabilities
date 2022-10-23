@@ -23,11 +23,16 @@ $user = $user[0];
 if (!password_verify($user_password, $user['password']))
     API::send_error('api_wrong_password');
 
+$expire_after = null;
+
+if ($user['expiretime'] !== null)
+    $expire_after = 'PT' . ((int)$user['expiretime']) . 'M';
+
 $jwtInstance = new JosmarWT([
     'id' => $user['id'],
     'name' => $user['name'],
     'level' => $user['level']
-]);
+], $expire_after);
 
 API::send_success('api_auth', [
     'token' => $jwtInstance->generate_token(),

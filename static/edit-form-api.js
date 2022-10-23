@@ -4,6 +4,7 @@ class FormEditBlockElement extends HTMLElement {
     GET_TITLE_FN = {
         drawer: (drawer) => `Editar armário ${drawer.name}`,
         user: (user) => `Editar usuário ${user.name}`,
+        key: (key) => `Editar chave ${key.name}`,
         request: (request) => `Editar situação do pedido de chave de ${request.user_name}`
     }
 
@@ -19,7 +20,7 @@ class FormEditBlockElement extends HTMLElement {
 
                 if (value == '') return error('Nome vazio. Escolha um nome e tente novamente.');
                 if (value.length <= 5) return error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
-                if (value.length >= 50) return error('Nome muito longo, o nome deve tem menos de 50 caracteres.');
+                if (value.length > 50) return error('Nome muito longo, o nome deve tem menos de 50 caracteres.');
 
                 set('name', value);
             }
@@ -35,7 +36,7 @@ class FormEditBlockElement extends HTMLElement {
 
                 if (value == '') return error('Nome vazio. Escolha um nome e tente novamente.');
                 if (value.length <= 5) return error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
-                if (value.length >= 20) return error('Nome muito longo, o nome deve tem menos de 20 caracteres.');
+                if (value.length > 20) return error('Nome muito longo, o nome deve tem menos de 20 caracteres.');
 
                 set('name', value)
             }
@@ -62,7 +63,7 @@ class FormEditBlockElement extends HTMLElement {
 
                 if (value == '') return;
                 if (value.length <= 5) return error('Senha muito pequeno.');
-                if (value.length >= 20) return error('Senha muito longa.');
+                if (value.length > 20) return error('Senha muito longa.');
 
                 set('password', value);
             }
@@ -78,6 +79,82 @@ class FormEditBlockElement extends HTMLElement {
                 if (value == '') return error('Nível na hierarquia não selecionado. Tente novamente.');
 
                 set('level', value);
+            }
+        }, {
+            id: 'expiretime',
+            label: 'Tempo de duração do login do usuário (em minutos):',
+            type: 'number',
+            min_value: 5,
+            max_value: 10080, // 7 * 24 * 60 - 7 dias
+            get: function (set, error) {
+                let value = this.querySelector('#expiretime').value;
+
+                if (value == '') return set('expire_time', 0);
+
+                try {
+                    value = Number(value);
+                } catch {
+                    return error('Tempo de duração do login em formato inesperado. Tente novamente.');
+                }
+
+                if (value <= 5 || value > 10080)
+                    return error('Tempo de duração do login em invalido, valor deve ser entre 5 minutos e 1 semana.');
+
+                set('expire_time', value);
+            }
+        }],
+        key: [{
+            id: 'name',
+            label: 'Nome:',
+            type: 'string',
+            min_length: 5,
+            max_length: 10,
+            get: function (set, error) {
+                let value = this.querySelector('#name').value;
+
+                if (value == '') return error('Nome vazio. Escolha um nome e tente novamente.');
+                if (value.length <= 5) return error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
+                if (value.length > 10) return error('Nome muito longo, o nome deve tem menos de 10 caracteres.');
+
+                set('name', value)
+            }
+        },  {
+            id: 'drawer',
+            label: 'Armário:',
+            type: 'instance_select',
+            get: function (set, error) {
+                let selectElement = this.querySelector('#drawer');
+                let value = Number(selectElement.options[selectElement.selectedIndex].value);
+
+                if (value == '') return error('Armário não selecionado. Tente novamente.');
+
+                set('drawer', value);
+            },
+            get_list(return_list) {
+                requestAPI('drawer_list', { token: getToken() }, function (response) {
+                    return_list(response.list.map(function (element) {
+                        return { id: element.id, value: element.name };
+                    }));
+                });
+            }
+        },  {
+            id: 'position',
+            label: 'Posição da chave:',
+            type: 'number',
+            min_value: 1,
+            max_value: 72,
+            get: function (set, error) {
+                let value = this.querySelector('#position').value;
+
+                if (value != '') {
+                    try {
+                        value = Number(value);
+                    } catch {
+                        error('Valor da posição em formato inesperado. Tente novamente.');
+                    }
+
+                    set('position', value);
+                }
             }
         }],
         request: [{
@@ -130,6 +207,11 @@ class FormEditBlockElement extends HTMLElement {
             edit: 'user_edit',
             get: 'user_get',
             back_url: () => '/users/'
+        },
+        key: {
+            edit: 'key_edit',
+            get: 'key_get',
+            back_url: () => '/keys/'
         },
         request: {
             edit: 'request_update_status',
@@ -243,21 +325,34 @@ class FormEditBlockElement extends HTMLElement {
             contentInputElement.appendChild(labelElement);
         }
 
-        if (inputInfo.type == 'string' || inputInfo.type == 'email' || inputInfo.type == 'password') {
+        if (inputInfo.type == 'string' || inputInfo.type == 'email' || inputInfo.type == 'password' || inputInfo.type == 'number') {
             let inputElement = document.createElement('input');
             inputElement.classList.add('input-block-input');
 
             if (inputInfo.type == 'email' || inputInfo.type == 'password') {
                 inputElement.setAttribute('type', inputInfo.type)
             }
+ 
+            if (inputInfo.type == 'number') {
+                inputElement.setAttribute('type', inputInfo.type)
 
-            if (inputInfo.min_length !== null) {
-                inputElement.setAttribute('minlength', inputInfo.min_length)
+                if (inputInfo.min_value !== null) {
+                    inputElement.setAttribute('min', inputInfo.min_value)
+                }
+
+                if (inputInfo.max_value !== null) {
+                    inputElement.setAttribute('max', inputInfo.max_value)
+                }
+            } else {
+                if (inputInfo.min_length !== null) {
+                    inputElement.setAttribute('minlength', inputInfo.min_length)
+                }
+    
+                if (inputInfo.max_length !== null) {
+                    inputElement.setAttribute('maxlength', inputInfo.max_length)
+                }
             }
 
-            if (inputInfo.max_length !== null) {
-                inputElement.setAttribute('minlength', inputInfo.max_length)
-            }
 
             inputElement.setAttribute('id', inputInfo.id);
 
