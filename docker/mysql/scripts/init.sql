@@ -59,7 +59,7 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `users` (`id`, `name`, `password`, `email`, `level`) VALUES
+INSERT INTO `users` (`id`, `name`, `password`, `email`, `level`, `expiretime`) VALUES
 (1,	'Renan',	'$2y$12$yj9DXhcGipsz3WOVmONIT.Q7apNNnBUVyO/V1faj2a84fQguhAovW',	'renanpraga@gmail.com',	5, 120), -- password_of_renan
 (2,	'Bruno',	'$2y$12$fucWqL46jyUjWaiWV4rGJOPJ3NngEqGUKgIyeiCzXBnxoeQmFW9zC',	'brunorocha@gmail.com',	5, 10), -- password_of_bruno
 (3,	'admin',	'$2y$12$i6yB/QqcANQf6nZ.HOOBMuG1GYYJugBkTxQc8auWc/Z0JOoVcoaMi',	'admin@gmail.com',	15, NULL); -- password_of_admin
