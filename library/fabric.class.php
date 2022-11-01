@@ -56,6 +56,12 @@ class Fabric
             <span class="material-symbols-rounded">logout</span>
         </a>
     </li>
+    <li class="navbar-item-right">
+        <a href="/users/<?= $access->session['id'] ?>/edit">
+            <span>Preferências</span>
+            <span class="material-symbols-rounded">settings</span>
+        </a>
+    </li>
 </ul>
 <div class="container">
     <div id="msg-error" class="msg-error"></div>
