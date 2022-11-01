@@ -111,4 +111,21 @@ class Fabric
 
         ?><delete-block tag='<?= $tag ?>' id='<?= $id ?>'></delete-block><?php
     }
+
+    static function generateDownloadBlock() {
+        ?>
+        <div class="block-download-app">
+            <h1 class="block-download-app-title">Baixar aplicativo E-josmar</h1>
+
+            <p class="block-download-app-description">
+                <span>Disponível para: Android</span>
+            </p>
+
+            <button class="block-download-app-button">
+                <span class="material-symbols-rounded">download</span>
+                Baixe agora
+            </button>
+        </div>
+        <?php
+    }
 }

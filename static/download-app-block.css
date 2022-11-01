@@ -1,0 +1,46 @@
+.block-download-app {
+    display: grid;
+    border: 1px solid #b1b1b1;
+    padding: 30px 45px;
+    border-radius: 10px;
+    align-items: center;
+    width: 300px;
+    margin: 0 auto;
+}
+
+.block-download-app-description *:last-child:after {
+    content: "";
+}
+
+.block-download-app-description *:after {
+    content: "•";
+    color: #d3d3d3;
+    margin: 0 4px 0 8px;
+}
+
+.block-download-app-title {
+    font-size: 25px;
+    margin: 0 0 5px 0;
+}
+
+.block-download-app-button {
+    background-color: #96ff64;
+    border: 1px solid #7aff3c;
+    border-radius: 4px;
+    color: #082e00;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: 400;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+
+    transition: all .3s;
+}
+
+.block-download-app-button:hover {
+    background-color: #77ff38;
+    border: 1px solid #58ff0a;
+}
