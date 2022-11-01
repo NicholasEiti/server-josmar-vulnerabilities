@@ -38,6 +38,7 @@
     gap: 7px;
 
     transition: all .3s;
+    cursor: pointer;
 }
 
 .block-download-app-button:hover {

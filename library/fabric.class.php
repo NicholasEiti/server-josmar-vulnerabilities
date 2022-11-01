@@ -121,7 +121,7 @@ class Fabric
                 <span>Disponível para: Android</span>
             </p>
 
-            <button class="block-download-app-button">
+            <button class="block-download-app-button" onclick="document.location.href='#';">
                 <span class="material-symbols-rounded">download</span>
                 Baixe agora
             </button>
