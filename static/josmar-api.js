@@ -184,3 +184,22 @@ function generateIcon(icon_name, tokens) {
 
     return icon;
 }
+
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.altKey) {
+        const SHORTCUTS = {
+            a: '/drawers/',
+            c: '/keys/',
+            p: '/requests/',
+            u: '/users/'
+        };
+
+        if (SHORTCUTS[e.key.toLowerCase()] !== undefined) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.location.href = SHORTCUTS[e.key.toLowerCase()];
+            return;
+        }
+    }
+}, false);

@@ -202,7 +202,7 @@ class ListBlockElement extends HTMLElement {
             pageElement.addEventListener('click', () => {
                 window.history.pushState({page: i}, document.title, "?page=" + i);
                 this.setAttribute('page', i);
-            });
+            }, false);
 
             pageSelectorElement.appendChild(pageElement);
         }
@@ -257,7 +257,7 @@ function generateDrawerItem(drawer) {
     item.classList.add('item-list-clickable');
     item.addEventListener('click', function () {
         window.location.href = "/drawers/" + drawer.id
-    });
+    }, false);
 
     return item;
 }
@@ -347,7 +347,7 @@ function generateRequestItem(request) {
     item.classList.add('item-list-clickable');
     item.addEventListener('click', function () {
         window.location.href = "/requests/" + request.id
-    });
+    }, false);
 
     return item;
 }

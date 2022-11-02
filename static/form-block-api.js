@@ -455,7 +455,7 @@ class FormBlockElement extends HTMLElement {
                 if (e.key == 'Enter') {
                     this.submitForm();
                 }
-            })
+            }, false);
 
             if (inputInfo.type != 'password') {
                 inputElement.value = value;
@@ -534,7 +534,7 @@ class FormBlockElement extends HTMLElement {
             } else {
                 window.location.href = urlTag.back_url(id);
             }
-        });
+        }, false);
         submitElement.appendChild(cancelButton);
 
         if (this.form_type == 'add') {
@@ -542,14 +542,14 @@ class FormBlockElement extends HTMLElement {
             addButton.setAttribute('type', 'submit');
             addButton.setAttribute('value', 'Adicionar');
             addButton.classList.add('form-block-submit-add');
-            addButton.addEventListener('click', this.submitForm.bind(this));
+            addButton.addEventListener('click', this.submitForm.bind(this), false);
             submitElement.appendChild(addButton);
         } else if (this.form_type == 'edit') {
             let editButton = document.createElement('input');
             editButton.setAttribute('type', 'submit');
             editButton.setAttribute('value', 'Alterar');
             editButton.classList.add('form-block-submit-edit');
-            editButton.addEventListener('click', this.submitForm.bind(this));
+            editButton.addEventListener('click', this.submitForm.bind(this), false);
             submitElement.appendChild(editButton);
         }
 

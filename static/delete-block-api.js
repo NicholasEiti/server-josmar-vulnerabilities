@@ -79,14 +79,14 @@ class DeleteBLockElement extends HTMLElement {
 
         cancelButton.addEventListener('click', function () {
             window.location.href = back_url_fn(element);
-        });
+        }, false);
         submitElement.appendChild(cancelButton);
 
         let addButton = document.createElement('input');
         addButton.setAttribute('type', 'submit');
         addButton.setAttribute('value', 'Deletar');
         addButton.classList.add('delete-block-submit-delete');
-        addButton.addEventListener('click', this.requestRemoveElement.bind(this));
+        addButton.addEventListener('click', this.requestRemoveElement.bind(this), false);
         submitElement.appendChild(addButton);
 
         return submitElement;
