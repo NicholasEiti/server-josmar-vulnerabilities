@@ -8,8 +8,8 @@ $access = new Access;
 $access->loggedPage();
 
 Fabric::generateHead("Página principal", styleFiles: [
-    "/static/main-logged-in.css",
-    "/static/download-app-block.css"
+    "/static/styles/main-logged-in.css",
+    "/static/styles/download-app-block.css"
 ]);
 
 Fabric::generateStart($access);

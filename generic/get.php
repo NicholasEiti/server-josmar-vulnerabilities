@@ -12,7 +12,7 @@ $tag = $_GET['tag'];
 $access = new Access;
 
 if (!isset($AVAILABLE_PAGES[$tag])) {
-    Fabric::generateHead("Erro 404", styleFiles: [ "/static/main-logged-in.css" ]);
+    Fabric::generateHead("Erro 404", styleFiles: [ "/static/styles/main-logged-in.css" ]);
     Fabric::generateStart($access);
     ?><script>showError('error_404')</script><?php
     Fabric::generateFooter();
@@ -22,12 +22,12 @@ if (!isset($AVAILABLE_PAGES[$tag])) {
 $access->loggedPage();
 
 Fabric::generateHead($AVAILABLE_PAGES[$tag]['title'], [
-    "/static/list-block-api.js",
-    "/static/show-block-api.js"
+    "/static/scripts/list-block-api.js",
+    "/static/scripts/show-block-api.js"
 ], [
-    "/static/main-logged-in.css",
-    "/static/list-block-api.css",
-    "/static/show-block-api.css"
+    "/static/styles/main-logged-in.css",
+    "/static/styles/list-block-api.css",
+    "/static/styles/show-block-api.css"
 ]);
 
 Fabric::generateStart($access);

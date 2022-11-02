@@ -10,7 +10,7 @@ class Fabric
         "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,700,1,-25"
     ];
     static $defaultScriptFiles = [
-        "/static/josmar-api.js"
+        "/static/scripts/josmar-api.js"
     ];
 
     static function generateHead(string $title, array $scriptFiles = [], array $styleFiles = [], string $lang = DEFAULT_LANGUAGE)

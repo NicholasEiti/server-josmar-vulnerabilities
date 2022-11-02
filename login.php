@@ -6,7 +6,7 @@ $access = new Access;
 $access->notLoggedPage();
 
 Fabric::generateHead("Login", styleFiles: [
-    '/static/login-style.css'
+    '/static/styles/login-style.css'
 ]);
 
 Fabric::generateStart($access);
