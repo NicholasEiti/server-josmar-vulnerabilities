@@ -332,7 +332,7 @@ function generateRequestItem(request) {
     itemText.append(itemText1, itemText2, itemText3);
     item.appendChild(itemText); 
 
-    if (isAdminLevel() || request.user == getUserId()) {
+    if ((isAdminLevel() || request.user == getUserId()) && request.status !== 'ended' && request.status !== 'canceled') {
         let itemIcons = document.createElement('div')
         itemIcons.classList.add('item-list-icons')
 

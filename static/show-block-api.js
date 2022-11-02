@@ -29,7 +29,7 @@ class ShowBlockElement extends HTMLElement {
             return [];
         },
         request: function  (request) {
-            if (isAdminLevel() || request.user == getUserId())
+            if ((isAdminLevel() || request.user == getUserId()) && request.status !== 'ended' && request.status !== 'canceled')
                 return [ { icon: 'edit', link: (request) => '/requests/' + request.id + '/edit' } ];
 
             return [];
