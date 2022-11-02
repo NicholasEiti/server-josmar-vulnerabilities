@@ -57,3 +57,18 @@ html, body {
     font-weight: bold;
     border: 1px solid red;
 }
+
+@media only screen and (max-width: 540px) {
+    .container {
+        width: 100%;
+        margin: 100px auto 0;
+        min-width: unset;
+    }
+
+    .login-block {
+        border-color: #bdbdbd;
+        border-width: 1px 0;
+        border-radius: 0;
+        width: 100%;
+    }
+}

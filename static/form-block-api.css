@@ -50,3 +50,15 @@ form-add-block .form-block-content {
     border: 2px solid #8157ff;
     background: #f0ebff;
 }
+
+@media only screen and (max-width: 768px) {
+    .block-title {
+        padding: 0 20px;
+    }
+
+    .form-block-content {
+        border-color: #bdbdbd;
+        border-width: 1px 0;
+        border-radius: 0;
+    }
+}

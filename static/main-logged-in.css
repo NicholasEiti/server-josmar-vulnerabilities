@@ -22,7 +22,7 @@ html, body {
 }
 
 .navbar-item-right {
-    float:right
+    float: right
 }
 
 .navbar-item-right a,
@@ -46,7 +46,6 @@ html, body {
     font-size: 18px;
 }
 
-
 .block-title {
     display: flex;
     justify-content: space-between;
@@ -64,4 +63,15 @@ html, body {
     color: #ffffff;
     font-weight: bold;
     border: 1px solid red;
+}
+
+@media only screen and (max-width: 768px) {
+    .container {
+        margin: 100px auto;
+        width: 100%;
+    }
+
+    .msg-error {
+        border-radius: 0;
+    }
 }

@@ -21,3 +21,14 @@ delete-block .delete-block-submit-delete {
     border-radius: 6px;
     padding: 3px 9px;
 }
+
+@media only screen and (max-width: 768px) {
+    .block-title {
+        padding: 0 20px;
+    }
+
+    delete-block .delete-block-submit {
+        flex-direction: column;
+        gap: 16px;
+    }
+}
