@@ -68,7 +68,7 @@ class FormBlockElement extends HTMLElement {
             get: function (set, error) {
                 let value = this.querySelector('#password').value;
 
-                if (value == '') return;
+                if (value == '') return error('Senha vazia. Escolha um senha e tente novamente.');
                 if (value.length <= 5) return error('Senha muito pequeno.');
                 if (value.length > 20) return error('Senha muito longa.');
 
@@ -91,7 +91,7 @@ class FormBlockElement extends HTMLElement {
             id: 'expiretime',
             label: 'Tempo de duração do login do usuário (em minutos):',
             type: 'number',
-            min_value: 5,
+            min_value: 6,
             max_value: 10080, // 7 * 24 * 60 - 7 dias
             get: function (set, error) {
                 let value = this.querySelector('#expiretime').value;
@@ -157,7 +157,7 @@ class FormBlockElement extends HTMLElement {
                     try {
                         value = Number(value);
                     } catch {
-                        error('Valor da posição em formato inesperado. Tente novamente.');
+                        return error('Valor da posição em formato inesperado. Tente novamente.');
                     }
 
                     set('position', value);
@@ -168,6 +168,7 @@ class FormBlockElement extends HTMLElement {
             id: 'status',
             label: 'Situação do pedido:',
             type: 'select',
+            only_if_mode_is: 'edit',
             list: (value) => {
                 let available_paths = {
                     'not_started': {
@@ -191,7 +192,11 @@ class FormBlockElement extends HTMLElement {
                     }
                 };
 
-                return available_paths[value];
+                if (available_paths[value] !== undefined) {
+                    return available_paths[value];
+                }
+
+                return {};
             },
             get: function (set, error) {
                 let selectElement = this.querySelector('#status');
@@ -200,6 +205,76 @@ class FormBlockElement extends HTMLElement {
                 if (value == '') return error('Situação do pedido não selecionado. Tente novamente.');
 
                 set('status', value);
+            }
+        }, {
+            id: 'key',
+            label: 'Chave:',
+            type: 'instance_select',
+            only_if_mode_is: 'add',
+            get: function (set, error) {
+                let selectElement = this.querySelector('#key');
+                let value = Number(selectElement.options[selectElement.selectedIndex].value);
+
+                if (value == '') return error('Chave não selecionado. Tente novamente.');
+
+                set('key', value);
+            },
+            get_list(return_list) {
+                requestAPI('key_list', { token: getToken() }, function (response) {
+                    return_list(response.list.map(function (element) {
+                        return { id: element.id, value: element.name };
+                    }));
+                });
+            }
+        }, {
+            id: 'date_start',
+            label: 'Data inicial:',
+            type: 'date_time',
+            only_if_mode_is: 'add',
+            get: function(set, error) {
+                let value = this.querySelector('#date_start').value;
+
+                if (value == '') return error('Data inicial vazia. Escolha um data inicial e tente novamente.');
+
+                var date = Date.parse(value);
+
+                if (isNaN(date)) return error('Data inicial com formatação inesperada. Tente novamente.');
+
+                date = new Date(date);
+
+                let date_start = date.getFullYear() + "-" +
+                    ("00" + (date.getMonth() + 1)).slice(-2) + "-" +
+                    ("00" + date.getDate()).slice(-2) + " " +
+                    ("00" + date.getHours()).slice(-2) + ":" +
+                    ("00" + date.getMinutes()).slice(-2) + ":" +
+                    ("00" + date.getSeconds()).slice(-2);
+
+                return set('date_start', date_start)
+            }
+        }, {
+            id: 'date_end',
+            label: 'Data final:',
+            type: 'date_time',
+            only_if_mode_is: 'add',
+            get: function(set, error) {
+                let value = this.querySelector('#date_end').value;
+
+                if (value == '') return error('Data final vazia. Escolha um data final e tente novamente.');
+
+                var date = Date.parse(value);
+
+                if (isNaN(date)) return error('Data final com formatação inesperada. Tente novamente.');
+
+                date = new Date(date);
+
+                let date_end = date.getFullYear() + "-" +
+                    ("00" + (date.getMonth() + 1)).slice(-2) + "-" +
+                    ("00" + date.getDate()).slice(-2) + " " +
+                    ("00" + date.getHours()).slice(-2) + ":" +
+                    ("00" + date.getMinutes()).slice(-2) + ":" +
+                    ("00" + date.getSeconds()).slice(-2);
+
+                return set('date_end', date_end)
             }
         }]
     }
@@ -306,12 +381,18 @@ class FormBlockElement extends HTMLElement {
 
         if (this.form_type == "add") {
             inputsInfo.forEach((inputInfo) => {
+                if (inputInfo.only_if_mode_is !== undefined && inputInfo.only_if_mode_is != this.form_type)
+                    return;
+
                 let inputElement = this.generateInput(inputInfo);
                 this.get_input_value_fns.push(inputInfo.get.bind(inputElement));
                 contentElement.appendChild(inputElement);
             });
         } else if (this.form_type == "edit") {
             inputsInfo.forEach((inputInfo) => {
+                if (inputInfo.only_if_mode_is !== undefined && inputInfo.only_if_mode_is != this.form_type)
+                    return;
+
                 let inputElement = this.generateInput(inputInfo, element[inputInfo.id]);
                 this.get_input_value_fns.push(inputInfo.get.bind(inputElement));
                 contentElement.appendChild(inputElement);
