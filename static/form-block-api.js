@@ -1,11 +1,18 @@
-class FormEditBlockElement extends HTMLElement {
+class FormBlockElement extends HTMLElement {
     LOADING_MSG = 'Carregando...'
 
-    GET_TITLE_FN = {
+    GET_ADD_TITLE = {
+        drawer: 'Criar novo armário',
+        user: 'Criar novo usuário',
+        key: 'Criar nova chave',
+        request: 'Criar novo pedido de chave'
+    }
+
+    GET_EDIT_TITLE_FN = {
         drawer: (drawer) => `Editar armário ${drawer.name}`,
         user: (user) => `Editar usuário ${user.name}`,
         key: (key) => `Editar chave ${key.name}`,
-        request: (request) => `Editar situação do pedido de chave de ${request.user_name}`
+        request: (request) => `Editar situação do pedido de chave de ${request.user_name}`,
     }
 
     INPUTS_INFOS = {
@@ -14,13 +21,13 @@ class FormEditBlockElement extends HTMLElement {
             label: 'Nome:',
             type: 'string',
             min_length: 5,
-            max_length: 50,
-            get: function (set) {
+            max_length: 30,
+            get: function (set, error) {
                 let value = this.querySelector('#name').value;
 
                 if (value == '') return error('Nome vazio. Escolha um nome e tente novamente.');
                 if (value.length <= 5) return error('Nome muito pequeno, o nome deve tem pelo menos 5 caracteres.');
-                if (value.length > 50) return error('Nome muito longo, o nome deve tem menos de 50 caracteres.');
+                if (value.length > 20) return error('Nome muito longo, o nome deve tem menos de 20 caracteres.');
 
                 set('name', value);
             }
@@ -61,7 +68,7 @@ class FormEditBlockElement extends HTMLElement {
             get: function (set, error) {
                 let value = this.querySelector('#password').value;
 
-                if (value == '') return;
+                if (value == '') return error('Senha vazia. Escolha um senha e tente novamente.');
                 if (value.length <= 5) return error('Senha muito pequeno.');
                 if (value.length > 20) return error('Senha muito longa.');
 
@@ -84,7 +91,7 @@ class FormEditBlockElement extends HTMLElement {
             id: 'expiretime',
             label: 'Tempo de duração do login do usuário (em minutos):',
             type: 'number',
-            min_value: 5,
+            min_value: 6,
             max_value: 10080, // 7 * 24 * 60 - 7 dias
             get: function (set, error) {
                 let value = this.querySelector('#expiretime').value;
@@ -150,7 +157,7 @@ class FormEditBlockElement extends HTMLElement {
                     try {
                         value = Number(value);
                     } catch {
-                        error('Valor da posição em formato inesperado. Tente novamente.');
+                        return error('Valor da posição em formato inesperado. Tente novamente.');
                     }
 
                     set('position', value);
@@ -161,6 +168,7 @@ class FormEditBlockElement extends HTMLElement {
             id: 'status',
             label: 'Situação do pedido:',
             type: 'select',
+            only_if_mode_is: 'edit',
             list: (value) => {
                 let available_paths = {
                     'not_started': {
@@ -184,15 +192,89 @@ class FormEditBlockElement extends HTMLElement {
                     }
                 };
 
-                return available_paths[value];
+                if (available_paths[value] !== undefined) {
+                    return available_paths[value];
+                }
+
+                return {};
             },
             get: function (set, error) {
                 let selectElement = this.querySelector('#status');
                 let value = selectElement.options[selectElement.selectedIndex].value;
-                
+
                 if (value == '') return error('Situação do pedido não selecionado. Tente novamente.');
 
                 set('status', value);
+            }
+        }, {
+            id: 'key',
+            label: 'Chave:',
+            type: 'instance_select',
+            only_if_mode_is: 'add',
+            get: function (set, error) {
+                let selectElement = this.querySelector('#key');
+                let value = Number(selectElement.options[selectElement.selectedIndex].value);
+
+                if (value == '') return error('Chave não selecionado. Tente novamente.');
+
+                set('key', value);
+            },
+            get_list(return_list) {
+                requestAPI('key_list', { token: getToken() }, function (response) {
+                    return_list(response.list.map(function (element) {
+                        return { id: element.id, value: element.name };
+                    }));
+                });
+            }
+        }, {
+            id: 'date_start',
+            label: 'Data inicial:',
+            type: 'date_time',
+            only_if_mode_is: 'add',
+            get: function(set, error) {
+                let value = this.querySelector('#date_start').value;
+
+                if (value == '') return error('Data inicial vazia. Escolha um data inicial e tente novamente.');
+
+                var date = Date.parse(value);
+
+                if (isNaN(date)) return error('Data inicial com formatação inesperada. Tente novamente.');
+
+                date = new Date(date);
+
+                let date_start = date.getFullYear() + "-" +
+                    ("00" + (date.getMonth() + 1)).slice(-2) + "-" +
+                    ("00" + date.getDate()).slice(-2) + " " +
+                    ("00" + date.getHours()).slice(-2) + ":" +
+                    ("00" + date.getMinutes()).slice(-2) + ":" +
+                    ("00" + date.getSeconds()).slice(-2);
+
+                return set('date_start', date_start)
+            }
+        }, {
+            id: 'date_end',
+            label: 'Data final:',
+            type: 'date_time',
+            only_if_mode_is: 'add',
+            get: function(set, error) {
+                let value = this.querySelector('#date_end').value;
+
+                if (value == '') return error('Data final vazia. Escolha um data final e tente novamente.');
+
+                var date = Date.parse(value);
+
+                if (isNaN(date)) return error('Data final com formatação inesperada. Tente novamente.');
+
+                date = new Date(date);
+
+                let date_end = date.getFullYear() + "-" +
+                    ("00" + (date.getMonth() + 1)).slice(-2) + "-" +
+                    ("00" + date.getDate()).slice(-2) + " " +
+                    ("00" + date.getHours()).slice(-2) + ":" +
+                    ("00" + date.getMinutes()).slice(-2) + ":" +
+                    ("00" + date.getSeconds()).slice(-2);
+
+                return set('date_end', date_end)
             }
         }]
     }
@@ -200,120 +282,127 @@ class FormEditBlockElement extends HTMLElement {
     URL_TAGS = {
         drawer: {
             edit: 'drawer_edit',
+            add: 'drawer_add',
             get: 'drawer_get',
+            list_url: '/drawers/',
             back_url: (id) => '/drawers/' + id
         },
         user: {
             edit: 'user_edit',
+            add: 'key_add',
             get: 'user_get',
+            list_url: '/keys/',
             back_url: () => '/users/'
         },
         key: {
             edit: 'key_edit',
+            add: 'user_add',
             get: 'key_get',
+            list_url: '/users/',
             back_url: () => '/keys/'
         },
         request: {
             edit: 'request_update_status',
+            add: 'request_add',
             get: 'request_get',
+            list_url: '/requests/',
             back_url: (id) => '/requests/' + id
         }
     }
 
-    constructor(...args) {
-        super(...args);
-
-        this.get_input_value_fns = [];
-    }
+    constructor(...args) { super(...args); }
 
     connectedCallback() {
+        this.get_input_value_fns = [];
+
         this.tag = this.getAttribute('tag');
         this.id = this.getAttribute('id');
 
-        let formElement = this.generateEditForm(this.tag, this.id);
+        let formElement = this.generateForm(this.tag, this.id);
         this.appendChild(formElement);
     }
 
-    generateEditForm(tag, id) {
+    generateForm(tag, id=null) {
         let containerElement = document.createElement('div');
         containerElement.classList.add('container-block');
-        containerElement.innerHTML = this.LOADING_MSG;
 
         let token = getToken();
         var urlTag = this.URL_TAGS[tag];
 
-        requestAPI(urlTag.get, { token, id }, (response) => {
-            let element = response[tag];
+        if (this.form_type == 'add') {
+            let titleElement = this.generateTitle(tag);
+            let contentElement = this.generateContent(tag);
+            let submitButtonsElement = this.generateSubmitButtons(tag);
+
             containerElement.innerHTML = '';
-
-            let titleElement = this.generateTitle(tag, element);
             containerElement.appendChild(titleElement);
-
-            let contentElement = this.generateContent(tag, element);
             containerElement.appendChild(contentElement);
+            containerElement.appendChild(submitButtonsElement);
+        } else if (this.form_type == 'edit') {
+            containerElement.innerHTML = this.LOADING_MSG;
 
-            let submitElement = this.generateSubmit(tag, id);
-            containerElement.appendChild(submitElement);
-        });
+            requestAPI(urlTag.get, { token, id }, (response) => {
+                let element = response[tag];
+
+                let titleElement = this.generateTitle(tag, element);
+                let contentElement = this.generateContent(tag, element);
+                let submitButtonsElement = this.generateSubmitButtons(tag, id);
+
+                containerElement.innerHTML = '';
+                containerElement.appendChild(titleElement);
+                containerElement.appendChild(contentElement);
+                containerElement.appendChild(submitButtonsElement);
+            });
+        }
 
         return containerElement;
     }
 
-    generateTitle(tag, element) {
+    generateTitle(tag, element=null) {
         let titleElement = document.createElement('div');
         titleElement.classList.add('block-title');
 
         let titleElementText = document.createElement('span');
-        titleElementText.textContent = this.GET_TITLE_FN[tag](element);
+        if (this.form_type == 'add') {
+            titleElementText.textContent = this.GET_ADD_TITLE[tag];
+        } else if (this.form_type == 'edit') {
+            titleElementText.textContent = this.GET_EDIT_TITLE_FN[tag](element);
+        }
         titleElement.appendChild(titleElementText);
 
         return titleElement;
     }
 
-    generateContent(tag, element) {
+    generateContent(tag, element=null) {
         let contentElement = document.createElement('div');
-        contentElement.classList.add('edit-form-block-content');
+        contentElement.classList.add('form-block-content');
 
         let inputsInfo = this.INPUTS_INFOS[tag];
 
-        inputsInfo.forEach((inputInfo) => {
-            let inputElement = this.generateInput(inputInfo, element[inputInfo.id]);
+        if (this.form_type == "add") {
+            inputsInfo.forEach((inputInfo) => {
+                if (inputInfo.only_if_mode_is !== undefined && inputInfo.only_if_mode_is != this.form_type)
+                    return;
 
-            this.get_input_value_fns.push(inputInfo.get.bind(inputElement));
+                let inputElement = this.generateInput(inputInfo);
+                this.get_input_value_fns.push(inputInfo.get.bind(inputElement));
+                contentElement.appendChild(inputElement);
+            });
+        } else if (this.form_type == "edit") {
+            inputsInfo.forEach((inputInfo) => {
+                if (inputInfo.only_if_mode_is !== undefined && inputInfo.only_if_mode_is != this.form_type)
+                    return;
 
-            contentElement.appendChild(inputElement);
-        });
+                let inputElement = this.generateInput(inputInfo, element[inputInfo.id]);
+                this.get_input_value_fns.push(inputInfo.get.bind(inputElement));
+                contentElement.appendChild(inputElement);
+            });
+        }
 
         return contentElement;
     }
 
-    generateSubmit(tag, id) {
-        let submitElement = document.createElement('div');
-        submitElement.classList.add('edit-form-block-submit');
-
-        let cancelButton = document.createElement('input');
-        cancelButton.setAttribute('type', 'button');
-        cancelButton.setAttribute('value', 'Cancelar');
-        cancelButton.classList.add('edit-form-block-submit-cancel')
-
-        var urlTag = this.URL_TAGS[tag];
-
-        cancelButton.addEventListener('click', function () {
-            window.location.href = urlTag.back_url(id);
-        });
-        submitElement.appendChild(cancelButton);
-
-        let editButton = document.createElement('input');
-        editButton.setAttribute('type', 'submit');
-        editButton.setAttribute('value', 'Alterar');
-        editButton.classList.add('edit-form-block-submit-edit');
-        editButton.addEventListener('click', this.requestEditElement.bind(this));
-        submitElement.appendChild(editButton);
-        return submitElement;
-
-    }
-
-    generateInput(inputInfo, value) {
+    generateInput(inputInfo, value=null) {
         let contentInputElement = document.createElement('div');
         contentInputElement.classList.add('input-block-element');
 
@@ -325,12 +414,14 @@ class FormEditBlockElement extends HTMLElement {
             contentInputElement.appendChild(labelElement);
         }
 
-        if (inputInfo.type == 'string' || inputInfo.type == 'email' || inputInfo.type == 'password' || inputInfo.type == 'number') {
+        if (inputInfo.type == 'string' || inputInfo.type == 'email' || inputInfo.type == 'password' || inputInfo.type == 'number' || inputInfo.type == 'date_time') {
             let inputElement = document.createElement('input');
             inputElement.classList.add('input-block-input');
 
             if (inputInfo.type == 'email' || inputInfo.type == 'password') {
                 inputElement.setAttribute('type', inputInfo.type)
+            } else if (inputInfo.type == 'date_time') {
+                inputElement.setAttribute('type', 'datetime-local')
             }
  
             if (inputInfo.type == 'number') {
@@ -347,7 +438,7 @@ class FormEditBlockElement extends HTMLElement {
                 if (inputInfo.min_length !== null) {
                     inputElement.setAttribute('minlength', inputInfo.min_length)
                 }
-    
+
                 if (inputInfo.max_length !== null) {
                     inputElement.setAttribute('maxlength', inputInfo.max_length)
                 }
@@ -362,7 +453,7 @@ class FormEditBlockElement extends HTMLElement {
 
             inputElement.addEventListener('keydown', (e) => {
                 if (e.key == 'Enter') {
-                    this.requestEditElement()
+                    this.submitForm();
                 }
             })
 
@@ -406,7 +497,7 @@ class FormEditBlockElement extends HTMLElement {
 
             Object.entries(inputInfo.list).forEach(element => {
                 let [id, value] = element;
-                  
+  
                 let optionElement = document.createElement("option");
 
                 optionElement.value = id;
@@ -427,8 +518,46 @@ class FormEditBlockElement extends HTMLElement {
         return contentInputElement;
     }
 
-    requestEditElement() {
-        let params = { token: getToken(), id: this.id };
+    generateSubmitButtons(tag, id=null) {
+        var urlTag = this.URL_TAGS[tag];
+
+        let submitElement = document.createElement('div');
+        submitElement.classList.add('form-block-submit');
+
+        let cancelButton = document.createElement('input');
+        cancelButton.setAttribute('type', 'button');
+        cancelButton.setAttribute('value', 'Cancelar');
+        cancelButton.classList.add('form-block-submit-cancel')
+        cancelButton.addEventListener('click', function () {
+            if (id === null) {
+                window.location.href = urlTag.list_url;
+            } else {
+                window.location.href = urlTag.back_url(id);
+            }
+        });
+        submitElement.appendChild(cancelButton);
+
+        if (this.form_type == 'add') {
+            let addButton = document.createElement('input');
+            addButton.setAttribute('type', 'submit');
+            addButton.setAttribute('value', 'Adicionar');
+            addButton.classList.add('form-block-submit-add');
+            addButton.addEventListener('click', this.submitForm.bind(this));
+            submitElement.appendChild(addButton);
+        } else if (this.form_type == 'edit') {
+            let editButton = document.createElement('input');
+            editButton.setAttribute('type', 'submit');
+            editButton.setAttribute('value', 'Alterar');
+            editButton.classList.add('form-block-submit-edit');
+            editButton.addEventListener('click', this.submitForm.bind(this));
+            submitElement.appendChild(editButton);
+        }
+
+        return submitElement;
+    }
+
+    submitForm() {
+        let params = { token: getToken() };
 
         let setFn = function (key, value) {
             params[key] = value;
@@ -441,13 +570,22 @@ class FormEditBlockElement extends HTMLElement {
             showNoCodeError(msg);
         };
 
-        this.get_input_value_fns.forEach(function (f) {
-            f(setFn, errorFn);
-        });
+        var urlTag = this.URL_TAGS[this.tag];
 
-        
-        if (!hasError) {
-            var urlTag = this.URL_TAGS[this.tag];
+        for (const fn of this.get_input_value_fns) {
+            fn(setFn, errorFn);
+
+            if (hasError) break;
+        }
+
+        if (hasError) return;
+
+        if (this.form_type == 'add') {
+            requestAPI(urlTag.add, params, function (response) {
+                window.location.href = urlTag.back_url(response.id);
+            });
+        } else if (this.form_type == 'edit') {
+            params.id = this.id;
 
             requestAPI(urlTag.edit, params, () => {
                 window.location.href = urlTag.back_url(this.id);
@@ -458,4 +596,8 @@ class FormEditBlockElement extends HTMLElement {
     static get observedAttributes() { return ['tag', 'id']; }
 }
 
-window.customElements.define('form-edit-block', FormEditBlockElement)
+class EditFormBlockElement extends FormBlockElement { form_type = 'edit'; }
+class AddFormBlockElement extends FormBlockElement { form_type = 'add'; }
+
+window.customElements.define('form-edit-block', EditFormBlockElement);
+window.customElements.define('form-add-block', AddFormBlockElement);
