@@ -2,6 +2,8 @@
     border: 1px solid #b1b1b1;
     padding: 25px;
     border-radius: 10px;
+    display: grid;
+    gap: 10px;
 }
 
 form-add-block .form-block-content {
@@ -18,7 +20,7 @@ form-add-block .form-block-content {
 .input-block-element {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
 }
 
 .input-block-select {
