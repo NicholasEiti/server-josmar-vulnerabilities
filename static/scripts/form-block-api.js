@@ -289,16 +289,16 @@ class FormBlockElement extends HTMLElement {
         },
         user: {
             edit: 'user_edit',
-            add: 'key_add',
+            add: 'user_add',
             get: 'user_get',
-            list_url: '/keys/',
+            list_url: '/users/',
             back_url: () => '/users/'
         },
         key: {
             edit: 'key_edit',
-            add: 'user_add',
+            add: 'key_add',
             get: 'key_get',
-            list_url: '/users/',
+            list_url: '/keys/',
             back_url: () => '/keys/'
         },
         request: {
