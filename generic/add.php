@@ -5,7 +5,7 @@ require_once "../library/library.php";
 $AVAILABLE_PAGES = [
     'keys'      => ['tag' => 'key',     'title' => 'Criar chave'            ],
     'users'     => ['tag' => 'user',    'title' => 'Criar usuário'          ],
-    'drawers'   => ['tag' => 'drawer',  'title' => 'Criar armário'          ],
+    'drawers'   => ['tag' => 'drawer',  'title' => 'Criar armário lkasdjflakjslj'          ],
     'requests'  => ['tag' => 'request', 'title' => 'Criar pedido de chave'  ]
 ];
 
