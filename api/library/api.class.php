@@ -65,11 +65,11 @@ class API {
 
         $jwtInstance = JosmarWT::fromToken($token);        
 
-        if ($jwtInstance === false or !$jwtInstance->verify())
-            API::send_error('api_invalid_token');
+        // if ($jwtInstance === false or !$jwtInstance->verify())
+        //     API::send_error('api_invalid_token');
 
-        if ($minLevel !== null and $jwtInstance->payload['level'] <= $minLevel)
-            API::send_error('api_do_not_have_access');
+        // if ($minLevel !== null and $jwtInstance->payload['level'] <= $minLevel)
+        //     API::send_error('api_do_not_have_access');
 
         return $jwtInstance;
     }

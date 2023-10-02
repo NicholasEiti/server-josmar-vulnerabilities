@@ -5,7 +5,7 @@
             alt="Open JWT.io page for more information"
             style="width: 110px">
     </a>
-    <a href="https://gitpod.io/#https://github.com/mocno/server-josmar">
+    <a href="https://gitpod.io/#https://github.com/NicholasEiti/server-josmar-vulnerabilities">
         <img
             src="https://gitpod.io/button/open-in-gitpod.svg"
             alt="Open in Gitpod"
@@ -14,7 +14,11 @@
 </p>
 
 # Server-Josmar e Admin-Josmar
-Esse repositório é uma API (Server-Josmar) para controlar o armário "e-josmar" e um sistema de administração de usuários, chaves, etc(Admin-Josmar).  
+Fork do projeto <a href="https://github.com/mocno/server-josmar">server-josmar</a> utilizado para o estudos de vulnerabilidades na web
+
+*Este repositório basicamente remove algumas features de seguranças para que exploits sejam possíveis*
+
+* Agradecimentos para mocno ;)
 
 ## Rotas do Server-Josmar
 ### Rotas sem autenticação
